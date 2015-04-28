@@ -1,0 +1,172 @@
+<?php
+/**
+ * Implements hook_field_info().
+ */
+function submittedfield_field_info() {
+  return array(
+    'submittedfield' => array(
+      'label' => t('Submitted'),
+      'description' => t('A field for displaying "submitted" information for nodes.'),
+      'default_widget' => 'submittedfield_widget',
+      'default_formatter' => 'submittedfield_formatter',
+      'extractor' => array(
+        'options' => array(
+          'key' => array('created', 'name'),
+        ),
+      ),
+    ),
+  );
+}
+/**
+ * Implements hook_field_is_empty().
+ */
+function submittedfield_field_is_empty($item, $field) {
+  $temp = array_keys($field['columns']);
+  $key = array_shift($temp);
+  return empty($item[$key]);
+}
+/**
+ * Implements hook_field_widget_info().
+ */
+function submittedfield_field_widget_info() {
+  return array(
+    'submittedfield_widget' => array(
+      'label' => t('Submitted'),
+      'field types' => array('submittedfield'),
+      'settings' => array(),
+      'behaviors' => array(
+        'multiple values' => FIELD_BEHAVIOR_DEFAULT,
+        'default value' => FIELD_BEHAVIOR_NONE,
+      ),
+    ),
+  );
+}
+/**
+ * Implements hook_field_widget_form().
+ */
+function submittedfield_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+  if ($instance['widget']['type'] === 'submittedfield_widget') {
+    $element['created'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Authored on'),
+      '#maxlength' => 25,
+      '#default_value' => isset($items[$delta]['created']) ? $items[$delta]['created'] : '',
+      '#attributes' => array('class' => array('submittedfield-created')),
+      '#access' => false,
+    );
+    $element['name'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Authored by'),
+      '#maxlength' => 60,
+      '#default_value' => isset($items[$delta]['name']) ? $items[$delta]['name'] : '',
+      '#attributes' => array('class' => array('submittedfield-name')),
+      '#access' => false,
+    );
+  }
+  return $element;
+}
+/**
+ * Implements hook_field_presave().
+ */
+function submittedfield_field_presave($entity_type, $entity, $field, $instance, $langcode, &$items) {
+  if($entity_type === 'node') {
+    $items = array(
+      array(
+        'created' => $entity->created,
+        'name' => $entity->name,
+      ),
+    );
+  }
+}
+/**
+ * Implements hook_field_formatter_info().
+ *
+ */
+function submittedfield_field_formatter_info() {
+  return array(
+    'submittedfield_formatter' => array(
+      'label' => t('Submitted Formatter'),
+      'field types' => array('submittedfield'),
+      'settings' => array(
+        'submittedfield_text_format' => '@date -- @name',
+        'submittedfield_date_format' => 'Y-m-d',
+      ),
+    ),
+  );
+}
+/**
+ * Implements hook_field_formatter_settings_form().
+ *
+ */
+function submittedfield_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+
+  $form = array();
+  $date_formats = system_get_date_formats();
+  $keys = array(
+    'short',
+    'medium',
+    'long',
+    'custom',
+  );
+  $date_options = array();
+  $now = time();
+  foreach($keys as $key) {
+    $date_options[$key] = array();
+    if(!empty($date_formats[$key])) {
+      foreach($date_formats[$key] as $name => $format) {
+        $date_options[$key][$name] = format_date($now, 'custom', $name);
+      }
+    }
+  }
+
+  $form['submittedfield_text_format'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Text Format'),
+    '#description' => t('Remember to write in English as this string will be translated!'),
+    '#default_value' => $settings['submittedfield_text_format'],
+  );
+  $form['submittedfield_date_format'] = array(
+    '#type' => 'select',
+    '#title' => t('Date Format'),
+    '#options' => $date_options,
+    '#default_value' => $settings['submittedfield_date_format'],
+  );
+
+  return $form;
+}
+/**
+ * Implements hook_field_formatter_settings_summary().
+ *
+ */
+function submittedfield_field_formatter_settings_summary($field, $instance, $view_mode) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+  $summary = array(
+    t('Text Format').': '.$settings['submittedfield_text_format'],
+    t('Date Format').': '.format_date(time(), 'custom', $settings['submittedfield_date_format']),
+  );
+  return implode('<br />', $summary);
+}
+/**
+ * Implements hook_field_formatter_view().
+ */
+function submittedfield_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+  $settings = $display['settings'];
+  foreach ($items as $delta => $item) {
+    $element[$delta] = array('#markup' => t($settings['submittedfield_text_format'], array('@name' => $item['name'], '@date' => format_date($item['created'], 'custom', $settings['submittedfield_date_format']))));
+  }
+  return $element;
+}
+//Implements hook_form_FORMID_alter().
+function submittedfield_form_node_type_form_alter(&$form, $form_state) {
+  if(isset($form['display']['node_submitted'])) {
+    $form['display']['node_submitted']['#default_value'] = false;
+    $form['display']['node_submitted']['#access'] = false;
+    if(count(element_children($form['display'])) == 1) {
+      $form['display']['#access'] = false;
+    }
+  }
+}

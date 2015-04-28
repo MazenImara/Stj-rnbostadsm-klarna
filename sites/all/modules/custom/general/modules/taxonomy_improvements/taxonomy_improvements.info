@@ -1,0 +1,6 @@
+name = Taxonomy Improvements
+description = Taxonomy Improvements
+package = Custommoduler
+core = 7.x
+dependencies[] = taxonomy
+dependencies[] = general

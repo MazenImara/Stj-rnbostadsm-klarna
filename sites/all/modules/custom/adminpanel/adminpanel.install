@@ -1,0 +1,74 @@
+<?php
+/**
+ * Implementation of hook_schema().
+ */
+function adminpanel_schema() {
+  $schema['adminpanel'] = array(
+    'fields' => array(
+      'nid' => array(
+        'type' => 'serial',
+        'unsigned' => TRUE, 
+        'not null' => TRUE,
+      ), 
+      'type' => array(
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'title' => array(
+        'type' => 'varchar',
+        'length' => 255, 
+        'not null' => TRUE, 
+        'default' => '',
+      ),
+      'status' => array(
+        'type' => 'int',
+        'size' => 'tiny',
+        'unsigned' => TRUE, 
+        'not null' => TRUE, 
+        'default' => 0,
+      ),
+      'translations' => array(
+        'type' => 'int',
+        'size' => 'small',
+        'unsigned' => TRUE, 
+        'not null' => TRUE, 
+        'default' => 0,
+      ),
+      'translation_points' => array(
+        'type' => 'int',
+        'size' => 'small',
+        'unsigned' => TRUE,
+        'not null' => TRUE, 
+        'default' => 0,
+      ),
+    ),
+    'indexes' => array(
+      'adminpanel_type' => array('type'),
+      'adminpanel_title' => array('title'),
+      'adminpanel_status' => array('status'),
+      'adminpanel_translations' => array('translations'),
+      'adminpanel_translation_points' => array('translation_points'),
+    ),
+    'primary key' => array('nid'),
+  );
+  return $schema;
+}
+/**
+ * Implementation of hook_install().
+ */
+function adminpanel_install() {
+
+}
+function adminpanel_enable() {
+  variable_set('site_offline', '1');
+  adminpanel_rebuild_all();
+  variable_set('site_offline', '0');
+}
+/**
+ * Implementation of hook_uninstall().
+ */
+function adminpanel_uninstall() {
+
+}

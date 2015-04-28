@@ -1,0 +1,66 @@
+<?php
+//Implements hook_theme().
+function responsive_bg_theme($existing, $type, $theme, $path) {
+  return array(
+    'responsive_bg_formatter' => array(
+      'variables' => array(
+        'item' => NULL,
+        'path' => NULL,
+        'image_style' => NULL,
+        'breakpoints' => array(),
+      ),
+      'file' => 'responsive_bg.theme.inc',
+    ),
+  );
+}
+/**
+ * Implements hook_field_formatter_info().
+ */
+function responsive_bg_field_formatter_info() {
+  $picture_formatter = picture_field_formatter_info();
+  $formatters = array(
+    'responsive_bg' => array(
+      'label' => t('Responsive Background Image'),
+      'field types' => array('image', 'linkimagefield'),
+      'settings' => $picture_formatter['picture']['settings'],
+    ),
+  );
+  return $formatters;
+}
+
+/**
+ * Implements hook_field_formatter_settings_form().
+ */
+function responsive_bg_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  $settings_form = picture_field_formatter_settings_form($field, $instance, $view_mode, $form, $form_state);
+  if(!empty($settings_form['picture_group']['#options'])) {
+    $settings_form['picture_group']['#options'] = picture_improvements_filter_picture_groups_by_theme($settings_form['picture_group']['#options']);
+  }
+  if(module_exists('imagestyle_per_theme')) {
+    if(!empty($settings_form['fallback_image_style']['#options'])) {
+      $settings_form['fallback_image_style']['#options'] = imagestyle_per_theme_filter_styles($settings_form['fallback_image_style']['#options']);
+    }
+  }
+  
+  return $settings_form;
+}
+
+/**
+ * Implements hook_field_formatter_settings_summary().
+ */
+function responsive_bg_field_formatter_settings_summary($field, $instance, $view_mode) {
+  return picture_field_formatter_settings_summary($field, $instance, $view_mode);
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function responsive_bg_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $settings = $display['settings'];
+  $elements = picture_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display);
+  foreach($elements as &$element) {
+    $element['#attached'] = array('css' => array(drupal_get_path('module', 'responsive_bg').'/css/responsive_bg.css'));
+    $element['#theme'] = 'responsive_bg_formatter';
+  }
+  return $elements;
+}

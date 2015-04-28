@@ -1,0 +1,5 @@
+name = Node Per Theme
+description = Node Per Theme
+package = Custommoduler
+core = 7.x
+dependencies[] = options

@@ -1,0 +1,6 @@
+; $Id$
+name = Site Map Improvements
+description = Site Map Improvements
+dependencies[] = site_map
+package = Custommoduler
+core = 7.x

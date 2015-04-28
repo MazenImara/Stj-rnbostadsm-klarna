@@ -1,0 +1,107 @@
+<?php
+/**
+ * Implements hook_field_info().
+ */
+function node_per_theme_field_info() {
+  return array(
+    'node_per_theme' => array(
+      'label' => t('Select Theme'),
+      'default_widget' => 'options_select',
+      'default_formatter' => 'node_per_theme_formatter',
+      'extractor' => array(
+        'options' => array(
+          'key' => 'value',
+        ),
+      ),
+    ),
+  );
+}
+/**
+ * Implements hook_field_is_empty().
+ */
+function node_per_theme_field_is_empty($item, $field) {
+  if (empty($item['value']) && (string) $item['value'] !== '0') {
+    return TRUE;
+  }
+  return FALSE;
+}
+/**
+ * Implements hook_field_widget_info_alter().
+ *
+ * @see list_options_list()
+ */
+function node_per_theme_field_widget_info_alter(&$info) {
+  $widgets = array(
+    'options_select' => array('node_per_theme'),
+  );
+
+  foreach ($widgets as $widget => $field_types) {
+    $info[$widget]['field types'] = array_merge($info[$widget]['field types'], $field_types);
+  }
+}
+/**
+ * Implements hook_options_list().
+ */
+function node_per_theme_options_list($field, $instance, $entity_type, $entity) {
+  return node_per_theme_get_list_options();
+}
+function node_per_theme_get_list_options() {
+  $options = array();
+  $themes = list_themes();
+  foreach($themes as $name => $theme) {
+    if($theme->status) {
+      $options[$name] = $theme->info['name'];
+    }
+  }
+  return $options;
+}
+/**
+ * Implements hook_field_formatter_info().
+ */
+function node_per_theme_field_formatter_info() {
+  return array(
+    'node_per_theme_formatter' => array(
+      'label' => t('Node Per Theme Formatter'),
+      'field types' => array('node_per_theme'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function node_per_theme_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+
+  foreach ($items as $delta => $item) {
+    $output = field_filter_xss($item['value']);
+    $element[$delta] = array('#markup' => $output);
+  }
+
+  return $element;
+}
+//Implements hook_form_BASE_FORM_ID_alter().
+function node_per_theme_form_node_form_alter(&$form, $form_state) {
+  if(isset($form['field_node_per_theme'])) {
+    if(user_access('node_per_theme_access_field')) {
+      $form['field_node_per_theme']['#type'] = 'fieldset';
+      $form['field_node_per_theme']['#title'] = t('Node Per Theme');
+      $form['field_node_per_theme']['#group'] = 'additional_settings';
+      $form['field_node_per_theme']['#weight'] = 10;
+      $field =& $form['field_node_per_theme'][$form['field_node_per_theme']['#language']];
+      $field['#attributes']['size'] = 10;
+      unset($field['#options']['_none']);
+    }
+    else {
+      $form['field_node_per_theme']['#access'] = false;
+    }
+  }
+}
+//Implements hook_permission()
+function node_per_theme_permission() {
+  return array(
+    'node_per_theme_access_field' => array(
+      'title' => t('Access Node Per Theme field'),
+    ),
+  );
+}

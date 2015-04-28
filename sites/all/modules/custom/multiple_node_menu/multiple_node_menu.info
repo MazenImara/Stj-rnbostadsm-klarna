@@ -1,0 +1,7 @@
+name = Multiple Node Menu
+description = Replaces the node menu form with one that can handle multiple parents.
+core = 7.x
+dependencies[] = menu
+dependencies[] = menu_improvements
+
+files[] = multiple_node_menu.test

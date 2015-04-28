@@ -1,0 +1,45 @@
+<?php
+//Implements hook_enable().
+function sweaver_improvements_enable() {
+  cache_clear_all('plugins:sweaver:plugins', 'cache');
+}
+//Implements hook_form_FORMID_alter().
+function sweaver_improvements_form_user_profile_form_alter(&$form, $form_state) {
+  if(user_access('use editor')) {
+    $form['#submit'][] = 'sweaver_improvements_form_user_profile_form_submit';
+    $form['sweaver_improvements'] = array(
+      '#title' => t('Sweaver'),
+      '#type' => 'fieldset',
+    );
+    $default_values = variable_get('sweaver_improvements_display_widget', array());
+    $form['sweaver_improvements']['sweaver_improvements_display_widget'] = array(
+      '#title' => t('Display Sweaver widget'),
+      '#type' => 'checkbox',
+      '#default_value' => isset($default_values[$form['#user']->uid]) ? $default_values[$form['#user']->uid] : 1,
+    );
+  }
+}
+function sweaver_improvements_form_user_profile_form_submit($form, &$form_state) {
+  if(isset($form_state['values']['sweaver_improvements_display_widget'])) {
+    $default_values = variable_get('sweaver_improvements_display_widget', array());
+    $default_values[$form['#user']->uid] = $form_state['values']['sweaver_improvements_display_widget'];
+    variable_set('sweaver_improvements_display_widget', $default_values);
+  }
+}
+/**
+ * Implementation of hook_sweaver_plugins().
+ */
+function sweaver_improvements_sweaver_plugins() {
+  $plugins = array();
+  
+  $plugins['sweaver_improvements'] = array(
+    'handler' => array(
+      'path' => drupal_get_path('module', 'sweaver_improvements') .'/plugins',
+      'file' => 'sweaver_improvements.inc',
+      'class' => 'sweaver_improvements',
+      'parent' => 'sweaver_plugin', // This is required.
+    ),
+  );
+  
+  return $plugins;
+}

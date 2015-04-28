@@ -1,0 +1,33 @@
+#metatag-improvements-admin-form .form-item-metatag-improvements-allowed-types .form-item {
+  clear: both;
+  margin-top: 0;
+  padding-top: 5px;
+  height: 21px;
+}
+.form-item-metatag-improvements-allowed-types div.form-item-metatag-improvements-allowed-types-page {
+  float: left;
+}
+.form-item-metatag-improvements-allowed-types div.form-item-metatag-improvements-allowed-sidtyp {
+  display: inline-block;
+  padding-left: 20px;
+  float: none;
+  clear: none;
+  margin-bottom: -5px;
+}
+.form-item-metatag-improvements-allowed-types div.form-item-metatag-improvements-allowed-sidtyp label {
+  line-height: 24px;
+  float: left;
+}
+.form-item-metatag-improvements-allowed-types div.form-item-metatag-improvements-allowed-sidtyp .form-checkboxes {
+  display: inline-block;
+  float: left;
+}
+#metatag-improvements-admin-form .form-item-metatag-improvements-allowed-types div.form-item-metatag-improvements-allowed-sidtyp .form-item {
+  float: left;
+  clear: none;
+  padding: 0 10px 0 10px;
+}
+.form-item-metatag-improvements-allowed-types div.form-item-metatag-improvements-allowed-sidtyp .form-item label {
+  line-height: 100%;
+  float: none;
+}

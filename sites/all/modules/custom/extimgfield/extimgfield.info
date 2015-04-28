@@ -1,0 +1,6 @@
+name = External Image Field
+description = External Image Field
+package = Custommoduler
+core = 7.x
+dependencies[] = text
+dependencies[] = imagecache_external

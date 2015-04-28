@@ -1,0 +1,4 @@
+name = Provsite-modul
+description = St&auml;ng av denna modul vid utveckling av kundprojekt
+package = Custommoduler
+core = 7.x

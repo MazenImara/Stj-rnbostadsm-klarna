@@ -1,0 +1,621 @@
+/* This file will hold styles for the mobile version of your website (mobile first). */
+/* This also can include ANY global CSS that applies site-wide. Unless overwritten by a more specific style rule, CSS declarations in global.css will apply site-wide. */
+html {
+  overflow-x: hidden;
+}
+body {
+  color: #333;
+  font: normal 12px/120% Arial, Helvetica, sans-serif;
+  background-repeat: no-repeat;
+}
+#section-header {
+
+}
+iframe {
+  max-width: 100%; 
+  clear: both;
+  display: block;
+}
+.logo {
+  background: url("../../../../default/files/grafik/storleden_logo.png") no-repeat scroll left top transparent;
+  height: 124px;
+  margin: -20px 0 0 0;
+  padding: 0;
+  position: relative;
+  width: 191px;
+  z-index: 7;
+}
+img {
+  max-width: 100%;
+}
+.logo-img {
+
+}
+.pager li.pager-first a, .pager li.pager-previous a, .pager li.pager-next a, .pager li.pager-last a {
+  width: auto;
+  text-align: center;
+  padding: 4px 8px 4px 8px;
+}
+header.submitted {
+  font-weight: bold;
+  font-size: 1.4em;
+  padding-bottom: 0.5em;
+}
+#section-content {
+
+}
+article.node p {
+  font-size: 1.17em;
+  line-height: 170%;
+}
+a:link, a:visited {
+  color: #0062A0;
+  text-decoration: none;
+}
+
+a:hover {
+/*  color: #202124; */
+  text-decoration: underline;
+}
+
+a:active {
+  color: #202124;
+  text-decoration: none;
+}
+
+hr {
+  margin: 0;
+  padding: 0;
+  border: none;
+  height: 1px;
+  background: #5294c1;
+}
+p, dl, hr, h1, h2, h3, h4, h5, h6, ol,
+ul, pre, table, address, fieldset {
+  padding-bottom: 1em;
+}
+h1, h2, h3, h4, h5, h6 {
+  line-height: 100%;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  clear: both;
+}
+h1 {
+  font-size: 3em;
+  font-weight: normal;
+}
+
+h2 {
+  font-size: 2.33em;
+}
+
+/* Make site titles the same size if it's an H1 (home) or H2 (internal) */
+h1.site-name,
+h2.site-name {
+  font-size: 3em;
+}
+
+/* Make it a bit smaller for block headers */
+h2.block-title {
+  font-size: 1.5em;
+  margin: 0;
+}
+
+h2.node-title {
+  font-size: 2.33em;
+}
+
+h3 {
+  font-size: 1.75em;
+}
+
+h4 {
+  font-size: 1.58em;
+}
+
+h5 {
+  font-size: 1.42em;
+}
+
+h6 {
+  font-size: 1.25em;
+}
+
+ol {
+  list-style: decimal;
+}
+
+ul {
+  list-style: none;
+}
+
+ul ul,
+ol ol {
+  padding-top: 0.5em;
+}
+
+.node ol,
+.node ul {
+  padding-left: 1.2em;
+}
+
+.node ul.inline,
+.node ol.inline {
+  padding-left: 0;
+}
+
+.node ul {
+  list-style: disc;
+}
+
+dt, .admin h3 {
+  font-size: 1.5em;
+  margin: 0;
+}
+
+dd {
+  padding-left: 0.83em;
+  font-size: 0.9em;
+  font-style: italic;
+  margin-bottom: 1.67em;
+}
+.feed-icon {
+  padding: 10px 0;
+}
+.node .field-name-body img,
+.node .field-name-field-extra-textfalt img {
+	max-width: 100%;
+	height: auto;
+}
+/*--------------Allmänt---------------*/
+.field-name-body img,
+.field-type-image img {
+  max-width: 100%;
+  width: 100%;
+  height: auto;
+}
+#zone-branding-wrapper {
+
+}
+#zone-branding-wrapper .field-name-field-sidhuvud {
+  padding: 40px 0 0 0;
+}
+#zone-menu-wrapper {
+  padding: 40px 0 0 0;
+}
+textarea {
+	max-width: 100%;
+}
+.indented {
+  margin-left: 5.5%;
+}
+#admin-menu-wrapper {
+  max-width: 1200px;
+  margin: auto;
+}
+/*------------------------------------*/
+/*-----------------Bildspel---------------*/
+.node-bildspel {
+  max-width: 800px; 
+  margin: auto;
+}
+.flexslider {
+/*  max-height: 350px; */
+  padding: 40px 0 0 0;
+}
+.flex-nav-container {
+/*  max-width: 800px; */
+  float: none;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 0;
+}
+.flex-nav-container ul {
+  list-style: none;
+}
+.flexslider ul.slides li img {
+  height: auto;
+}
+.flexslider ul.slides li .node-title {
+  display: none;
+}
+.flex-direction-nav {
+  display: none;
+}
+.flex-direction-nav li a {
+/*  margin-top: -26px; */
+  margin-top: 0;
+}
+.flex-direction-nav li .prev {
+  left: -12px;
+}
+.flex-direction-nav li .next {
+  right: -12px;
+}
+/*------------Logo Block--------------*/
+#block-logo-block-logo img {
+  max-width: 100%;
+}
+/*-----------------Vanlig sida--------------*/
+body.node-type-page article.node-page {
+  padding: 20px;
+  margin-bottom: 20px;
+}
+/*-----------------Nyhet--------------------*/
+body.node-type-nyhet article.node-nyhet {
+  padding: 20px;
+  margin-bottom: 20px;
+}
+/*----------------------Bloggsida-------------------*/
+.view-enterprise-blog.view-display-id-block_1 .views-row {
+  padding-bottom: 20px;
+}
+.view-enterprise-blog.view-display-id-authors_block li {
+  margin-left: 0;
+}
+/*-----------------Kommentarer---------------*/
+.comment {
+  padding-bottom: 20px;
+}
+.comment .new {
+  color: red;
+  font-size: 14px;
+  letter-spacing: 1px;
+  font-weight: bold;
+  text-transform: capitalize;
+  padding: 5px 15px;
+}
+.comment .submitted h3 {
+  padding-bottom: 0;
+}
+.comment .submitted .datetime a {
+  color: #aaaaaa;
+  text-decoration: none;
+  border-bottom: 1px solid #dddddd;
+  line-height: 45px;
+}
+.comment .submitted .datetime a:hover {
+  border-bottom: 1px solid #aaaaaa;
+}
+.comment .content {
+  clear: both;
+  border: 1px solid #dddddd;
+  padding: 20px 20px 10px 20px;
+}
+.comment .links {
+  padding-top: 8px;
+}
+.comment .links li {
+  margin-right: 0;
+}
+/*-----------------Webform--------------------*/
+body.node-type-webform article.node-webform,
+div.node-webform-done {
+  padding: 20px;
+  margin-bottom: 20px;
+}
+div.node-webform-done p {
+  font-size: 1.17em;
+  line-height: 170%;
+}
+/*-----------------------------------------*/
+/*------------Bildgalleri-------*/
+.view-bildgalleri {
+  clear: both;
+  display: inline-block;
+  margin-top: 40px;
+  width: 100%;
+}
+.view-bildgalleri article {
+  background: none repeat scroll 0 0 #EEEEEE;
+  color: #555555;
+  border: 1px solid #D2CFC8;
+  display: inline-block;
+  float: left;
+  margin: 0 10px 10px 0;
+  padding: 5px;
+  text-align: center;
+}
+.view-bildgalleri .gallery-bildtext {
+  font-size: 12px;
+  font-weight: bold;
+  padding-top: 5px;
+}
+
+/*--------------Paneler------------------*/
+.panel-display {
+  display: inline-block;
+}
+.panel-panel.grid-8 {
+  position: relative;
+	margin-bottom: 20px;
+}
+.panel-panel.grid-8 .pane-title,
+.panel-panel.grid-8 .pane-content {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.panel-panel .pane-content .smart-trim {
+  font-size: 1.17em;
+  line-height: 170%;
+  padding-bottom: 1em;
+}
+/*--------------Kontaktformulär---------------*/
+.webform-component {
+	margin-bottom: 20px;
+}
+.webform-component label {
+	width: 120px;
+	display: inline-block;
+}
+.webform-component .form-text {
+  max-width: 100%;
+  width: 100%; /* Fixar problem med ios */
+}
+.webform-component .form-textarea {
+	max-width: 414px;
+  width: 100%; /* Fixar problem med ios */
+}
+.browser-ie .webform-component .form-textarea {
+  max-width: 402px;
+}
+.browser-firefox .webform-component .form-textarea {
+	max-width: 444px;
+}
+.browser-opera .webform-component .form-textarea {
+	max-width: 435px;
+}
+
+/*---------------------------------------*/
+/*---------------------HUVUDMENY SUPERFISH----------------------*/
+#zone-menu {
+  border-radius: 24px;
+}
+/*----CONTAINER----*/
+
+#block-superfish-1 {
+  text-align: center;
+	width: 100%;
+	background-color: transparent;
+	background-image: none;
+	margin-bottom: 0;
+}
+#block-superfish-1 .menu-bg {
+}
+.browser-ie-7 #block-superfish-1 .menu-bg {
+	left: 0;
+	top: 0;
+}
+#block-superfish-1 .content {
+	padding-top: 0;
+	margin: 0 auto 0 auto;
+	display: block;
+	background-color: transparent;
+	background-image: none;
+}
+#block-superfish-1 li {
+	background-color: transparent;
+	background-image: none;
+}
+#block-superfish-1 a,
+#block-superfish-1 li span {
+	font-family: 'Arial';
+	font-size: 24px;
+	font-weight: normal;
+	background-color: transparent;
+	color: #2E312F;
+	padding-top: 0;
+	padding-bottom: 0;
+}
+/*-----NIVÅ 1-----*/
+#block-superfish-1 ul.sf-menu {
+	border: 0;
+	padding: 0;
+	margin-bottom: 0;
+}
+#block-superfish-1 ul.sf-menu li {
+  display: block;
+  float: none;
+}
+#block-superfish-1 ul.sf-menu li a:link,
+#block-superfish-1 ul.sf-menu li a:visited,
+#block-superfish-1 ul.sf-menu li span {
+	border: none;
+  padding: 7px 27px;
+	display: inline-block;
+	text-decoration:none;
+	height: inherit;
+	color: #2e312f;
+}
+#block-superfish-1 ul.sf-menu li a:hover {
+	color: #919291;
+}
+#block-superfish-1 ul.sf-menu li a.active {
+	color: #919291;
+}
+
+/*-----NIVÅ 1 MENUPARENT-----*/
+#block-superfish-1 ul.sf-menu li.menuparent {
+	height: inherit;
+	background-image: url(../../../../../default/files/grafik/menu_arrowdown.png);
+	background-position: center center;
+	background-repeat: no-repeat;
+}
+.browser-ie #block-superfish-1 ul.sf-menu li.menuparent {
+	height: auto;
+}
+#block-superfish-1 ul.sf-menu li.menuparent a {
+
+}
+
+
+/*-----NIVÅ 2-----*/
+#block-superfish-1 ul.sf-menu ul {
+  display: none;
+  	margin-left: 0;
+  	top: 100%;
+  	width: 196px !important;
+}
+#block-superfish-1 ul.sf-menu li.menuparent:hover ul {
+  display: inline-block;
+}
+#block-superfish-1 ul.sf-menu li.menuparent ul li {
+ 	clear: both;
+	border-top: 0;
+	margin-left: 0;
+}
+#block-superfish-1 ul.sf-menu li.menuparent ul li a:link,
+#block-superfish-1 ul.sf-menu li.menuparent ul li a:visited {
+	/*font-size: 12px!important;*/
+	background-color: transparent;
+}
+
+/*-----NIVÅ 2 MENUPARENT-----*/
+
+#block-superfish-1 ul.sf-menu ul li.menuparent {
+	overflow-x: visible;
+}
+#block-superfish-1 ul.sf-menu ul li.menuparent a {
+	background-image: url(../../../../../default/files/grafik/menu_arrowright.png);
+	background-position: center right;
+	background-repeat: no-repeat;
+}
+
+/*-----NIVÅ 3-----*/
+
+#block-superfish-1 ul.sf-menu ul li ul {
+  display: none;
+  /*left: 12.5em; /* LTR */
+	top: 0;
+	margin-top: 0;
+}
+#block-superfish-1 ul.sf-menu li.menuparent:hover ul ul {
+  display: none;
+}
+#block-superfish-1 ul.sf-menu ul li.menuparent:hover ul {
+  display: inline-block;
+}
+#block-superfish-1 ul.sf-menu ul li.menuparent ul li a {
+	background-image: none;
+}
+/*---------Language switcher------------*/
+#block-superfish-1 .language-switcher {
+	display: inline;
+}
+#block-superfish-1 .language-switcher ul {
+	margin-top: 0;
+	display: inline-block!important;
+	visibility: visible!important;
+	width: auto;
+	height: auto;
+	position: relative;
+	padding: 8px 8px 6px 8px;
+}
+#block-superfish-1 .language-switcher ul li {
+  float: left;
+	margin-right: 10px;
+	width: auto;
+	/*height: auto;*/
+}
+#block-superfish-1 .language-switcher ul li.last {
+	margin-right: 0;
+}
+#block-superfish-1 .language-switcher ul li a {
+	margin: 0;
+	padding: 0;
+	height: auto!important;
+	line-height: auto;
+}
+/*----Meny Contextual Links---------*/
+#block-superfish-1 .contextual-links-wrapper a.contextual-links-trigger {
+  background-color: #ffffff;
+}
+#block-superfish-1 .contextual-links-wrapper ul {
+  background-color: white;
+  border: 1px solid #CCC;
+  display: none;
+  margin: 0;
+  padding: 0.25em 0;
+  position: absolute;
+  right: 0;
+  text-align: left;
+  top: 18px;
+  white-space: nowrap;
+  -moz-border-radius: 4px 0 4px 4px;
+  border-radius: 4px 0 4px 4px;
+}
+#block-superfish-1 .contextual-links-wrapper ul li,
+#block-superfish-1 .contextual-links-wrapper ul li.first,
+#block-superfish-1 .contextual-links-wrapper ul li a {
+  background: transparent;
+  width: auto;
+  height: auto;
+  text-indent: 0;
+}
+#block-superfish-1 .contextual-links-wrapper ul li {
+  line-height: 100%;
+  list-style: none;
+  list-style-image: none;
+  margin: 0;
+  padding: 0;
+  float: none;
+}
+#block-superfish-1 .contextual-links-wrapper ul li a {
+  display: block;
+  margin: 0.25em 0;
+  padding: 0.25em 1em 0.25em 0.5em;
+  text-decoration: none;
+  font: normal 12px/120% Arial, Helvetica, sans-serif;
+  text-align: left;
+}
+#block-superfish-1 .contextual-links-wrapper ul li a:hover {
+  background-color: #BFDCEE;
+}
+/*-------------Sociala medier----------*/
+.view-social-media-integration .view-content {
+  padding-right:10px;
+  padding-left:10px;
+  margin: auto;
+}
+.view-social-media-integration .views-row {
+  display: inline-block;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  border-bottom: 1px gray dotted;
+}
+.view-social-media-integration .feed-bild {
+  float: left;
+}
+.view-social-media-integration .facebook-feed-bild {
+
+}
+.view-social-media-integration .twitter-feed-bild {
+
+}
+
+.feed-content{
+  display: inline-block;
+}
+
+.facebook-feed-link{
+  display: inline-block;
+  margin-left: 5px;
+}
+
+.twitter-feed-link{
+  display: inline-block;
+  margin-left: 5px;
+}
+/*--------------------------------------*/
+
+/*---------------SIDFOT-----------*/
+.region-footer-first {
+  clear: both;
+}
+.region-footer-first article .content {
+  padding: 20px 20px 0 20px;
+}
+.region-footer-first .footer-container-last {
+  padding: 0 20px 20px 20px;
+}
+/*----------------------------------*/

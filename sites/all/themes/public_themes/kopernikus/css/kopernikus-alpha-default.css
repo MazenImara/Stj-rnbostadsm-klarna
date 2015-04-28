@@ -1,0 +1,140 @@
+/* This file will hold styles for all layouts using the alpha grid (i.e. not the mobile layout). */
+html {
+  overflow-x: visible;
+}
+ /*-------------Allmänt--------------*/
+.field-name-body img,
+.field-type-image img {
+  width: auto;
+}
+img.left {
+  float: left;
+  clear: left;
+  padding: 1.67em 1.67em 1.67em 0.83em;
+}
+img.right {
+  float: right;
+  clear: right;
+  padding: 1.67em 0.83em 1.67em 1.67em;
+}
+.video-left {
+  float: left;
+  clear: left;
+  padding: 1.67em 1.67em 1.67em 0.83em;
+}
+.video-right {
+  float: right;
+  clear: right;
+  padding: 1.67em 0.83em 1.67em 1.67em;
+}
+.indented {
+  /*margin-left: 25px;*/
+}
+/*----------------------------------*/
+/*-------------Paneler----------*/
+.panel-pane {
+  min-height: 371px;
+}
+.browser-firefox .panel-pane,
+.browser-opera .panel-pane,
+.browser-ie .panel-pane  {
+  min-height: 381px;
+}
+.panel-pane .field-name-field-sidhuvud img {
+  width: 100%;
+  height: auto;
+}
+/*----------------------------------*/
+/*-----------------Bildspel---------------*/
+.block-views-bildspel-block-1 {
+
+}
+.flexslider ul.slides li .node-title {
+  display: block;
+  position: absolute;
+  bottom: 0;
+  height: 20px;
+  line-height: 20px;
+  padding: 10px 0 10px 0;
+  text-indent: 10px;
+  background-color: white;
+  width: 100%;
+  font-size: 2em;
+  -webkit-border-bottom-right-radius: 16px;
+  -webkit-border-bottom-left-radius: 16px;
+  -moz-border-radius-bottomright: 16px;
+  -moz-border-radius-bottomleft: 16px;
+  border-bottom-right-radius: 16px;
+  border-bottom-left-radius: 16px;
+  -moz-opacity: 0.70;
+  -khtml-opacity: 0.70;
+  opacity: 0.70;
+  -ms-filter:"progid:DXImageTransform.Microsoft.Alpha"(Opacity=70);
+  filter: progid:DXImageTransform.Microsoft.Alpha(opacity=70);
+  filter:alpha(opacity=70);
+}
+.flex-direction-nav {
+  display: block;
+}
+.browser-ie-7 .flexslider ul.slides li .node-title {
+  bottom: 10px;
+}
+ /*-----------------------------------------*/
+/*---------------------HUVUDMENY SUPERFISH----------------------*/
+#block-superfish-1 {
+  text-align: left;
+}
+/*-----NIVÅ 1-----*/
+#block-superfish-1 ul.sf-menu {
+	float: left;
+}
+#block-superfish-1 ul.sf-menu li {
+  display: inline;
+  float: left;
+}
+/*-----------------------------------------*/
+/*---------Language switcher------------*/
+#block-superfish-1 .language-switcher {
+  margin-left: 20px;
+}
+
+/*-----------------------------------------*/
+/*-----------Nyheter------------*/
+.view-nyheter .field-name-field-sidhuvud {
+  float: left;
+  padding-right: 20px;
+}
+.view-nyheter .field-name-field-sidhuvud img {
+	width: 180px;
+	height: auto;	
+}
+/*------------------------------*/
+/*------------Bildgalleri-------*/
+
+/*-----------------------------------------*/
+/*-----------------Blogg------------------*/
+.view-enterprise-blog.view-display-id-block_1 .node-enterprise-blog .node-title {
+  display: inline-block;
+}
+article.node-enterprise-blog > .header > .submitted {
+  float: right;
+  line-height: 2.33em;
+  padding-top: 1em;
+}
+/*-----------------------------------------*/
+/*-----------------Kommentarer---------------*/
+.comment .submitted h3 {
+  float: left;
+}
+.comment .submitted .datetime a {
+  margin-left: 1em;
+}
+.comment .links {
+  float: right;
+}
+/*-----------------------------------------*/
+/*---------------Sweaver---------------*/
+body.panels-ipe #sweaver {
+  bottom: 52px;
+}
+/*-------------------------------------*/

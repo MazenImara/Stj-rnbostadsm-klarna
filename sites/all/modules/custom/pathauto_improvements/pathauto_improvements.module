@@ -1,0 +1,234 @@
+<?php
+//Implements hook_menu().
+function pathauto_improvements_menu() {
+  $items = array(
+
+  );
+  return $items;
+}
+//Implements hook_menu_alter().
+function pathauto_improvements_menu_alter(&$items) {
+
+}
+//Implements hook_theme_registry_alter().
+function pathauto_improvements_theme_registry_alter(&$theme_registry) {
+
+}
+//Implements hook_init().
+function pathauto_improvements_init() {
+
+}
+//Implements hook_permission().
+function pathauto_improvements_permission() {
+  $permissions = array(
+  
+  );
+  return $permissions;
+}
+/*----------Ändrar ordningen för hooks--------*/
+/**
+ * Implements hook_module_implements_alter().
+ */
+function pathauto_improvements_module_implements_alter(&$implementations, $hook) {
+/*
+  if ($hook === 'form_alter') {
+    // Move my_module_theme_registry_alter() to the end of the list. module_implements()
+    // iterates through $implementations with a foreach loop which PHP iterates
+    // in the order that the items were added, so to move an item to the end of
+    // the array, we remove it and then add it.
+    if(isset($implementations['pathauto_improvements'])) {
+      $group = $implementations['pathauto_improvements'];
+      unset($implementations['pathauto_improvements']);
+      $implementations['pathauto_improvements'] = $group;
+    }
+  }
+  */
+}
+//Implements hook_form_alter().
+function pathauto_improvements_form_alter(&$form, $form_state, $form_id) {
+
+}
+//Implements hook_form_FORMID_alter()
+function pathauto_improvements_form_metatag_improvements_admin_form_alter(&$form, $form_state) {
+  $form['#submit'][] = 'pathauto_improvements_metatag_improvements_admin_form_submit';
+}
+function pathauto_improvements_metatag_improvements_admin_form_submit($form, &$form_state) {
+  $update_types = array_keys(node_type_get_names());
+  pathauto_improvements_update_node_patterns($update_types);
+}
+//Implements hook_form_FORMID_alter().
+function pathauto_improvements_form_node_type_form_alter(&$form, $form_state) {
+  $form['#attached']['js'][] = drupal_get_path('module', 'pathauto_improvements').'/js/pathauto_improvements.js';
+  $form['#submit'][] = 'pathauto_improvements_node_type_form_submit';
+  $form['pathauto_improvements'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('URL Alias'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#group' => 'additional_settings',
+  );
+  $types = node_type_get_names();
+  $default_settings = array();
+  $all_settings = module_invoke_all('pathauto', 'settings');
+  foreach ($all_settings as $settings) {
+    $module = $settings->module;
+    $patterndescr = $settings->patterndescr;
+    $patterndefault = $settings->patterndefault;
+    $groupheader = $settings->groupheader;
+    if($module === 'node') {
+      if($form['#node_type']->type) {
+        $current_type = $form['#node_type']->type;
+      }
+      else {
+        $numbered_types = array_keys($types);
+        $current_type = $numbered_types[0];
+      }
+      if (isset($settings->patternitems)) {
+        foreach ($settings->patternitems as $itemname => $itemlabel) {
+          if(substr($itemname, 0, strlen($current_type)) === $current_type) {
+            $variable = 'pathauto_' . $module . '_' . $itemname . '_pattern';
+            if(!$form['#node_type']->type) {
+              $variable = str_replace($current_type, '__replace__', $variable);
+              if($itemname === $current_type) {
+                $itemlabel = t('Default path pattern for this content type (applies to all blank patterns below)');
+              }
+              else {
+                $itemlabel = str_ireplace($current_type, '', $itemlabel);
+              }
+            }
+            $form['pathauto_improvements'][$module][$variable] = array(
+              '#type' => 'textfield',
+              '#title' => $itemlabel,
+              '#default_value' => $form['#node_type']->type ? variable_get($variable, '') : '',
+              '#size' => 65,
+              '#maxlength' => 1280,
+              '#element_validate' => array('token_element_validate'),
+              '#after_build' => array('token_element_validate'),
+              '#token_types' => array($settings->token_type),
+              '#min_tokens' => 1,
+              '#parents' => array($variable),
+            );
+          }
+        }
+      }
+      $form['pathauto_improvements'][$module]['token_help'] = array(
+        '#theme' => 'token_tree',
+        '#token_types' => array($settings->token_type),
+      );
+    }
+  }
+  $default_value = true;
+  if($form['#node_type']->type) {
+    $node_type = $form['#node_type']->type;
+
+    $allowed_types = variable_get('metatag_improvements_allowed_types', array_keys($types));
+    if(!(isset($allowed_types[$node_type]) && $allowed_types[$node_type])) {
+      $default_value = false;
+    }
+  }
+  $form['metatag_improvements']['use_metatags'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Use meta tags for this content type'),
+    '#default_value' => $default_value,
+  );
+}
+function pathauto_improvements_node_type_form_submit($form, &$form_state) {
+  $type_has_changed = false;
+  $current_type = $form_state['values']['type'];
+  if($form['#node_type']->type) { //Befintlig innehållstyp
+    $old_type = $form['#node_type']->type;
+    $new_type = $form_state['values']['type'];
+    if($old_type !== $new_type) {
+      $type_has_changed = true;
+    }
+  }
+  $variables = array();
+  $old_variables = array();
+  foreach($form_state['values'] as $key => $value) {
+    if(substr($key, 0, 14) === 'pathauto_node_') {
+      if($type_has_changed) {
+        $old_variables[$key] = $value;
+        $key = str_replace($old_type, $new_type, $key);
+      }
+      $variables[$key] = $value;
+    }
+  }
+  if(!$form['#node_type']->type) { //Ny innehållstyp
+    $old_variables = $variables;
+    $variables = array();
+    foreach($old_variables as $key => $value) {
+      $new_key = str_replace('__replace__', $current_type, $key);
+      $variables[$new_key] = $value;
+    }
+  }
+  $update_aliases = false;
+  foreach($variables as $key => $value) {
+    if($form['#node_type']->type) { //Befintlig innehållstyp
+      $old_value = variable_get($key, '');
+      $new_value = $value;
+      if($old_value !== $new_value) {
+        $update_aliases = true;
+        variable_set($key, $value);
+      }
+    }
+    else { //Ny innehållstyp
+      variable_set($key, $value);
+    }
+  }
+  if($update_aliases) {
+    pathauto_improvements_update_url_aliases(array($current_type));
+  }
+}
+function pathauto_improvements_update_node_patterns($update_types) {
+  $types = node_type_get_names();
+  $allowed_types = variable_get('metatag_improvements_allowed_types', array_keys($types));
+  foreach($update_types as $i => $type) {
+    $current_setting = variable_get('pathauto_node_'.$type.'_pattern', '');
+    if($current_setting === '' || $current_setting === 'no-crawl/[node:title]') {
+      if($allowed_types[$type]) {
+        if($current_setting === '') {
+          unset($update_types[$i]);
+        }
+        else {
+          variable_set('pathauto_node_'.$type.'_pattern', '');
+        }
+      }
+      else {
+        if($current_setting === 'no-crawl/[node:title]') {
+          unset($update_types[$i]);
+        }
+        else {
+          variable_set('pathauto_node_'.$type.'_pattern', 'no-crawl/[node:title]');
+        }
+      }
+    }
+    else {
+      unset($update_types[$i]);
+    }
+  }
+  pathauto_improvements_update_url_aliases($update_types);
+}
+function pathauto_improvements_update_url_aliases($update_types) {
+  if($update_types) {
+    // Get all nodes that need to be updated
+    $query = db_select('node', 'n');
+    $query->addField('n', 'nid');
+    $query->condition('n.type', $update_types);
+  
+    $nids = $query->execute()->fetchCol();
+
+    pathauto_improvements_update_url_aliases_for_nodes($nids);
+  }
+}
+function pathauto_improvements_update_url_aliases_for_nodes($nids) {
+  module_load_include('inc', 'pathauto');
+  module_load_include('inc', 'pathauto.pathauto');
+  // Save current action for new aliases and change it to delete old one.
+  $alias_action = variable_get('pathauto_update_action', 0);
+  variable_set('pathauto_update_action', PATHAUTO_UPDATE_ACTION_DELETE);
+
+  pathauto_node_update_alias_multiple($nids, 'bulkupdate');
+
+  // Restore original action for new aliases.
+  variable_set('pathauto_update_action', $alias_action);
+}

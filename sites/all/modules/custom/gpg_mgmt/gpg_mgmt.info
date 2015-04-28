@@ -1,0 +1,4 @@
+name = GnuPG Management
+description = Module for encryption of data with gpg
+package = Custommoduler
+core = 7.x

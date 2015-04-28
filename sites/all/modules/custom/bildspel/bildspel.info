@@ -1,0 +1,4 @@
+name = Bildspel (field formatter)
+description = Generiskt bildspel som ska kunna visa alla typer av f&auml;lt
+package = Custommoduler
+core = 7.x

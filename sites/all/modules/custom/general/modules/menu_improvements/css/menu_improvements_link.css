@@ -1,0 +1,6 @@
+#menu-edit-item .form-item-language {
+  display: none;
+}
+body.multilanguage #menu-edit-item .form-item-language {
+  display: block;
+}

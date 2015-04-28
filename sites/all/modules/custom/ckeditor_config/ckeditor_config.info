@@ -1,0 +1,4 @@
+name = CKEditor Config
+description = Sets some default configuration for CKEditor
+package = Custommoduler
+core = 7.x

@@ -1,0 +1,118 @@
+/* This file will hold styles that are loaded using the same media query as the normal grid. */
+/* If you are using the default media queries provided by Omega, these styles will also
+ *  apply to the widescreen layout unless they are overridden by the widescreen styles. */
+/*----------Allmänt-----------*/
+body .container-24 {
+  width: 980px;
+  max-width: 980px;
+}
+body .container-24 .grid-24 {
+  width: 980px;
+  max-width: 980px;
+  margin: 0;
+}
+body .container-24 .grid-18 {
+  width: 769px;
+}
+#zone-menu {
+	margin-bottom: 5px;
+}
+#zone-header {
+  width: 978px;
+  height: 310px;
+}
+#zone-content {
+  width: 978px;
+}
+#region-sidebar-second {
+	width: 208px;
+}
+/*------------Adressruta-------------*/
+#block-nodeblock-179 {
+  width: 200px;
+}
+/*-----------Huvudmeny---------------*/
+#block-superfish-2 {
+
+}
+/*-----------Vanlig sida------------*/
+.node-page.view-mode-full > .header {
+  padding-top: 41px;
+}
+/*-------------Startsidan----------*/
+body.front #region-content {
+	width: 769px;
+}
+/*----------Bildspel------------*/
+#block-nodeblock-213 {
+	width: 653px;
+}
+#block-nodeblock-213 .nivoSlider {
+  height: 291px; 
+}
+#block-nodeblock-213 .nivoSlider img {
+	height: 291px !important;
+}
+/*----------Senaste videon------------*/
+#block-nodeblock-214 {
+  width: 284px;
+}
+/*----------Puffar-----------*/
+body .container-24 .panel-panel.grid-8 {
+  width: 235px;
+}
+body .container-24 .panel-panel.grid-8.top {
+	height: 375px;
+}
+body .container-24 .panel-panel.grid-8.top-right {
+  width: 236px;
+}
+body .container-24 .panel-panel.grid-24 {
+  width: 235px;
+}
+.main-content {
+  width: 431px;
+  height: 318px;
+}
+body .container-24 .panel-panel.middle {
+	width: 236px;
+	height: 358px;
+}
+body .container-24 .panel-panel.grid-6 {
+  width: 171px;
+	height: 278px;
+}
+body .container-24 .panel-panel.grid-6 .field-name-body {
+	height: 230px;
+}
+body .container-24 .panel-panel.bottom-4 {
+  width: 172px;
+}
+/*-----------Bildgalleri-------------*/
+body.sidtyp-galleri .node-page.view-mode-full > .header {
+  padding-bottom: 20px;
+}
+body.sidtyp-galleri .node-page.view-mode-full .view-bildgalleri .views-row {
+  padding: 15px 35px;
+}
+/*-------------Kontaktsida-------------*/
+body.node-type-webform .node-webform.view-mode-full > .header {
+  padding-top: 41px;
+}
+form {
+	width: 189px;
+ }
+body.node-type-webform .node-webform.view-mode-full .webform-client-form input[type="text"],
+body.node-type-webform .node-webform.view-mode-full .webform-client-form input[type="password"],
+body.node-type-webform .node-webform.view-mode-full .webform-client-form input[type="email"],
+body.node-type-webform .node-webform.view-mode-full .webform-client-form textarea, 
+body.node-type-webform .node-webform.view-mode-full .webform-client-form select {
+  width: 352px;
+}
+body.node-type-webform .node-webform.view-mode-full .webform-client-form #edit-actions {
+  width: 352px;
+}
+/*------------Nyheter-------------*/
+body.sidtyp-nyhetssida .node-page.view-mode-full .view-nyheter .views-row {
+  padding: 39px 0 10px;
+}

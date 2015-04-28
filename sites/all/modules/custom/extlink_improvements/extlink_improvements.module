@@ -1,0 +1,36 @@
+<?php
+//Implements hook_form_FORMID_alter()
+function extlink_improvements_form_locale_language_providers_url_form_alter(&$form, $form_state) {
+  $form['#submit'][] = 'extlink_improvements_language_providers_url_form_submit';
+}
+function extlink_improvements_language_providers_url_form_submit($form, &$form_state) {
+  $langsettings = $form_state['values']['locale_language_negotiation_url_part'];
+  if($langsettings==LOCALE_LANGUAGE_NEGOTIATION_URL_DOMAIN) {
+    extlink_improvements_update_extlink_exclusions();
+  };
+}
+function extlink_improvements_update_extlink_exclusions() {
+	//Lägger till eventuella språkdomäner i exkluderade strängar
+	$languages = language_list();
+	$extlink_exclude = variable_get('extlink_exclude', '');
+	$regexp = '';
+	foreach($languages as $lang) {
+    if($lang->domain) {
+  		$temp = str_replace('http://', '', $lang->domain);
+  		$temp = str_replace('.', '\.', $temp);
+  		$regexp .= $temp.'|';
+    }
+	}
+	if($regexp) {
+  	$regexp = '('.substr($regexp, 0, -1).')';
+  	if($extlink_exclude) {
+      if(strpos($extlink_exclude, $regexp)===false) {
+        $regexp = $extlink_exclude.'|'.$regexp;
+        variable_set('extlink_exclude', $regexp);
+      }
+    }
+    else {
+      variable_set('extlink_exclude', $regexp);
+    }
+  }
+}

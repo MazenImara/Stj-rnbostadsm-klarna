@@ -1,0 +1,107 @@
+/*
+Skin Name: Nivo Slider Light Theme
+Skin URI: http://nivo.dev7studios.com
+Description: A light skin for the Nivo Slider.
+Version: 1.0
+Author: Gilbert Pellegrom
+Author URI: http://dev7studios.com
+Supports Thumbs: true
+*/
+
+.theme-light_subs.slider-wrapper {
+    background: #fff;
+    padding: 10px;
+}
+.theme-light_subs .nivoSlider {
+	position:relative;
+	background:#fff url(loading.gif) no-repeat 50% 50%;
+    margin-bottom:10px;
+    overflow: visible;
+}
+.theme-light_subs .nivoSlider img {
+	position:absolute;
+	top:0px;
+	left:0px;
+	display:none;
+}
+.theme-light_subs .nivoSlider a {
+	border:0;
+	display:block;
+}
+
+.theme-light_subs .nivo-controlNav {
+	text-align: left;
+	padding: 0;
+	position: relative;
+	z-index: 10;
+}
+.theme-light_subs .nivo-controlNav a {
+	display:inline-block;
+	width:10px;
+	height:10px;
+	background:url(bullets.png) no-repeat;
+	text-indent:-9999px;
+	border:0;
+	margin: 0 2px;
+}
+.theme-light_subs .nivo-controlNav a.active {
+	background-position:0 100%;
+}
+
+.theme-light_subs .nivo-directionNav a {
+	display:block;
+	width:30px;
+	height:30px;
+	background: url(arrows.png) no-repeat;
+	text-indent:-9999px;
+	border:0;
+	top: auto;
+	bottom: -36px;
+	z-index: 11;
+}
+.theme-light_subs .nivo-directionNav a:hover {
+    background-color: #eee;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+}
+.theme-light_subs a.nivo-nextNav {
+	background-position:160% 50%;
+	right:0px;
+}
+.theme-light_subs a.nivo-prevNav {
+    background-position:-60% 50%;
+    left: auto;
+	right: 35px;
+}
+
+.theme-light_subs .nivo-caption {
+    padding-top: 10px;
+    font-family: Helvetica, Arial, sans-serif;
+    position: relative;
+    background: transparent;
+    color: black;
+    text-align: center;
+}
+.theme-light_subs .nivo-caption a {
+    color: black;
+    border-bottom:1px dotted #fff;
+}
+.theme-light_subs .nivo-caption a:hover {
+    color: black;
+}
+
+.theme-light_subs .nivo-controlNav.nivo-thumbs-enabled {
+	width: 80%;
+}
+.theme-light_subs .nivo-controlNav.nivo-thumbs-enabled a {
+	width: auto;
+	height: auto;
+	background: none;
+	margin-bottom: 5px;
+}
+.theme-light_subs .nivo-controlNav.nivo-thumbs-enabled img {
+	display: block;
+	width: 120px;
+	height: auto;
+}

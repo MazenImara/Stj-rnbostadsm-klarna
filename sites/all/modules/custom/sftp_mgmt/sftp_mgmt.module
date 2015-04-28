@@ -1,0 +1,46 @@
+<?php
+function sftp_mgmt_send_files($sftp_data = array()) {
+/*
+  Funktion för att skicka filer via SFTP. Kräver biblioteket phpseclib.
+  Innehåll i $sftp_data:
+  $sftp_data = array(
+    'files' => array(
+      'file_src' => 'Sträng som anger den fullständiga interna sökvägen till ursprungsfilen, inklusive filnamn. Uteslut eller lämna tomt om det inte finns någon ursprungsfil',
+      'string_src' => 'Sträng med data som ska bakas in i filen. Om man använder den här nyckeln så finns det ingen ursprungsfil utan en fil skapas på målservern med string_src som data.',
+      'output_filename' => 'Filnamn inklusive filändelse på den fil som ska skapas på målservern',
+    ),
+    'server_address' => 'SSH Hostname',
+    'port' => 22,
+    'username' => 'SSH username',
+    'private_key_path' => 'Fullständig sökväg till en privat nyckel för att autentisera sig för målservern',
+    'private_key_passphrase' => 'Passphrase för den privata nyckeln',
+  );
+*/
+  if ($path = libraries_get_path('phpseclib')) {
+    set_include_path(get_include_path() . PATH_SEPARATOR . drupal_realpath($path));
+    include_once('Net/SFTP.php');
+    include_once('Crypt/RSA.php');
+  
+    $sftp = new Net_SFTP($sftp_data['server_address'], (isset($sftp_data['port']) ? $sftp_data['port'] : 22));
+    $key = new Crypt_RSA();
+    $key->setPassword($sftp_data['private_key_passphrase']);
+    $key->loadKey(file_get_contents($sftp_data['private_key_path']));
+    if ($sftp->login($sftp_data['username'], $key)) {
+      foreach($sftp_data['files'] as $file) {
+        if(isset($file['string_src']) && $file['string_src']) { //Skapa fil från minnet
+          $sftp->put($file['output_filename'], $file['string_src']);
+        }
+        elseif(isset($file['file_src']) && $file['file_src']) { //Kopiera fil från hårddisken
+          $sftp->put($file['output_filename'], $file['file_src'], NET_SFTP_LOCAL_FILE);
+        }
+      }
+      drupal_set_message(t('Sent files successfully'));
+    }
+    else {
+      drupal_set_message(t('Login to remote server failed.'));
+    }
+  }
+  else {
+    drupal_set_message(t('Please download the library phpseclib (http://phpseclib.sourceforge.net/) and place it in the libraries directory'), 'error');
+  }
+}

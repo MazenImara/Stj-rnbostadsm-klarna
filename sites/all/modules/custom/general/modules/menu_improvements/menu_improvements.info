@@ -1,0 +1,6 @@
+name = Menu Improvements
+description = Menu Improvements
+package = Custommoduler
+core = 7.x
+dependencies[] = menu_node
+dependencies[] = i18n_improvements

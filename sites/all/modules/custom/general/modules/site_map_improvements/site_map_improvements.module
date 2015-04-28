@@ -1,0 +1,19 @@
+<?php
+//Implements hook_menu_alter()
+function site_map_improvements_menu_alter(&$items) {
+  if(isset($items['sitemap'])) {
+    $items['sitemap']['page callback'] = 'site_map_improvements_page';
+  }
+}
+/**
+ * Menu callback for the site map.
+ */
+function site_map_improvements_page() {
+  drupal_set_title(t(variable_get('site_map_page_title')), t('Site map'));
+
+  if (variable_get('site_map_css', 0) != 1) {
+    drupal_add_css(drupal_get_path('module', 'site_map') . '/site_map.theme.css');
+  }
+
+  return theme('site_map');
+}

@@ -1,0 +1,130 @@
+<?php
+/**
+ * Implements hook_permission().
+ */
+function taxonomy_improvements_permission() {
+  return array(
+    'taxonomy_improvements_display_description' => array(
+      'title' => t('Display description field on taxonomy term form'),
+    ),
+    'taxonomy_improvements_display_relations' => array(
+      'title' => t('Display relations on taxonomy term form'),
+    ),
+  );
+}
+//Implements hook_form_FORMID_alter().
+function taxonomy_improvements_form_taxonomy_overview_vocabularies_alter(&$form, $form_state) {
+  foreach(element_children($form) as $key) {
+    if(isset($form[$key]['#vocabulary'])) {
+      $element =& $form[$key];
+      $element['list']['#title'] = t('list @vocabulary', array('@vocabulary' => t(strtolower($element['#vocabulary']->name))));
+      $element['add']['#title'] = t('add @vocabulary', array('@vocabulary' => t(strtolower($element['#vocabulary']->name))));
+    }
+  }
+}
+//Implements hook_form_FORMID_alter().
+function taxonomy_improvements_form_taxonomy_overview_terms_alter(&$form, $form_state) {
+  $form['#empty_text'] = t('No @vocabulary available', array('@vocabulary' => t(strtolower($form['#vocabulary']->name)))).'. '.l(t('Add @vocabulary', array('@vocabulary' => t(strtolower($form['#vocabulary']->name)))), 'admin/structure/taxonomy/'.$form['#vocabulary']->machine_name.'/add', array('absolute' => true));
+}
+/*----------Ändrar ordningen för hooks--------*/
+/**
+ * Implements hook_module_implements_alter().
+ */
+function taxonomy_improvements_module_implements_alter(&$implementations, $hook) {
+  if ($hook === 'menu_local_tasks_alter') {
+    // Move my_module_theme_registry_alter() to the end of the list. module_implements()
+    // iterates through $implementations with a foreach loop which PHP iterates
+    // in the order that the items were added, so to move an item to the end of
+    // the array, we remove it and then add it.
+    if(isset($implementations['taxonomy_improvements'])) {
+      $group = $implementations['taxonomy_improvements'];
+      unset($implementations['taxonomy_improvements']);
+      $implementations['taxonomy_improvements'] = $group;
+    }
+  }
+}
+//Implements hook_form_FORMID_alter().
+function taxonomy_improvements_form_taxonomy_form_term_alter(&$form, $form_state) {
+  $form['#after_build'][] = 'taxonomy_improvements_taxonomy_form_term_after_build';
+  
+  if(isset($form['description'])) {
+    if(!user_access('taxonomy_improvements_display_description')) {
+      $form['description']['#access'] = false;
+    }
+  }
+  if(isset($form['relations'])) {
+    if(!user_access('taxonomy_improvements_display_relations')) {
+      $form['relations']['#access'] = false;
+    }
+  }
+}
+function taxonomy_improvements_taxonomy_form_term_after_build($form, &$form_state) {
+  foreach(element_children($form) as $key) {
+    $element =& $form[$key];
+    if(isset($element['format'])) {
+      if(!user_access('general_nodeform_display_formatting')) {
+        $element['format']['#theme_wrappers'] = array();
+        if(isset($element['format']['guidelines'])) {
+          $element['format']['guidelines']['#theme_wrappers'] = array();
+        }
+        if(isset($element['format']['help'])) {
+          $element['format']['help']['#access'] = false;
+        }
+        if(isset($element['format']['format'])) {
+          $default_value = $element['format']['format']['#default_value'];
+          $element['format']['format']['#options'] = array($default_value => $element['format']['format']['#options'][$default_value]);
+          $element['format']['format']['#theme_wrappers'] = array();
+          $element['format']['format']['#access'] = false;
+        }
+      }
+    }
+  }
+  return $form;
+}
+//Implements hook_menu_local_tasks_alter().
+function taxonomy_improvements_menu_local_tasks_alter(&$data, $router_item, $root_path) {
+  switch($root_path) {
+    case 'admin/structure/taxonomy/%':
+      $voc = taxonomy_improvements_get_vocabulary_name_from_router_item($router_item);
+      if($voc) {
+        foreach($data['actions']['output'] as $i => $action) {
+          if($data['actions']['output'][$i]['#link']['path'] === 'admin/structure/taxonomy/%/add') {
+            $data['actions']['output'][$i]['#link']['title'] = t('Add @vocabulary', array('@vocabulary' => t($voc)));
+            break;
+          }
+        }
+      }
+      break;
+
+    case 'admin/structure/taxonomy/%/add':
+    case 'taxonomy/term/%/edit':
+      $voc = taxonomy_improvements_get_vocabulary_name_from_router_item($router_item);
+      if($voc) {
+        $item = menu_get_item("admin/structure/taxonomy/$voc/list");
+        if ($item['access']) {
+          $item['title'] = t('List @vocabulary', array('@vocabulary' => t($voc)));
+          $data['actions']['output'][] = array(
+            '#theme' => 'menu_local_action',
+            '#link' => $item,
+          );
+        }
+      }
+      break;
+  }
+}
+function taxonomy_improvements_get_vocabulary_name_from_router_item($router_item) {
+  $voc = '';
+  if(isset($router_item['page_arguments'])) {
+    foreach($router_item['page_arguments'] as $i => $argument) {
+      if(is_object($argument)) {
+        if(isset($argument->vocabulary_machine_name)) {
+          $voc = $argument->vocabulary_machine_name;
+        }
+        elseif(isset($argument->machine_name)) {
+          $voc = $argument->machine_name;
+        }
+      }
+    }
+  }
+  return $voc;
+}

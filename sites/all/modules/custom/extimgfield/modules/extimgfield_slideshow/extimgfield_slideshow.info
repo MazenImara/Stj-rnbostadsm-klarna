@@ -1,0 +1,10 @@
+name = External Image Field - Slideshow
+description = Provides a Slideshow format for displaying External Image Field items.
+core = 7.x
+package = Fields
+
+dependencies[] = extimgfield
+dependencies[] = libraries
+
+files[] = extimgfield_slideshow.module
+

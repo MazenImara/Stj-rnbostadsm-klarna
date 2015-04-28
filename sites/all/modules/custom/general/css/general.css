@@ -1,0 +1,262 @@
+#admin-menu span {
+  background: transparent none;
+  border: none;
+  color: #EEE;
+  font-weight: normal;
+  text-align: left;
+  text-decoration: none;
+  cursor: default;
+}
+#admin-menu .dropdown span {
+  color: #FAFAFA;
+  border-right: 1px solid #323232;
+  display: block;
+  padding: 4px 8px;
+}
+body #admin-menu .dropdown li {
+  height: auto;
+}
+#admin-menu .dropdown li li span {
+  border-right: none;
+  border-top: 1px solid #323232;
+}
+html body.admin-menu {
+  margin-top: 39px !important;
+}
+/**
+ * Contextual links regions.
+ */
+.contextual-links-region {
+  outline: none !important;
+  position: relative !important;
+}
+.contextual-links-region-active {
+  outline: #999 dashed 5px !important;
+}
+#block-logo-block-logo {
+  display: inline-block;
+  max-width: 100%;
+}
+/**
+ * Contextual links.
+ */
+.contextual-links-wrapper {
+  display: none !important;
+  font-size: 90% !important;
+  position: absolute !important;
+  right: 5px !important;
+  top: 2px !important;
+  z-index: 999 !important;
+}
+html.js .contextual-links-wrapper {
+  display: block !important;
+}
+a.contextual-links-trigger {
+  background: #ffffff url(../../../../../../modules/contextual/images/gear-select.png) no-repeat 2px 0 !important;
+  border: 1px solid transparent !important;
+  display: none !important;
+  height: 18px !important;
+  margin: 0 !important;
+  padding: 0 2px !important;
+  outline: none !important;
+  text-indent: 34px !important;
+  width: 28px !important;
+  overflow: hidden !important;
+  -khtml-border-radius: 4px !important;
+  -moz-border-radius: 4px !important;
+  -webkit-border-radius: 4px !important;
+  border-radius: 4px !important;
+}
+
+a.contextual-links-trigger:hover,
+div.contextual-links-active a.contextual-links-trigger {
+  background-position: 2px -18px !important;
+}
+
+div.contextual-links-active a.contextual-links-trigger {
+  background-color: #fff !important;
+  border-color: #ccc !important;
+  border-bottom: none !important;
+  position: relative !important;
+  z-index: 1 !important;
+  -moz-border-radius: 4px 4px 0 0 !important;
+  -webkit-border-bottom-left-radius: 0 !important;
+  -webkit-border-bottom-right-radius: 0 !important;
+  border-radius: 4px 4px 0 0 !important;
+}
+
+div.contextual-links-wrapper ul.contextual-links {
+  background-color: #fff !important;
+  border: 1px solid #ccc !important;
+  display: none !important;
+  margin: 0 !important;
+  padding: 0.25em 0 !important;
+  position: absolute !important;
+  right: 0 !important;
+  text-align: left !important;
+  top: 18px !important;
+  white-space: nowrap !important;
+  -moz-border-radius: 4px 0 4px 4px !important;
+  -webkit-border-bottom-left-radius: 4px !important;
+  -webkit-border-bottom-right-radius: 4px !important;
+  -webkit-border-top-right-radius: 0 !important;
+  -webkit-border-top-left-radius: 4px !important;
+  border-radius: 4px 0 4px 4px !important;
+}
+
+.contextual-links-region:hover a.contextual-links-trigger,
+div.contextual-links-active a.contextual-links-trigger,
+div.contextual-links-active ul.contextual-links {
+  display: block !important;
+}
+
+ul.contextual-links li {
+  -webkit-border-image: none !important;
+  background-color: transparent !important;
+  border-bottom-color: #333 !important;
+  border-bottom-left-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+  border-bottom-style: none !important;
+  border-bottom-width: 0px !important;
+  border-left-color: #333 !important;
+  border-left-style: none !important;
+  border-left-width: 0px !important;
+  border-right-color: #333 !important;
+  border-right-style: none !important;
+  border-right-width: 0px !important;
+  border-top-color: #333 !important;
+  border-top-left-radius: 0px !important;
+  border-top-right-radius: 0px !important;
+  border-top-style: none !important;
+  border-top-width: 0px !important;
+  color: #333 !important;
+  display: list-item !important;
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-size: 11px !important;
+  font-style: normal !important;
+  font-variant: normal !important;
+  font-weight: normal !important;
+  height: auto !important;
+  line-height: 11px !important;
+  list-style-image: none !important;
+  list-style-position: outside !important;
+  list-style-type: none !important;
+  margin-bottom: 0px !important;
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+  margin-top: 0px !important;
+  outline-color: #333 !important;
+  outline-style: none !important;
+  outline-width: 0px !important;
+  padding-bottom: 0px !important;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+  padding-top: 0px !important;
+  position: static !important;
+  right: auto !important;
+  text-align: left !important;
+  top: auto !important;
+  vertical-align: baseline !important;
+  white-space: nowrap !important;
+  width: auto !important;
+  z-index: auto !important;
+}
+div.contextual-links-wrapper a {
+  text-decoration: none !important;
+}
+ul.contextual-links li a {
+  color: #333 !important;
+  display: block !important;
+  margin: 0.25em 0 !important;
+  padding: 0.25em 1em 0.25em 0.5em !important;
+  border-bottom-color: #333 !important;
+  border-bottom-left-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+  border-bottom-style: none !important;
+  border-bottom-width: 0px !important;
+  border-left-color: #333 !important;
+  border-left-style: none !important;
+  border-left-width: 0px !important;
+  border-right-color: #333 !important;
+  border-right-style: none !important;
+  border-right-width: 0px !important;
+  border-top-color: #333 !important;
+  border-top-left-radius: 0px !important;
+  border-top-right-radius: 0px !important;
+  border-top-style: none !important;
+  border-top-width: 0px !important;
+  color: #333 !important;
+  cursor: pointer !important;
+  display: block !important;
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-size: 11px !important;
+  font-style: normal !important;
+  font-variant: normal !important;
+  font-weight: normal !important;
+  height: 11px !important;
+  line-height: 11px !important;
+  list-style-image: none !important;
+  list-style-position: outside !important;
+  list-style-type: none !important;
+  outline-color: #333 !important;
+  outline-style: none !important;
+  outline-width: 0px !important;
+  position: static !important;
+  right: auto !important;
+  text-align: left !important;
+  text-decoration: none !important;
+  top: auto !important;
+  vertical-align: baseline !important;
+  white-space: nowrap !important;
+  width: auto !important;
+  z-index: auto !important;
+}
+ul.contextual-links li a:hover {
+  background-color: #bfdcee !important;
+}
+.resizable-textarea .grippie {
+	display: none;
+}
+.vertical-scroll-toplink {
+  clear: both;
+  display: block;
+}
+/*-------------Fillänkar-------------------*/
+.filelink {
+  background-repeat: no-repeat;
+  padding-left: 20px;
+  background-image: url(../../../../../../modules/file/icons/application-octet-stream.png);
+}
+.filelink-zip,
+.filelink-gzip {
+  background-image: url(../../../../sites/all/modules/custom/general/images/zip-file.gif);
+}
+.filelink-rar {
+  background-image: url(../../../../sites/all/modules/custom/general/images/rar-icon.png);
+}
+.filelink-txt {
+  background-image: url(../../../../../../modules/file/icons/text-plain.png);
+}
+.filelink-doc,
+.filelink-docx {
+  background-image: url(../../../../sites/all/modules/custom/general/images/ms-word.gif);
+}
+.filelink-odt {
+  background-image: url(../../../../../../modules/file/icons/x-office-document.png);
+}
+.filelink-xls,
+.filelink-xlsx {
+  background-image: url(../../../../modules/custom/general/images/excel-file.gif);
+}
+.filelink-ods {
+  background-image: url(../../../../../../modules/file/icons/x-office-spreadsheet.png);
+}
+.filelink-ppt,
+.filelink-pptx,
+.filelink-odp {
+  background-image: url(../../../../../../modules/file/icons/x-office-presentation.png);
+}
+.filelink-pdf {
+  background-image: url(../../../../modules/custom/general/images/pdf.gif);
+}
+/*-----------------------------------------*/

@@ -1,0 +1,29 @@
+<?php
+function enterprise_blog_get_block_visibility() {
+  $match = false;
+  $tid = 4;
+  $type = 'enterprise_blog';
+
+  if ((arg(0) == 'node') && is_numeric(arg(1))) {
+    $node = node_load(arg(1));
+    if($node->type === $type) {
+      $match = true;
+    }
+    if(!$match) {
+      if(isset($node->field_sidtyp)) {
+        $field_sidtyp_language = array_keys($node->field_sidtyp);
+        if($field_sidtyp_language) {
+          $field_sidtyp_language = $field_sidtyp_language[0];
+          foreach($node->field_sidtyp[$field_sidtyp_language] as $key => $value) {
+            if($value['tid'] == $tid) {
+              $match = true;
+              break;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  return $match;
+}

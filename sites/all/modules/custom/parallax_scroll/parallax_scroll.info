@@ -1,0 +1,9 @@
+name = Parallax Scroll
+description = 3D scrolling through layers of background images
+package = Custommoduler
+core = 7.x
+dependencies[] = image
+dependencies[] = imagecache_actions
+dependencies[] = picture
+dependencies[] = breakpoints
+dependencies[] = ctools

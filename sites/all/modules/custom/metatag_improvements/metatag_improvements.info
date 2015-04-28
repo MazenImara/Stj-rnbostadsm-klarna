@@ -1,0 +1,6 @@
+name = Metatag Improvements
+description = Metatag Improvements
+dependencies[] = metatag
+dependencies[] = field_extract
+package = Custommoduler
+core = 7.x

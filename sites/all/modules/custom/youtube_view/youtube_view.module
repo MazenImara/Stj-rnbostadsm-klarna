@@ -1,0 +1,121 @@
+<?php
+//Implements hook_menu().
+function youtube_view_menu() {
+  $items = array(
+		'ajax/pull-youtube-videos' => array(
+			'title' => '',
+	    'page callback' => 'youtube_view_pull_videos',
+	    'access callback' => true,
+	    'type' => MENU_CALLBACK,
+		),
+  );
+  return $items;
+}
+//Implements hook_menu_alter().
+function youtube_view_menu_alter(&$items) {
+
+}
+//Implements hook_theme_registry_alter().
+function youtube_view_theme_registry_alter(&$theme_registry) {
+
+}
+//Implements hook_init().
+function youtube_view_init() {
+
+}
+//Implements hook_permission().
+function youtube_view_permission() {
+  $permissions = array(
+  
+  );
+  return $permissions;
+}
+//Implements hook_form_alter().
+function youtube_view_form_alter(&$form, $form_state, $form_id) {
+
+}
+/**
+ * Implements hook_theme().
+ */
+function youtube_view_theme() {
+  return array(
+		'youtube_view' => array(
+      'variables' => array(
+      	'id_list' => array(),
+			),
+      'file' => 'youtube_view.theme.inc',
+		),
+  );
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function youtube_view_block_info() {
+  $blocks['youtube_view'] = array(
+    'info' => t('YouTube View'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_configure().
+ */
+function youtube_view_block_configure($delta = '') {
+  $form = array();
+  if ($delta == 'youtube_view') {
+    $form['youtube_view_username'] = array(
+      '#type' => 'textfield',
+      '#title' => t('YouTube username'),
+      '#default_value' => variable_get('youtube_view_username', ''),
+    );
+  }
+  return $form;
+}
+
+/**
+ * Implements hook_block_save().
+ */
+function youtube_view_block_save($delta = '', $edit = array()) {
+  if ($delta == 'youtube_view') {
+    $vars = array(
+      'youtube_view_username' => '',
+    );
+    foreach ($vars as $name => $default_value) {
+      $old_value = variable_get($name, $default_value);
+      $new_value = check_plain($edit[$name]);
+      if ($old_value !== $new_value) {
+        variable_set($name, $new_value);
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function youtube_view_block_view($delta = '') {
+	drupal_add_js(drupal_get_path('module', 'youtube_view').'/js/youtube_view.js');
+  $block = array();
+  if ($delta === 'youtube_view') {
+		$block['subject'] = NULL;
+		$block['content'] = array('#markup' => '<div id="youtube-view"></div>');
+  }
+  return $block;
+}
+function youtube_view_pull_videos() {
+	drupal_page_is_cacheable(FALSE);
+	$username = variable_get('youtube_view_username', '');
+	if($username) {
+		module_load_include('inc', 'youtube_view', 'lib/youtube_pull_videos');
+		$youtube = new ChannelFeed($username);
+		$vids = $youtube->showFullFeed();    
+		$vidIDs = array_map("getYouTubeID",$vids);
+		if($vidIDs) {
+			print theme('youtube_view', array('id_list' => $vidIDs));
+			exit();
+		}
+	}
+	return NULL;
+}

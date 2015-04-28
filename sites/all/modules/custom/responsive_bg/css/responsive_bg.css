@@ -1,0 +1,26 @@
+body img.responsive-bg {
+  width: 100%;
+  background-position: 50% 0;
+  background-repeat: no-repeat;
+}
+.responsive-bg-caption {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  text-align: center;
+}
+.responsive-bg-caption-bg {
+  width: 100%;
+  height: 100%;
+  opacity: 0.2;
+  background: #fff;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.responsive-bg-caption-text {
+  position: relative;
+  font-size: 18px;
+  color: #fff;
+}

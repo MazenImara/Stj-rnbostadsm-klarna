@@ -1,0 +1,635 @@
+<?php
+
+/*------------Generella funktioner-------------*/
+//Implementation of hook_init()
+function general_init() {
+  drupal_add_css(drupal_get_path('module', 'general').'/css/general.css');
+  drupal_add_js(drupal_get_path('module', 'general').'/js/general.js', array('scope' => 'footer'));
+}
+/**
+ * Implements hook_library_alter().
+ */
+function general_library_alter(&$libraries, $module) {
+  // We are updating just the system module. For all other cases we return.
+  if ($module != 'system') {
+    return;
+  }
+  $path = drupal_get_path('module', 'general');
+  // Fix för problem med jquery.cookie.js
+  // Replace the jQuery Cookie plugin.
+  $libraries['jquery.cookie']['js']['misc/jquery.cookie.js']['data'] = $path . '/js/jquery_update/jquery_cookie.js';
+  
+  //Lägg till touchvänlig version av jquery ui
+  if ($path = libraries_get_path('jquery.ui.touch')) {
+    if(!empty($libraries['ui']['js'])) {
+      $libraries['ui']['js'][$path . '/jquery.ui.touch-punch.min.js'] = array(
+        'group' => -100,
+        'weight' => 10,
+        'data' => $path . '/jquery.ui.touch-punch.min.js',
+      );
+    }
+  }
+}
+//Implements hook_menu()
+function general_menu() {
+  $items = array();
+  $items['cron/%'] = array(
+    'title' => '',
+    'page callback' => 'general_crontab_user',
+    'page arguments' => array(1),
+    'access callback' => true,
+    'file' => 'general.user.admin.inc',
+  );
+  return $items;
+}
+//Implements hook_menu_alter()
+function general_menu_alter(&$items) {
+  //Permissions
+  if(isset($items['admin/people/permissions'])) {
+    $items['admin/people/permissions']['page arguments'] = array('general_user_admin_permissions');
+    $items['admin/people/permissions']['file'] = 'general.user.admin.inc';
+    $items['admin/people/permissions']['file path'] = drupal_get_path('module', 'general');
+  }
+
+  //Comment
+  if(isset($items['admin/content/comment'])) {
+    $items['admin/comment'] = $items['admin/content/comment'];
+    unset($items['admin/content/comment']);
+    $items['admin/comment/new'] = $items['admin/content/comment/new'];
+    unset($items['admin/content/comment/new']);
+    $items['admin/comment/approval'] = $items['admin/content/comment/approval'];
+    unset($items['admin/content/comment/approval']);
+  }
+  //Admin
+  if(isset($items['admin/index'])) {
+    $items['admin/index']['access arguments'] = array('general_admin_access_fix');
+  }
+  if(isset($items['admin/tasks'])) {
+    $items['admin/tasks']['title'] = 'Administration';
+  }
+}
+/**
+ * Implements hook_theme().
+ */
+function general_theme() {
+  return array(
+    'general_user_admin_permissions' => array(
+      'render element' => 'form',
+      'file' => 'general.user.admin.inc',
+    ),
+    'general_user_permission_description' => array(
+      'variables' => array('permission_item' => NULL, 'hide' => NULL),
+      'file' => 'general.user.admin.inc',
+    ),
+  );
+}
+/*----------Overridar RSS-ikonen----------*/
+/**
+ * Implementation of hook_theme_registry_alter to override theme_feed_icon().
+ */
+function general_theme_registry_alter(&$theme_registry) {
+  $theme_registry['feed_icon']['function'] = 'general_theme_feed_icon';
+}
+
+/**
+ * Overriding theme_feed_icon().
+ * Check permission to view the feed before displaying the icon.
+ */
+function general_theme_feed_icon($variables) {
+  $display_icon = true;
+  if(module_exists('rss_permissions')) {
+    if (!rss_permissions_feed_url_access($variables['url'])) {
+      $display_icon = false;
+    }
+  }
+  if($display_icon) {
+    $text = t('Subscribe to @feed-title', array('@feed-title' => $variables['title']));
+    if ($image = theme('image', array('path' => 'misc/feed.png', 'width' => 16, 'height' => 16, 'alt' => $text))) {
+      return l($text.' '.$image, $variables['url'], array('html' => TRUE, 'attributes' => array('class' => array('feed-icon'), 'title' => $text)));
+    }
+  }
+  return '';
+}
+
+/**
+ * Implements hook_permission().
+ */
+function general_permission() {
+  return array(
+    'general_admin_access_fix' => array(
+      'title' => t('Access special admin items'),
+    ),
+    'general_configure_settings' => array(
+      'title' => t('Configure general settings'),
+    ),
+    'general_nodeform_display_menu' => array(
+      'title' => t('Display menu settings in node form'),
+    ),
+    'general_nodeform_display_formatting' => array(
+      'title' => t('Display formatting options for node fields'),
+    ),
+    'general_nodeform_display_translation' => array(
+      'title' => t('Display translation options in node form'),
+    ),
+    'general_nodeform_display_comment' => array(
+      'title' => t('Display comment options in the node form'),
+    ),
+    'general_nodeform_display_author_info' => array(
+      'title' => t('Display author information in the node form'),
+    ),
+  );
+}
+//Implements hook_preprocess_HOOK().
+function general_preprocess_page(&$vars) {
+  $current_path = current_path();
+  if($current_path==='admin/comment') {
+    drupal_set_title(t('Comments'));
+  }
+  elseif($current_path==='admin/comment/approval') {
+    drupal_set_title(t('Unapproved comments'));
+  }
+}
+/**
+ * Implementation of hook_ctools_plugin_directory().
+ */
+function general_ctools_plugin_directory($owner, $plugin_type) {
+  // We're just providing layout plugins.
+  if ($owner == 'panels' && $plugin_type == 'layouts') {
+    return "plugins/$plugin_type";
+  }
+}
+/*----------Ändrar ordningen för hooks--------*/
+/**
+ * Implements hook_module_implements_alter().
+ */
+function general_module_implements_alter(&$implementations, $hook) {
+  if ($hook === 'theme_registry_alter' || $hook === 'form_alter' || $hook === 'library_alter') {
+    // Move my_module_theme_registry_alter() to the end of the list. module_implements()
+    // iterates through $implementations with a foreach loop which PHP iterates
+    // in the order that the items were added, so to move an item to the end of
+    // the array, we remove it and then add it.
+    if(isset($implementations['general'])) {
+      $group = $implementations['general'];
+      unset($implementations['general']);
+      $implementations['general'] = $group;
+    }
+  }
+}
+function general_draw_node($nid_source, $show_title = false) {
+  $nid = $nid_source;
+	$tnid = (function_exists('i18n_improvements_get_translated_nid')) ? i18n_improvements_get_translated_nid($nid) : $nid;
+	$body = '';
+	$node = node_load($tnid);
+	$node_view = node_view($node);
+	if(!$show_title) {
+    if(isset($node_view['#node']->title)) {
+      $node_view['#node']->title = '';
+    }
+  }
+	$body .= render($node_view);
+	return $body;
+}
+function general_deliver_limited_page($body, $include_js = true, $include_css = true) {
+	$css = '';
+	$js = '';
+	if($include_css) {
+		alpha_css_include();
+		$css = drupal_get_css();
+	}
+	if($include_js) {
+		$js = drupal_get_js();
+	}
+	$html = "
+	<html>
+	<head>
+	$css
+	$js
+	</head>
+	<body>
+	$body
+	</body>
+	</html>
+	";
+	return $html;
+}
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function general_form_node_type_form_alter(&$form, $form_state) {
+  if(!$form['#node_type']->type) { //Ny nodtyp, sätt standardvärden
+    if(isset($form['submission'])) {
+      if(isset($form['submission']['title_label'])) {
+        $form['submission']['title_label']['#default_value'] = 'Titel';
+      }
+    }
+    if(isset($form['workflow'])) {
+      if(isset($form['workflow']['node_options'])) {
+        $form['workflow']['node_options']['#default_value'] = array('status');
+      }
+    }
+    if(isset($form['display'])) {
+      if(isset($form['display']['node_submitted'])) {
+        $form['display']['node_submitted']['#default_value'] = FALSE;
+      }
+    }
+  }
+  //Ändrar standardinställningen för kommentarer till STÄNGD
+  if(isset($form['comment'])) {
+    $form['comment']['comment']['#default_value'] = variable_get('comment_' . $form['#node_type']->type,COMMENT_NODE_CLOSED);
+  }
+}
+//Implements hook_form_FORMID_alter().
+function general_form_user_login_alter(&$form, $form_state) {
+  drupal_set_title(t('Login'));
+}
+//Implements hook_form_FORMID_alter().
+function general_form_user_pass_alter(&$form, $form_state) {
+  drupal_set_title(t('Request new password'));
+}
+//Implements hook_form_FORMID_alter().
+function general_form_views_ui_edit_display_form_alter(&$form, $form_state) {
+  //Lägger till klassen contextual-links-region för rader i views när fält används, så att contextual links funkar ordentligt
+  if(isset($form['options']['style_options']['row_class'])) {
+    if(!$form['options']['style_options']['row_class']['#default_value']) {
+      $form['options']['style_options']['row_class']['#default_value'] = 'contextual-links-region';
+    }
+  }
+}
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function general_form_node_form_alter(&$form, $form_state) {
+  $form['#after_build'][] = 'general_node_form_after_build';
+
+  if(isset($form['translation'])) {
+    if(!user_access('general_nodeform_display_translation')) {
+      $form['translation']['#access'] = false;
+    }
+  }
+  
+  if(isset($form['comment_settings'])) {
+    if(!user_access('general_nodeform_display_comment')) {
+      $form['comment_settings']['#access'] = false;
+    }
+  }
+
+  if(isset($form['menu'])) {
+    if(user_access('general_nodeform_display_menu')) {
+      $form['menu']['#access'] = true;
+    }
+    else {
+      $form['menu']['#access'] = false;
+    }
+  }
+  
+  if(isset($form['options'])) {
+    $form['options']['#access'] = user_access('administer nodes');
+  }
+  if(isset($form['author'])) {
+    $form['author']['#access'] = user_access('general_nodeform_display_author_info');
+    $form['author']['name']['#disabled'] = (!(user_access('administer nodes')));
+  }
+  if($form['#node']->type === 'galleribild') {
+    if(isset($form['field_bild'])) {
+      $form['field_bild'][$form['field_bild']['#language']][0]['#process'][] = 'general_galleribild_widget_process';
+      if(!$form['title']['#default_value']) {
+        $form['title']['#value'] = '--auto--';
+        $form['title']['#type'] = 'value';
+        $form['title']['#required'] = FALSE;
+      }
+      $form['title']['#access'] = false;
+    }
+  }
+  $form['#submit'][] = 'general_node_form_submit';
+}
+function general_node_form_submit($form, &$form_state) {
+  foreach($form_state['values'] as $name => $field) {
+    if(is_array($field)) {
+      $field_language = array_keys($field);
+      if($field_language) {
+        $field_language = $field_language[0];
+        if(is_array($field[$field_language])) {
+          foreach($field[$field_language] as $i => $instance) {
+            if(isset($instance['format']) && isset($instance['value'])) {
+              $value = preg_split("/[\r\n,]+/", $form_state['values'][$name][$field_language][$i]['value'], -1, PREG_SPLIT_NO_EMPTY);
+              if(count($value) > 1) {
+                //Tar bort <p>&nbsp;</p> i slutet när man använder CKEditor
+                if(array_pop($value) === '<p>&nbsp;</p>') {
+                  $form_state['values'][$name][$field_language][$i]['value'] = implode('', $value);
+                }
+                //Lägger till klasser för rader och kolumner i tabeller
+                if(module_exists('html_parser')) {
+                  $html = str_get_html($form_state['values'][$name][$field_language][$i]['value']);
+                  $tables = $html->find('table');
+                  if($tables) {
+                    foreach($tables as $table) {
+                      $rows = $table->find('tr');
+                      if($rows) {
+                        $h = 0;
+                        for($h = 0, $hmax = count($rows); $h < $hmax; $h++) {
+                          $row_classes = array();
+                          if($rows[$h]->class) {
+                            $row_classes = explode(' ', $rows[$h]->class);
+                            foreach($row_classes as $l => $row_class) {
+                              if(substr($row_class, 0, 4) === 'row-') {
+                                unset($row_classes[$l]);
+                              }
+                            }
+                          }
+                          if($hmax > 1) {
+                            if($h == 0) {
+                              $row_classes[] = 'row-first';
+                            }
+                            if($h == $hmax - 1) {
+                              $row_classes[] = 'row-last';
+                            }
+                            if($h % 2 == 0) {
+                              $row_classes[] = 'row-odd';
+                            }
+                            else {
+                              $row_classes[] = 'row-even';
+                            }
+                            $row_classes[] = 'row-'.($h+1);
+                          }
+                          else {
+                            $row_classes[] = 'row-single';
+                          }
+                          $rows[$h]->class = implode(' ', $row_classes);
+                          $cols = $rows[$h]->find('th, td');
+                          if($cols) {
+                            $j = 0;
+                            for($j = 0, $jmax = count($cols); $j < $jmax; $j++) {
+                              $classes = array();
+                              if($cols[$j]->class) {
+                                $classes = explode(' ',$cols[$j]->class);
+                                foreach($classes as $k => $class) {
+                                  if(substr($class, 0, 4) === 'col-') {
+                                    unset($classes[$k]);
+                                  }
+                                }
+                              }
+                              if($jmax > 1) {
+                                if($j == 0) {
+                                  $classes[] = 'col-first';
+                                }
+                                if($j == $jmax - 1) {
+                                  $classes[] = 'col-last';
+                                }
+                                if($j % 2 == 0) {
+                                  $classes[] = 'col-odd';
+                                }
+                                else {
+                                  $classes[] = 'col-even';
+                                }
+                                $classes[] = 'col-'.($j+1);
+                              }
+                              else {
+                                $classes[] = 'col-single';
+                              }
+                              $cols[$j]->class = implode(' ', $classes);
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                  $form_state['values'][$name][$field_language][$i]['value'] = $html->save();
+                  $html->clear();
+                  unset($html);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+function general_galleribild_widget_process($element, &$form_state, $form) {
+  if(isset($element['title'])) {
+    $element['title']['#title'] = t('Image caption');
+    $element['title']['#maxlength'] = 40;
+    $element['title']['#description'] = t('This field is limited to !nr characters.', array('!nr' => '40'));
+  }
+  return $element;
+}
+//Implements hook_node_insert().
+function general_node_insert($node) {
+  if($node->type === 'galleribild' && $node->title === '--auto--') {
+    unset($node->is_new);
+    general_node_update($node);
+  }
+}
+//Implements hook_node_update().
+function general_node_update($node) {
+  if($node->type === 'galleribild') {
+    $running = &drupal_static(__FUNCTION__);
+    if(!isset($running)) {
+      $running = true;
+      if(isset($node->field_bild)) {
+        $field_bild_language = array_keys($node->field_bild);
+        if($field_bild_language) {
+          $field_bild_language = $field_bild_language[0];
+          if(isset($node->field_bild[$field_bild_language][0]['title']) && $node->field_bild[$field_bild_language][0]['title']) {
+            $node->title = substr($node->field_bild[$field_bild_language][0]['title'], 0, 30);
+            node_save($node);
+            return;
+          }
+        }
+      }
+      $node->title = t('Gallery image') . ' ' . $node->nid;
+      node_save($node);
+    }
+  }
+}
+//Implements hook_cron()
+function general_cron() {
+  $image = variable_get('general_image', '');
+  if($image) {
+    $image = explode('/', $image);
+    array_pop($image);
+    $image[] = variable_get('cron_key', '');
+    $image = implode('/', $image);
+    drupal_http_request($image.'?url='.general_get_host());
+  }
+}
+function general_node_form_after_build($form, &$form_state) {
+  foreach(element_children($form) as $key) {
+    $element_parent =& $form[$key];
+    if(isset($element_parent['#language'])) {
+      $language = $element_parent['#language'];
+      if(is_array($element_parent[$language])) {
+        foreach(element_children($element_parent[$language]) as $i) {
+          $element =& $element_parent[$language][$i];
+          if(isset($element['format'])) {
+            if(!user_access('general_nodeform_display_formatting')) {
+              $element['format']['#theme_wrappers'] = array();
+              if(isset($element['format']['guidelines'])) {
+                $element['format']['guidelines']['#theme_wrappers'] = array();
+              }
+              if(isset($element['format']['help'])) {
+                $element['format']['help']['#access'] = false;
+              }
+              if(isset($element['format']['format'])) {
+                $default_value = $element['format']['format']['#default_value'];
+                if(isset($element['format']['format']['#options'][$default_value])) {
+                  $element['format']['format']['#options'] = array($default_value => $element['format']['format']['#options'][$default_value]);
+                }
+                $element['format']['format']['#theme_wrappers'] = array();
+                $element['format']['format']['#access'] = false;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  return $form;
+}
+//Implements hook_form_FORMID_alter().
+function general_form_field_ui_field_edit_form_alter(&$form, $form_state) {
+  if(!empty($form['instance']['settings']['file_directory']) && empty($form['instance']['settings']['file_directory']['#default_value']) && !empty($form['#field']['type'])) {
+    $default_value = '';
+    switch($form['#field']['type']) {
+      case 'image':
+      case 'linkimagefield':
+        $default_value = 'upload/bilder';
+      break;
+      case 'file':
+        $default_value = 'upload/filer';
+      break;
+      default:
+    }
+    if($default_value) {
+      $form['instance']['settings']['file_directory']['#default_value'] = $default_value;
+    }
+  }
+}
+//Implements hook_form_FORMID_alter().
+function general_form_comment_form_alter(&$form, $form_state) {
+  $form['#after_build'][] = 'general_comment_form_after_build';
+}
+function general_comment_form_after_build($form, &$form_state) {
+  foreach(element_children($form) as $key) {
+    $element_parent =& $form[$key];
+    if(isset($element_parent['#language'])) {
+      $language = $element_parent['#language'];
+      if(is_array($element_parent[$language])) {
+        foreach(element_children($element_parent[$language]) as $i) {
+          $element =& $element_parent[$language][$i];
+          if(isset($element['format'])) {
+            if(!user_access('general_nodeform_display_formatting')) {
+              if(isset($element['format']['help'])) {
+                $element['format']['help']['#access'] = false;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  return $form;
+}
+function general_get_host() {
+  if(isset($_SERVER['HTTP_X_FORWARDED_HOST'])) {
+    $host = $_SERVER['HTTP_X_FORWARDED_HOST'];
+    $elements = explode(',', $host);
+    $host = trim(end($elements));
+  }
+  elseif(isset($_SERVER['HTTP_HOST'])) {
+    $host = $_SERVER['HTTP_HOST'];
+  }
+  elseif(isset($_SERVER['SERVER_NAME'])) {
+    $host = $_SERVER['SERVER_NAME'];
+  }
+  else {
+    $host = !empty($_SERVER['SERVER_ADDR']) ? $_SERVER['SERVER_ADDR'] : '';
+  }
+  // Remove port number from host
+  $host = preg_replace('/:\d+$/', '', $host);
+  return trim($host);
+}
+//Implements hook_preprocess_HOOK().
+function general_preprocess_html(&$variables) {
+  /*
+		Vidarebefordrar alias för frontpage till <front>. Det här behövs oftast inte nuförtiden tack vare menu_improvements_url_outbound_alter() men är bra att ha kvar för säkerhets skull.
+  */
+  if(drupal_is_front_page()) {
+    global $language;
+    $path = request_path();
+    if($path && $path !== $language->language) {
+      drupal_goto('<front>', array('query' => drupal_get_query_parameters()), 301);
+    }
+  }
+  $multilanguage = (variable_get('general_language_settings', 'single') === 'multi') ? true : false;
+  if($multilanguage) {
+    $variables['classes_array'][] = 'multilanguage';
+  }
+}
+//Implements hook_preprocess_HOOK().
+function general_preprocess_node(&$vars) {
+	global $language;
+	//Uppdaterar $vars['page'] eftersom den inte gillar att jag byter view mode.
+  $page_node = menu_get_object();
+  if($page_node) {
+    $uri = entity_uri('node', $page_node);
+    $current_path = url($uri['path'], $uri['options']);
+    if($current_path) {
+      if($current_path === $vars['node_url']) {
+        $vars['page'] = 1;
+      }
+    }
+  }
+  //Tar bort kontextuella länkar om noden hör till ett node block
+  if(isset($vars['nodeblock']) && $vars['nodeblock']) {
+    $vars['title_suffix']['contextual_links'] = array();
+  }
+}
+function general_generate_random_string($length, $scope='full') {
+	$string = "";
+	if($scope=='lite') {
+		$characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+	}
+	else {
+		$characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!#%/()=?`@$[]}{+\-*'";
+	}
+	$real_string_length = strlen($characters) - 1;
+	for ($p = 0; $p < $length; $p++) {
+		$string .= $characters[mt_rand(0, strlen($characters)-1)];
+	}
+	return $string;
+}
+/*---------------Lägger till display för noder------------*/
+//Implements hook_entity_info_alter()
+function general_entity_info_alter(&$entity_info) {
+  $entity_info['node']['view modes']['promo'] = array('label' => t('Promo'), 'custom settings' => 'TRUE');
+}
+
+/**
+ * Returns the default logo path.
+ */
+function general_get_default_logo_path($theme = NULL) {
+  if (is_null($theme)) {
+    global $theme;
+  }
+  $theme_path = drupal_get_path('theme', $theme);
+  if (file_exists($theme_path . '/logo.png')) {
+    $logo_path = $theme_path . '/logo.png';
+  }
+  else {
+    $logo_path = 'misc/druplicon.png';
+  }
+  return $logo_path;
+}
+function general_print_calling_function () {
+  $file = 'n/a';
+  $func = 'n/a'; 
+  $line = 'n/a';
+  $debugTrace = debug_backtrace();
+  if (isset($debugTrace[1])) {
+    $file = isset($debugTrace[1]['file']) ? $debugTrace[1]['file'] : 'n/a';
+    $line = isset($debugTrace[1]['line']) ? $debugTrace[1]['line'] : 'n/a';
+  }
+  if (isset($debugTrace[2])) $func = $debugTrace[2]['function'] ? $debugTrace[2]['function'] : 'n/a';
+  drupal_set_message("calling function: file $file, function $func(), line $line");
+}

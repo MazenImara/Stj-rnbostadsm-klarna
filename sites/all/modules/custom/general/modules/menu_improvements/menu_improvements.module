@@ -1,0 +1,697 @@
+<?php
+//Implements hook_menu_alter().
+function menu_improvements_menu_alter(&$items) {
+  if(isset($items['admin/structure/menu/manage/%menu'])) {
+    $items['admin/structure/menu/manage/%menu']['page arguments'] = array('menu_improvements_menu_overview_form', 4);
+    $items['admin/structure/menu/manage/%menu']['file'] = 'menu_improvements.admin.inc';
+    $items['admin/structure/menu/manage/%menu']['file path'] = drupal_get_path('module', 'menu_improvements');
+  }
+  $menu_array = array(
+    'admin/structure/menu/manage/%menu',
+    'admin/structure/menu/manage/%menu/add',
+    'admin/structure/menu/manage/%menu/edit',
+    'admin/structure/menu/manage/%menu/delete',
+  );
+  $menu_items_array = array(
+    'admin/structure/menu/item/%menu_link/edit',
+    'admin/structure/menu/item/%menu_link/reset',
+    'admin/structure/menu/item/%menu_link/delete',
+  );
+  foreach($menu_array as $value) {
+    if(isset($items[$value])) {
+      $items[$value]['access callback'] = 'menu_improvements_access';
+      $items[$value]['access arguments'] = array(4);
+    }
+  }
+  foreach($menu_items_array as $value) {
+    if(isset($items[$value])) {
+      $items[$value]['access callback'] = 'menu_improvements_item_access';
+      $items[$value]['access arguments'] = array(4);
+    }
+  }
+}
+function menu_improvements_access($menu) {
+  if(isset($menu['menu_name'])) {
+    return user_access('administer '.$menu['menu_name'].' menu items');
+  }
+  return false;
+}
+function menu_improvements_item_access($menu_item) {
+  if(isset($menu_item['menu_name'])) {
+    return user_access('administer '.$menu_item['menu_name'].' menu items');
+  }
+  return false;
+}
+/**
+ * Implements hook_theme().
+ */
+function menu_improvements_theme() {
+  return array(
+    'menu_improvements_menu_overview_form' => array(
+      'file' => 'menu_improvements.admin.inc',
+      'render element' => 'form',
+    ),
+    'menu_improvements_current_links' => array(
+    	'file' => 'menu_improvements.theme.inc',
+      'render element' => 'element',
+    ),
+  );
+}
+/**
+ * Implements hook_permission().
+ */
+function menu_improvements_permission() {
+  $perms = array(
+    'menu_improvements_add_custom_link' => array(
+      'title' => t('Display "Add link" action link on menu forms'),
+    ),
+    'menu_improvements_link_display_options' => array(
+      'title' => t('Display advanced options on menu link forms'),
+    ),
+  );
+  $menus = menu_get_menus();
+  foreach ($menus as $name => $title) {
+    $perms['administer '. $name .' menu items'] = array('title' => t('Administer %menu menu items', array('%menu' => $title)));
+  }
+  return $perms;
+}
+
+/**
+ * Implements hook_node_insert().
+ */
+function menu_improvements_node_insert($node) {
+	module_load_include('inc', 'menu_improvements', 'menu_improvements.node');
+  menu_improvements_save($node);
+}
+/**
+ * Implements hook_node_update().
+ */
+function menu_improvements_node_update($node) {
+	module_load_include('inc', 'menu_improvements', 'menu_improvements.node');
+  menu_improvements_save($node);
+}
+
+/**
+ * Implements hook_node_prepare().
+ */
+function menu_improvements_node_prepare($node) {
+  if (empty($node->menu_improvements_links) && !empty($node->nid)) {
+		module_load_include('inc', 'menu_improvements', 'menu_improvements.node');
+    $node->menu_improvements_links = _menu_improvements_load($node);
+  }
+
+  if (empty($node->menu_improvements_links)) {
+    $node->menu_improvements_links = array();
+  }
+
+  // Initialize array that holds deleted items.
+  if (empty($node->menu_improvements_links_deleted)) {
+    $node->menu_improvements_links_deleted = array();
+  }
+}
+//Gömmer "Add link" på menu forms om man inte har behörigheten
+//Implements hook_menu_local_tasks_alter()
+function menu_improvements_menu_local_tasks_alter(&$data, $router_item, $root_path) {
+  if($root_path==='admin/structure/menu/manage/%') {
+    if(!user_access('menu_improvements_add_custom_link')) {
+      foreach($data['actions']['output'] as $i => $action) {
+        if($action['#link']['path']==='admin/structure/menu/manage/%/add') {
+          unset($data['actions']['output'][$i]);
+          break;
+        }
+      }
+    }
+  }
+}
+/*----------Ändrar ordningen för hooks--------*/
+/**
+ * Implements hook_module_implements_alter().
+ */
+function menu_improvements_module_implements_alter(&$implementations, $hook) {
+  if ($hook == 'form_alter') {
+    // Move my_module_theme_registry_alter() to the end of the list. module_implements()
+    // iterates through $implementations with a foreach loop which PHP iterates
+    // in the order that the items were added, so to move an item to the end of
+    // the array, we remove it and then add it.
+    if(isset($implementations['menu_improvements'])) {
+      $group = $implementations['menu_improvements'];
+      unset($implementations['menu_improvements']);
+      $implementations['menu_improvements'] = $group;
+    }
+  }
+  elseif(in_array($hook, array('node_insert', 'node_update', 'node_prepare', 'form_node_form_alter', 'node_submit'))) {
+		//Prevent Menu module from adding a menu link form to node forms.
+    unset($implementations['menu']);
+  }
+}
+//Implements hook_form_alter().
+function menu_improvements_form_alter(&$form, $form_state, $form_id) {
+  if($form_id === 'menu_edit_menu') {
+    if($form['#insert']) {
+      if(isset($form['i18n_translation'])) {
+        $form['i18n_translation']['i18n_mode']['#default_value'] = 5;
+      }
+    }
+  }
+}
+//Implements hook_form_FORMID_alter().
+function menu_improvements_form_menu_edit_item_alter(&$form, $form_state) {
+  $form['#attached']['css'][] = drupal_get_path('module', 'menu_improvements').'/css/menu_improvements_link.css';
+  global $language;
+  $link_language = $language->language;
+  
+  $multilanguage = (variable_get('general_language_settings', 'single') === 'multi') ? true : false;
+  if($multilanguage) {
+    if(isset($_GET['target'])) {
+      $link_language = check_plain($_GET['target']);
+      if(isset($form['i18n'])) {
+        $form['i18n']['#disabled'] = true;
+      }
+    }
+    elseif(isset($_GET['lang'])) {
+      $link_language = check_plain($_GET['lang']);
+      if(isset($form['i18n'])) {
+        $form['i18n']['#disabled'] = true;
+      }
+    }
+    if(isset($form['link_title'])) {
+      $form['link_title']['#weight'] = -50;
+    }
+    if(isset($form['link_path'])) {
+      $form['link_path']['#weight'] = -49;
+    }
+    if(isset($form['i18n'])) {
+      $form['i18n']['#weight'] = -48;
+    }
+    if(isset($form['language'])) {
+      $form['language']['#weight'] = -48;
+    }
+  }
+  if(isset($form['i18n']) && isset($form['i18n']['language'])) {
+    if($form['i18n']['language']['#default_value'] === LANGUAGE_NONE) {
+      $form['i18n']['language']['#default_value'] = $link_language;
+    }
+    unset($form['i18n']['language']['#options'][LANGUAGE_NONE]);
+  }
+
+  $menu_name = '';
+  if(isset($form['original_item'])) {
+    $menu_name = $form['original_item']['#value']['menu_name'];
+  }
+  $elements = array(
+    'expanded',
+    'xmlsitemap',
+    'options--id',
+    'options--name',
+    'options--class',
+    'options--style',
+    'options--accesskey',
+  );
+  $permission = user_access('menu_improvements_link_display_options');
+  foreach($elements as $element) {
+    $element = explode('--', $element);
+    if($element[0] !== 'options') {
+      $element = $element[0];
+      if(isset($form[$element])) {
+        $form[$element]['#access'] = $permission;
+      }
+    }
+  }
+  foreach($elements as $element) {
+    $element = explode('--', $element);
+    if($element[0] === 'options') {
+      $element = $element[1];
+      if(isset($form['options']['attributes'][$element])) {
+        $form['options']['attributes'][$element]['#access'] = $permission;
+      }
+    }
+  }
+
+  //Inaktivera parentalternativ om det är en översättning som håller på att skapas
+  if(isset($_GET['translation'])) {
+    if(isset($form['parent'])) {
+      $form['parent']['#disabled'] = true;
+    }
+  }
+  //Fix för bristfällig filtrering av parents
+  if(isset($form['parent'])) {
+    $link = $form['original_item']['#'.$form['original_item']['#type']];
+    $returned_values = menu_improvements_menu_parent_options(menu_get_menus(), $link, '', $link_language);
+    $options = $returned_values['options'];
+    $sorted_tree = $returned_values['sorted_tree'];
+    $form['parent']['#options'] = $options;
+
+    //Uppdatera automatiskt möjliga parentalternativ beroende på vilket språk man väljer
+    $form['#attached']['js'][] = drupal_get_path('module', 'menu_improvements').'/js/menu_improvements_menu_link_form.js';
+    $mlids = array();
+    $translations = array('tsid' => array(), 'tnid' => array());
+    $hierarchy = array();
+    $flatlist = array();
+    foreach(element_children($sorted_tree) as $lang) {
+      $temp = menu_improvements_sort_out_links_recursive($sorted_tree[$lang]);
+      foreach(element_children($temp['translations']['tsid']) as $tsid) {
+        foreach($temp['translations']['tsid'][$tsid] as $link_lang => $mlid) {
+          if(!isset($translations['tsid'][$tsid])) $translations['tsid'][$tsid] = array();
+          $translations['tsid'][$tsid][$link_lang] = $mlid;
+        }
+      }
+      /*
+      foreach(element_children($temp['translations']['tnid']) as $tnid) {
+        foreach($temp['translations']['tnid'][$tnid] as $link_lang => $mlid) {
+          if(!isset($translations['tnid'][$tnid])) $translations['tnid'][$tnid] = array();
+          $translations['tnid'][$tnid][$link_lang] = $mlid;
+        }
+      }
+      */
+      foreach(element_children($temp['hierarchy']) as $link_lang) {
+        foreach(element_children($temp['hierarchy'][$link_lang]) as $plid) {
+          if(!isset($hierarchy[$link_lang])) $hierarchy[$link_lang] = array();
+          if(!isset($hierarchy[$link_lang][$plid])) $hierarchy[$link_lang][$plid] = array();
+          $hierarchy[$link_lang][$plid] = array_merge($hierarchy[$link_lang][$plid], $temp['hierarchy'][$link_lang][$plid]);
+        }
+      }
+      foreach(element_children($temp['flatlist']) as $link_lang) {
+        if(!isset($flatlist[$link_lang])) $flatlist[$link_lang] = array();
+        $flatlist[$link_lang] += $temp['flatlist'][$link_lang];
+      }
+    }
+    $form['#attached']['js'][] = array(
+      'data' => array('menu_improvements_translations' => $translations),
+      'type' => 'setting',
+    );
+    $form['#attached']['js'][] = array(
+      'data' => array('menu_improvements_hierarchy' => $hierarchy),
+      'type' => 'setting',
+    );
+    $form['#attached']['js'][] = array(
+      'data' => array('menu_improvements_flatlist' => $flatlist),
+      'type' => 'setting',
+    );
+  }
+  //Sätt parentalternativ om det är tillhandahållet och finns i listan
+  if(isset($_GET['plid'])) {
+    if(isset($form['parent'])) {
+      $plid = check_plain($_GET['plid']);
+      $options = $form['parent']['#options'];
+      $name_length = strlen($menu_name);
+      foreach($options as $key => $value) {
+        if(substr($key, 0, $name_length) === $menu_name) {
+          if(substr($key, $name_length + 1) === $plid) {
+            $form['parent']['#default_value'] = $key;
+            break;
+          }
+        }
+      }
+    }
+  }
+  //Sätt vikten om det är tillhandahållet
+  if(isset($_GET['weight'])) {
+    if(isset($form['weight'])) {
+      $form['weight']['#default_value'] = check_plain($_GET['weight']);
+      $form['weight']['#disabled'] = true;
+    }
+  }
+
+  $form['#submit'] = array_merge(array('menu_improvements_menu_edit_item_submit'), $form['#submit']);
+  if(isset($form['actions']['delete'])) {
+    $form['actions']['delete']['#submit'][] = 'menu_improvements_form_menu_edit_item_delete_submit';
+  }
+}
+function menu_improvements_form_menu_edit_item_delete_submit($form, &$form_state) {
+  $destination = array();
+  if (isset($_GET['destination'])) {
+    $destination = drupal_get_destination();
+    unset($_GET['destination']);
+  }
+  $form_state['redirect'] = array('admin/structure/menu/item/' . $form_state['values']['mlid'] . '/delete', array('query' => $destination));
+}
+function menu_improvements_menu_edit_item_submit($form, &$form_state) {
+  //Jag lämnar kvar den här funktionen ifall jag skulle behöva den i framtiden
+}
+//Implements hook_form_FORMID_alter().
+function menu_improvements_form_general_admin_finetune_form_alter(&$form, $form_state) {
+  $form['menu_improvements_sync_order'] = array(
+    '#title' => t('Synchronize menu item order between translations'),
+    '#type' => 'checkbox',
+    '#default_value' => variable_get('menu_improvements_sync_order', false),
+  );
+  $form['menu_improvements_sync_status'] = array(
+    '#title' => t('Synchronize menu item status between translations'),
+    '#type' => 'checkbox',
+    '#default_value' => variable_get('menu_improvements_sync_status', false),
+  );
+}
+/*----------Fix för bristfällig filtrering av menylänkar i node form http://drupal.org/node/1850766-------------*/
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function menu_improvements_form_node_form_alter(&$form, $form_state) {
+	module_load_include('inc', 'menu_improvements', 'menu_improvements.node');
+	menu_improvements_node_form_alter_callback($form, $form_state);
+}
+/**
+ * Submit handler for 'Add menu link' button.
+ */
+function menu_improvements_add_link_submit($form, &$form_state, $rebuild = true) {
+
+  $values = &$form_state['values']['menu_improvements']['add_link'];
+  if (!empty($values['link_title'])) {
+		module_load_include('inc', 'menu_improvements', 'menu_improvements.node');
+    $node = &$form_state['node'];
+
+    // Decompose parent into 'menu_name' and 'plid'.
+    if (!empty($values['parent'])) {
+      list($values['menu_name'], $values['plid']) = explode(':', $values['parent']);
+    }
+
+    // Append new added link to node object.
+    _menu_improvements_set_defaults($node, $values);
+    $node->menu_improvements_links[] = $values;
+
+    // Cause the form to rebuild so the new items show up.
+    if($rebuild) {
+			$form_state['rebuild'] = TRUE;
+		}
+  }
+}
+/**
+ * Submit handler for "remove" button.
+ */
+function menu_improvements_remove_link_submit($form, &$form_state) {
+  $values = &$form_state['values'];
+  $node = &$form_state['node'];
+
+  $delta = key($values['menu_improvements']['current_links']);
+
+  $link = $node->menu_improvements_links[$delta];
+
+  // Set link to be deleted from database.
+  if (!empty($link['mlid'])) {
+    $node->menu_improvements_links_deleted[] = $link['mlid'];
+  }
+
+  // Unset the item so it get removed from the form.
+  unset($node->menu_improvements_links[$delta]);
+
+  // Cause the form to rebuild so the item is removed from the list.
+  $form_state['rebuild'] = TRUE;
+}
+/**
+ * Implements hook_node_submit().
+ *
+ * @see menu_improvements_form_node_form_alter()
+ */
+function menu_improvements_node_submit($node, $form, &$form_state) {
+  // Include 'Add new menu link' form values if it was set.
+  module_load_include('inc', 'menu_improvements', 'menu_improvements.node');
+  menu_improvements_add_link_submit($form, $form_state, false);
+  $values = $form_state['values']['menu_improvements'];
+  if (!empty($values['current_links'])) {
+    foreach ($values['current_links'] as $delta => $link) {
+      if (!empty($link['parent'])) {
+        // Decompose the selected menu parent option into 'menu_name' and 'plid',
+        // if the form used the default parent selection widget.
+        list($link['menu_name'], $link['plid']) = explode(':', $link['parent']);
+      }
+      // Update all links to node object.
+      $node->menu_improvements_links[$delta] = $link;
+    }
+  }
+}
+/**
+ * Ajax callback for multiple menu link forms.
+ */
+function menu_improvements_ajax_callback($form, $form_state) {
+  // Clear fields for link specific values. The other fields will default to
+  // previous entered values. 
+  $form['menu_improvements']['link']['add_link']['link_title']['#value'] = '';
+  $form['menu_improvements']['link']['add_link']['description']['#value'] = '';
+
+  return $form['menu_improvements']['link'];
+}
+function menu_improvements_menu_parent_options($menus, $item, $type = '') {
+  // The menu_links table can be practically any size and we need a way to
+  // allow contrib modules to provide more scalable pattern choosers.
+  // hook_form_alter is too late in itself because all the possible parents are
+  // retrieved here, unless menu_override_parent_selector is set to TRUE.
+  if (variable_get('menu_override_parent_selector', FALSE)) {
+    return array();
+  }
+
+  $available_menus = array();
+  if (!is_array($item)) {
+    // If $item is not an array then it is a node type.
+    // Use it as $type and prepare a dummy menu item for _menu_get_options().
+    $type = $item;
+    $item = array('mlid' => 0);
+  }
+  if (empty($type)) {
+    // If no node type is set, use all menus given to this function.
+    $available_menus = $menus;
+  }
+  else {
+    // If a node type is set, use all available menus for this type.
+    $type_menus = variable_get('menu_options_' . $type, array('main-menu' => 'main-menu'));
+    foreach ($type_menus as $menu) {
+      $available_menus[$menu] = $menu;
+    }
+  }
+  return _menu_improvements_menu_get_options($menus, $available_menus, $item);
+}
+function _menu_improvements_menu_get_options($menus, $available_menus, $item) {
+  // If the item has children, there is an added limit to the depth of valid parents.
+  if (isset($item['parent_depth_limit'])) {
+    $limit = $item['parent_depth_limit'];
+  }
+  else {
+    $limit = _menu_parent_depth_limit($item);
+  }
+  $sorted_tree_total = array();
+  $options = array();
+  foreach ($menus as $menu_name => $title) {
+    if (isset($available_menus[$menu_name]) && user_access("administer $menu_name menu items")) {
+      $sorted_tree = menu_improvements_menu_tree_all_data($menu_name);
+      $tree = array();
+      foreach($sorted_tree as $lang => $links) {
+        if(!isset($sorted_tree_total[$lang])) $sorted_tree_total[$lang] = array();
+        $tree = array_merge($tree, $links);
+        $sorted_tree_total[$lang] = array_merge($sorted_tree_total[$lang], $links);
+      }
+      $options[$menu_name . ':0'] = '<' . $title . '>';
+      _menu_parents_recurse($tree, $menu_name, '--', $options, $item['mlid'], $limit);
+    }
+  }
+  return array('sorted_tree' => $sorted_tree_total, 'options' => $options);
+}
+function menu_improvements_menu_tree_all_data($menu_name) {
+  $sql = "
+    SELECT mn.nid, n.tnid, m.load_functions, m.to_arg_functions, m.access_callback, m.access_arguments, m.page_callback, m.page_arguments, m.delivery_callback, m.title, m.title_callback, m.title_arguments, m.type, m.description, ml.*
+    FROM {menu_links} ml 
+    LEFT JOIN {menu_router} m ON m.path = ml.router_path
+    LEFT JOIN {menu_node} mn ON ml.mlid = mn.mlid
+    LEFT JOIN {node} n ON mn.nid = n.nid
+    WHERE ml.menu_name = :menu
+    ORDER BY p1 ASC, p2 ASC, p3 ASC, p4 ASC, p5 ASC, p6 ASC, p7 ASC, p8 ASC, p9 ASC";
+  $result = db_query($sql, array(':menu' => $menu_name), array('fetch' => PDO::FETCH_ASSOC));
+  $all_links = array();
+  foreach ($result as $item) {
+    $all_links[$item['language']][] = $item;
+  }
+  $formatted_links = array();
+  foreach($all_links as $lang => $links) {
+    $tree = menu_tree_data($links);
+    $node_links = array();
+    menu_tree_collect_node_links($tree, $node_links);
+    // We indicate that a menu administrator is running the menu access check.
+    $menu_admin = TRUE;
+    menu_improvements_menu_tree_check_access($tree, $node_links);
+    $formatted_links[$lang] = $tree;
+  }
+  return $formatted_links;
+}
+function menu_improvements_menu_tree_check_access(&$tree, $node_links = array()) {
+  if ($node_links) {
+    $dead_nodes = variable_get('general_dead_nodes', array());
+    $nids = array_keys($node_links);
+    $nids = array_diff($nids, $dead_nodes);
+    if($nids) {
+      $select = db_select('node', 'n');
+      $select->addField('n', 'nid');
+      $select->condition('n.nid', $nids, 'IN');
+      //$select->addTag('node_access');
+      $nids = $select->execute()->fetchCol();
+      foreach ($nids as $nid) {
+        foreach ($node_links[$nid] as $mlid => $link) {
+          $node_links[$nid][$mlid]['access'] = TRUE;
+        }
+      }
+    }
+  }
+  _menu_tree_check_access($tree);
+}
+function menu_improvements_sort_out_links_recursive($parent_level) {
+  $translations = array('tsid' => array(), 'tnid' => array());
+  $hierarchy = array();
+  $flatlist = array();
+  foreach($parent_level as $key => $data) {
+    $link = $data['link'];
+    $mlid = $link['mlid'];
+    $plid = $link['plid'];
+    $lang = $link['language'];
+    /*
+    if(isset($link['nid'])) { //nod
+      $tnid = $link['tnid'];
+      if(!isset($translations['tnid'][$tnid])) $translations['tnid'][$tnid] = array();
+      $translations['tnid'][$tnid][$lang] = $mlid;
+    }
+    else { //Menylänk
+    */
+      $tsid = $link['i18n_tsid'];
+      if($tsid > 0) {
+        if(!isset($translations['tsid'][$tsid])) $translations['tsid'][$tsid] = array();
+        $translations['tsid'][$tsid][$lang] = $mlid;
+      }
+    //}
+    if(!isset($hierarchy[$lang])) $hierarchy[$lang] = array();
+    if(!isset($hierarchy[$lang][$plid])) $hierarchy[$lang][$plid] = array();
+    $hierarchy[$lang][$plid][] = $mlid;
+    
+    if(!isset($flatlist[$lang])) $flatlist[$lang] = array();
+    $flatlist[$lang][$mlid] = null;
+
+    if($data['below']) {
+      $temp = menu_improvements_sort_out_links_recursive($data['below']);
+      foreach(element_children($temp['translations']['tsid']) as $tsid) {
+        foreach($temp['translations']['tsid'][$tsid] as $link_lang => $mlid) {
+          if(!isset($translations['tsid'][$tsid])) $translations['tsid'][$tsid] = array();
+          $translations['tsid'][$tsid][$link_lang] = $mlid;
+        }
+      }
+      /*
+      foreach(element_children($temp['translations']['tnid']) as $tnid) {
+        foreach($temp['translations']['tnid'][$tnid] as $link_lang => $mlid) {
+          if(!isset($translations['tnid'][$tnid])) $translations['tnid'][$tnid] = array();
+          $translations['tnid'][$tnid][$link_lang] = $mlid;
+        }
+      }
+      */
+      foreach(element_children($temp['hierarchy']) as $link_lang) {
+        foreach(element_children($temp['hierarchy'][$link_lang]) as $plid) {
+          if(!isset($hierarchy[$link_lang])) $hierarchy[$link_lang] = array();
+          if(!isset($hierarchy[$link_lang][$plid])) $hierarchy[$link_lang][$plid] = array();
+          $hierarchy[$link_lang][$plid] = array_merge($hierarchy[$link_lang][$plid], $temp['hierarchy'][$link_lang][$plid]);
+        }
+      }
+      foreach(element_children($temp['flatlist']) as $link_lang) {
+        if(!isset($flatlist[$link_lang])) $flatlist[$link_lang] = array();
+        $flatlist[$link_lang] += $temp['flatlist'][$link_lang];
+      }
+    }
+  }
+  return array('hierarchy' => $hierarchy, 'translations' => $translations, 'flatlist' => $flatlist);
+}
+
+/**
+ * Implements hook_menu_link_alter().
+ */
+function menu_improvements_menu_link_alter(&$item) {
+  //Ändra språkneutral länk till det nuvarande språket
+  if(isset($item['language'])) {
+    if($item['language'] == LANGUAGE_NONE) {
+      global $language;
+      $item['language'] = $language->language;
+    }
+  }
+}
+/**
+ * Implements hook_url_outbound_alter().
+ * Ändrar alla adresser som hämtas via url() så att de som pekar på startsidan inte har med något alias eller liknande.
+ */
+function menu_improvements_url_outbound_alter(&$path, &$options, $original_path) {
+	$frontpage = variable_get('site_frontpage', '');
+	if($path === $frontpage) {
+		$path = '<front>';
+	}
+}
+/**
+ * Implements hook_menu_link_update().
+ */
+function menu_improvements_menu_link_update($item) {
+  //Uppdatera url alias
+  $node_source = menu_node_get_node($item['mlid']);
+  if($node_source) {
+    pathauto_improvements_update_url_aliases_for_nodes(array($node_source->nid));
+  }
+  //Synka länken mot översättningar
+  if(variable_get('menu_improvements_sync_order', false)) {
+    if(variable_get('general_language_settings', 'single')==='multi') { //Siten är flerspråkig
+      menu_improvements_sync_translations_order($item['menu_name'], $item['mlid'], $item['plid'], $item['weight'], $node_source);
+    }
+  }
+}
+function menu_improvements_sync_translations_order($menu_name, $mlid, $plid, $weight, $node_source = null) {
+  if(variable_get('menu_improvements_sync_order', false)) {
+    $translation_links = array();
+    //kolla om det finns översättningar för menylänken
+    $result = menu_improvements_get_link_translations($mlid);
+    foreach($result as $link) {
+      $translation_links[] = $link['mlid'];
+    }
+
+    //---------Hämta översättningar till parentlänkar
+    $parent_links = array();
+    if($plid==0) { //Toppnivå
+      $language_list = language_list();
+      foreach($language_list as $key => $lang) {
+        $parent_links[$key] = 0;
+      }
+    }
+    else { //Inte toppnivå = har parent
+      //Hämta översatta länkar till parentlänken
+      $links = menu_improvements_get_link_translations($plid);
+      if($links) {
+        //Det finns översättningar till länken
+        foreach($links as $link) {
+          $parent_links[$link['language']] = $link['mlid'];
+        }
+      }
+    }
+    //------------------------//
+    if($translation_links) {
+      foreach($translation_links as $mlid) {
+        $link = menu_link_load($mlid);
+        $link['menu_name'] = $menu_name;
+        $link['weight'] = $weight;
+        if($parent_links && isset($parent_links[$link['language']])) {
+          $link['plid'] = $parent_links[$link['language']];
+        }
+        menu_link_save($link);
+      }
+    }
+  }
+}
+/*
+* Hämtar översättningar för en menylänk som inte hör till en nod. Returnerar en array med länkar som är arrays med nycklarna 'mlid' och 'language'.
+*/
+function menu_improvements_get_link_translations($mlid, $menu_name = '') {
+  $translations = array();
+    $source_tsid = db_select('menu_links', 'ml')
+    ->fields('ml', array('i18n_tsid'))
+    ->condition('mlid', $mlid)
+    ->range(0, 1)
+    ->execute()
+    ->fetchField();
+  if($source_tsid) { //Menylänken är översatt
+    //Hämta översättningar
+    $result = db_select('menu_links', 'ml')
+      ->fields('ml', array('mlid', 'language'))
+      ->condition('i18n_tsid', $source_tsid)
+      ->condition('mlid', $mlid, '<>');
+    if($menu_name) $result->condition('menu_name', $menu_name);
+    $result = $result->execute();
+    while($record = $result->fetchAssoc()) {
+      $translations[] = $record;
+    }
+  }
+  return $translations;
+}

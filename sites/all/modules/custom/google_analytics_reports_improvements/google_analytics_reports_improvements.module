@@ -1,0 +1,9 @@
+<?php
+//Implements hook_menu_alter().
+function google_analytics_reports_improvements_menu_alter(&$items) {
+  if(isset($items['admin/reports/google-analytics'])) {
+    $items['admin/google-analytics-reports'] = $items['admin/reports/google-analytics'];
+    $items['admin/google-analytics-reports']['weight'] = 10;
+    unset($items['admin/reports/google-analytics']);
+  }
+}

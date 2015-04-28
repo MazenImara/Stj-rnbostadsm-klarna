@@ -1,0 +1,36 @@
+<?php
+
+/*------------Generella funktioner-------------*/
+//Implementation of hook_init()
+function general_admin_init() {
+  if(variable_get('general_thindoc_toggle', false)) {
+    drupal_add_js(drupal_get_path('module', 'general').'/js/thindoc.js', array('scope' => 'footer', 'every_page' => true));
+  }
+}
+//Implements hook_menu()
+function general_admin_menu() {
+  $items = array();
+  $items['admin/config/general'] = array(
+    'title' => 'General settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('general_admin_settings_form'),
+    'file' => 'general_admin.admin.inc',
+    'access arguments' => array('general_configure_settings'),
+  );
+  $items['admin/config/general/settings'] = array(
+    'title' => 'Settings',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => 0,
+  );
+  $items['admin/config/general/finetune'] = array(
+    'title' => 'Finetuning',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('general_admin_finetune_form'),
+    'file' => 'general_admin.admin.inc',
+    'access arguments' => array('general_configure_settings'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 1,
+  );
+
+  return $items;
+}

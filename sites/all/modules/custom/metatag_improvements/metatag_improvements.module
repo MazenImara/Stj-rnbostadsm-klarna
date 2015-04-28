@@ -1,0 +1,305 @@
+<?php
+//Implements hook_menu()
+function metatag_improvements_menu() {
+  $items = array();
+  $items['admin/structure/views/view/%views_ui_cache/edit/%/metatags'] = array(
+    'title' => 'Meta tags for view',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('metatag_improvements_views_metatags_form', 4, 6),
+    'access arguments' => array('edit meta tags'),
+    'file' => 'metatag_improvements.inc',
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+//Implements hook_menu_alter()
+function metatag_improvements_menu_alter(&$items) {
+  $items['admin/config/search/metatags']['file path'] = drupal_get_path('module', 'metatag_improvements');
+  $items['admin/config/search/metatags']['file'] = 'metatag_improvements.admin.inc';
+  $items['admin/config/search/metatags']['page callback'] = 'metatag_improvements_config_overview';
+}
+//Implements hook_form_BASE_FORM_ID_alter()
+function metatag_improvements_form_node_form_alter(&$form, $form_state) {
+  if(isset($form['metatags'])) {
+    $valid_type = false;
+    $node_type = $form['#node']->type;
+    $config = variable_get('metatag_improvements_allowed_types', false);
+    if(is_array($config)) {
+      if(isset($config[$node_type]) && $config[$node_type]) {
+        $valid_type = true;
+      }
+    }
+    if($valid_type) {
+      if(user_access('edit meta tags')) {
+        $default_metatags = metatag_config_load_with_defaults("node:$node_type");
+        $defaults['title'] = array(
+          'value' => $default_metatags['title']['value'],
+          'maxlength' => variable_get('metatag_improvements_title_maxlength', 65),
+        );
+        $defaults['description'] = array(
+          'value' => $default_metatags['description']['value'],
+          'maxlength' => variable_get('metatag_improvements_description_maxlength', 155),
+        );
+  
+        drupal_add_js(drupal_get_path('module', 'metatag_improvements').'/js/metatag_improvements.js');
+        $js = '
+          function metatag_improvements_get_defaults(type) {
+            switch(type) {';
+            foreach($defaults as $type => $fields) {
+              $js .= "
+              case '$type':
+                defaults = new Array();
+                defaults['value'] = '".$fields['value']."';
+                defaults['maxlength'] = '".$fields['maxlength']."';
+                return defaults;
+              break;
+              ";
+            }
+          $js .= '
+            }
+          }
+        ';
+        drupal_add_js($js, 'inline');
+        $form['#submit'][] = 'metatag_improvements_form_node_form_submit';
+        if(isset($form['metatags']['title'])) {
+          $form['metatags']['title']['value']['#maxlength'] = $defaults['title']['maxlength'];
+        }
+        if(isset($form['metatags']['description'])) {
+          $form['metatags']['description']['value']['#maxlength'] = $defaults['description']['maxlength'];
+        }
+      }
+    }
+    else {
+      $form['metatags']['#access'] = false;
+    }
+  }
+}
+function metatag_improvements_form_node_form_submit($form, &$form_state) {
+  foreach($form_state['values']['metatags'] as $name => &$metatag) {
+    $value = $metatag['value'];
+    if(!$value) {
+      $node_type = $form['#node']->type;
+      $defaults = metatag_config_load_with_defaults("node:$node_type");
+      $metatag = $defaults[$name];
+    }
+  }
+}
+//Implements hook_node_insert()
+function metatag_improvements_node_insert($node) {
+  $node_type = $node->type;
+  $config = variable_get('metatag_improvements_allowed_types', false);
+  $clear_cache = false;
+  if(is_array($config)) {
+    if(isset($config[$node_type]) && $config[$node_type]) {
+      $clear_cache = true;
+    }
+  }
+  if($clear_cache) {
+    if(function_exists('metatag_config_cache_clear')) {
+      metatag_config_cache_clear();
+    }
+  }
+}
+//Implements hook_node_update()
+function metatag_improvements_node_update($node) {
+  $node_type = $node->type;
+  $config = variable_get('metatag_improvements_allowed_types', false);
+  $clear_cache = false;
+  if(is_array($config)) {
+    if(isset($config[$node_type]) && $config[$node_type]) {
+      $clear_cache = true;
+    }
+  }
+  if($clear_cache) {
+    if(function_exists('metatag_config_cache_clear')) {
+      metatag_config_cache_clear();
+    }
+  }
+}
+//Implements hook_node_delete()
+function metatag_improvements_node_delete($node) {
+  $node_type = $node->type;
+  $config = variable_get('metatag_improvements_allowed_types', false);
+  $clear_cache = false;
+  if(is_array($config)) {
+    if(isset($config[$node_type]) && $config[$node_type]) {
+      $clear_cache = true;
+    }
+  }
+  if($clear_cache) {
+    if(function_exists('metatag_config_cache_clear')) {
+      metatag_config_cache_clear();
+    }
+  }
+}
+ /**
+ * Implements hook_token_info().
+ * Based on example from drupal.org/node/1308488.
+ */
+function metatag_improvements_token_info() {
+  $info['tokens']['node']['meta-description-summary'] = array(
+    'name' => t('Meta Description: Summary'),
+    'description' => t('The summary or body of a node trimmed to SEO-friendly size.'),
+  );
+  $info['tokens']['node']['meta-title-plus-site-name'] = array(
+    'name' => t('Meta Title plus Site Name'),
+    'description' => t('The title trimmed to SEO-friendly size plus the site name'),
+  );
+  $info['tokens']['node']['meta-description-field-text'] = array(
+    'name' => t('Meta Description: field_text'),
+    'description' => t('Custom field trimmed to fit Meta Description size.'),
+  );
+  return $info;
+}
+
+/**
+ * Implements hook_tokens().
+ * Based on example from drupal.org/node/1308488.
+ */
+function metatag_improvements_tokens($type, $tokens, array $data = array(), array $options = array()) {
+  $replacements = array();
+  $sanitize = !empty($options['sanitize']);
+  $maxlength['title'] = variable_get('metatag_improvements_title_maxlength', 65);
+  $maxlength['description'] = variable_get('metatag_improvements_description_maxlength', 155);
+
+  if ($type == 'node' && !empty($data['node'])) {
+    $node = $data['node'];
+    $body_field_items = field_get_items('node', $node, 'body');
+    foreach ($tokens as $name => $original) {
+      $trimmed_or_summary = '';
+      $split_name = explode(':', $name);
+      if ($split_name[0] == 'meta-description-summary') {
+        if (isset($body_field_items[0]['summary']) && $body_field_items[0]['summary'] != '') {
+          $trimmed_or_summary = $body_field_items[0]['summary'];
+        }
+        else {
+          $teaser_length = $maxlength['description'];
+          if (isset($split_name[1])) {
+            $teaser_length = (int) $split_name[1];
+          }
+          $text = check_markup($body_field_items[0]["value"], $body_field_items[0]["format"]);
+          // When a html closing tag is immediately followed by an openening tag, put a space in between.
+          $text = preg_replace('/(<\/[^>]+?>)(<[^>\/][^>]*?>)/', '$1 $2', $text);
+          $trimmed_or_summary = text_summary($text, null, $teaser_length);
+
+        }
+        $replacements[$original] = $sanitize ? filter_xss($trimmed_or_summary) : $trimmed_or_summary;
+      }
+      else if($split_name[0] == 'meta-description-field-text') {
+        if(isset($node->field_text)) {
+          $field_text = field_extract_value('node', $node, 'field_text');
+          $replacements[$original] = text_summary($field_text, null, $maxlength['description']);
+        }
+      }
+      else if($split_name[0] == 'meta-title-plus-site-name') {
+        $title = check_plain($node->title);
+        $site_name = variable_get('site_name', '');
+        if($site_name) {
+          $maxlength['title'] -= (strlen($site_name)+3);
+        }
+        $replacements[$original] = text_summary(check_plain($node->title), null, $maxlength['title']);
+        if($site_name) {
+          $replacements[$original] .= ' | '.$site_name;
+        }
+      }
+    }
+  }
+
+  return $replacements;
+}
+//Implements hook_page_alter()
+function metatag_improvements_page_alter(&$page) {
+
+}
+//Implements hook_contextual_links_view_alter()
+function metatag_improvements_contextual_links_view_alter(&$element, &$items) {
+  if(isset($element['#element']['#type']) && $element['#element']['#type']=='page') {
+    $view = views_get_page_view();
+    if(!empty($view)) {
+      if(user_access('edit metatags')) {
+        $element['#links']['metatags'] = array(
+          'title' => t('Edit metatags'),
+          'href' => url("admin/structure/views/view/$view->name/edit/$view->current_display/metatags", array('absolute' => TRUE, 'query' => array('destination' => current_path()))),
+        );
+      }
+    }
+  }
+}
+/*----------Hanterar uppdatering av innehållstyper och sidtyper---------*/
+//Implements hook_form_FORMID_alter().
+function metatag_improvements_form_node_type_form_alter(&$form, $form_state) {
+  $form['#submit'][] = 'metatag_improvements_node_type_form_submit';
+  $form['metatag_improvements'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Meta tags'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#group' => 'additional_settings',
+  );
+  $default_value = true;
+  if($form['#node_type']->type) {
+    $node_type = $form['#node_type']->type;
+    $types = node_type_get_names();
+    $allowed_types = variable_get('metatag_improvements_allowed_types', array_keys($types));
+    if(!(isset($allowed_types[$node_type]) && $allowed_types[$node_type])) {
+      $default_value = false;
+    }
+  }
+  $form['metatag_improvements']['use_metatags'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Use meta tags for this content type'),
+    '#default_value' => $default_value,
+  );
+}
+function metatag_improvements_node_type_form_submit($form, &$form_state) {
+  $type_has_changed = false;
+  $current_type = $form_state['values']['type'];
+  if($form['#node_type']->type) { //Befintlig innehållstyp
+    $old_type = $form['#node_type']->type;
+    $new_type = $form_state['values']['type'];
+    if($old_type !== $new_type) {
+      $type_has_changed = true;
+    }
+  }
+  $old_value = $form['metatag_improvements']['use_metatags']['#default_value'];
+  $new_value = $form_state['values']['use_metatags'];
+  if($form['#node_type']->type) { //Befintlig nodtyp
+    if($type_has_changed) {
+      $types = node_type_get_names();
+      $allowed_types = variable_get('metatag_improvements_allowed_types', array_keys($types));
+      $form_state['storage']['allowed_types'] = $allowed_types;
+      unset($allowed_types[$form['#node_type']->type]);
+      $allowed_types[$current_type] = $new_value ? $current_type : 0;
+      variable_set('metatag_improvements_allowed_types', $allowed_types);
+    }
+    else {
+      if($old_value!=$new_value) {
+        metatag_improvements_update_metatag_settings_for_content_type($current_type, $new_value);
+      }
+    }
+  }
+  else { //Ny nodtyp
+    metatag_improvements_update_metatag_settings_for_content_type($current_type, $new_value);
+  }
+}
+//Implements hook_form_FORMID_alter().
+function metatag_improvements_form_node_type_delete_confirm_alter(&$form, $form_state) {
+  $form['#submit'][] = 'metatag_improvements_node_type_delete_confirm_submit';
+}
+function metatag_improvements_node_type_delete_confirm_submit($form, &$form_state) {
+  if($form_state['values']['confirm']) {
+    $node_type = $form['type']['#'.$form['type']['#type']];
+    $types = node_type_get_names();
+    $allowed_types = variable_get('metatag_improvements_allowed_types', array_keys($types));
+    $form_state['storage']['allowed_types'] = $allowed_types;
+    unset($allowed_types[$node_type]);
+    variable_set('metatag_improvements_allowed_types', $allowed_types);
+  }
+}
+function metatag_improvements_update_metatag_settings_for_content_type($node_type, $new_value) {
+  $types = node_type_get_names();
+  $allowed_types = variable_get('metatag_improvements_allowed_types', array_keys($types));
+  $allowed_types[$node_type] = $new_value ? $node_type : 0;
+  variable_set('metatag_improvements_allowed_types', $allowed_types);
+}

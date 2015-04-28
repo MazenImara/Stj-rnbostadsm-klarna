@@ -1,0 +1,5 @@
+name = Site Link
+description = Site Link
+package = Custommoduler
+core = 7.x
+dependencies[] = general

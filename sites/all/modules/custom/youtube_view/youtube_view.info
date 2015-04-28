@@ -1,0 +1,4 @@
+name = Youtube View
+description = Pulls all videos from a Youtube Channel and displays them in a block.
+package = Custommoduler
+core = 7.x

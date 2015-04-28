@@ -1,0 +1,23 @@
+<?php
+
+//Implements hook_permission()
+function view_ref_improvements_permission() {
+  return array(
+    'display view reference in node edit' => array(
+      'title' => t('Display View Reference in node edit'),
+    ),
+  );
+}
+//Implements hook_form_BASE_FORM_ID_alter()
+function view_ref_improvements_form_node_form_alter(&$form, $form_state) {
+  if(isset($form['field_view'])) {
+    if(!user_access('display view reference in node edit')) {
+      $form['field_view']['#access'] = false;
+    }
+  }
+  if(isset($form['field_sidtyp'])) {
+    if(!user_access('display view reference in node edit')) {
+      $form['field_sidtyp']['#access'] = false;
+    }
+  }
+}

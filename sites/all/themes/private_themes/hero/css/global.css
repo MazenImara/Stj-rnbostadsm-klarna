@@ -1,0 +1,27 @@
+/* This file will hold styles for the mobile version of your website (mobile first). */
+/* This also can include ANY global CSS that applies site-wide. Unless overwritten by a more specific style rule, CSS declarations in global.css will apply site-wide. */
+html {
+  overflow-x: hidden;
+  font-size: 62.5%;
+}
+body {
+  color: #333;
+  font: normal 10px/120% 'Open Sans', sans-serif;
+  background-color: #f7f7f7;
+  background-repeat: no-repeat;
+}
+body .container-24 {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 100%;
+  width: 300px;
+}
+
+body .container-24 .grid-24 {
+  margin: 0;
+  max-width: 100%;
+}
+.container-24,
+.container-24 .grid-24 {  
+  background-color: #f7f7f7;
+}

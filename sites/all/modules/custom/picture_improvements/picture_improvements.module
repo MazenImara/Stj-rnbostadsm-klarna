@@ -1,0 +1,113 @@
+<?php
+//Implements hook_theme_registry_alter()
+function picture_improvements_theme_registry_alter(&$theme_registry) {
+	if(isset($theme_registry['picture_formatter'])) {
+		$theme_registry['picture_formatter']['function'] = 'theme_picture_improvements_formatter';
+	}
+}
+//Implements hook_field_formatter_info_alter().
+function picture_improvements_field_formatter_info_alter(&$info) {
+	if(isset($info['picture'])) {
+		$info['picture']['label'] = t('Responsive Picture');
+	}
+}
+function picture_improvements_filter_picture_groups_by_theme($groups) {
+  $themes = list_themes();
+  $default_theme = variable_get('theme_default', '');
+  foreach($themes as $t_name => $theme) {
+    if($t_name === $default_theme) continue;
+    foreach($groups as $s_name => $title) {
+      if(substr($s_name, 0, (strlen($t_name) + 1)) === $t_name.'_') {
+        unset($groups[$s_name]);
+      }
+    }
+  }
+  return $groups;
+}
+//Implements hook_form_FORMID_alter().
+function picture_improvements_form_field_ui_display_overview_form_alter(&$form, $form_state) {
+	$themes = list_themes();
+  $default_theme = variable_get('theme_default', '');
+  if(isset($form['fields'])) {
+    foreach(element_children($form['fields']) as $field) {
+      if(!empty($form['fields'][$field]['format']['settings_edit_form']['settings'])) {
+        $allowed_fields = array('picture_group', 'fallback_image_style');
+        foreach($allowed_fields as $fieldname) {
+          if(!empty($form['fields'][$field]['format']['settings_edit_form']['settings'][$fieldname]['#options'])) {
+            $form['fields'][$field]['format']['settings_edit_form']['settings'][$fieldname]['#options'] = picture_improvements_filter_picture_groups_by_theme($form['fields'][$field]['format']['settings_edit_form']['settings'][$fieldname]['#options']);
+          }
+        }
+			}
+		}
+	}
+}
+function theme_picture_improvements_formatter($variables) {
+	if(!variable_get('general_responsive', 0)) {
+		return theme('image_formatter', $variables);
+	}
+  if (!isset($variables['breakpoints']) || empty($variables['breakpoints'])) {
+    return theme('image_formatter', $variables);
+  }
+
+  $item = $variables['item'];
+
+  if (isset($item['title']) && drupal_strlen($item['title']) == 0) {
+    $item['title'] = '';
+  }
+
+  $item['style_name'] = $variables['image_style'];
+  $item['breakpoints'] = $variables['breakpoints'];
+
+  if (!isset($item['path']) && isset($variables['uri'])) {
+    $item['path'] = $variables['uri'];
+  }
+  $output = theme('picture', $item);
+  if (isset($variables['path']['path'])) {
+    $path = $variables['path']['path'];
+    $options = isset($variables['path']['options']) ? $variables['path']['options'] : array();
+    $options['html'] = TRUE;
+    $output = l($output, $path, $options);
+  }
+  return $output;
+}
+//Implements hook_form_FORMID_alter()
+function picture_improvements_form_picture_admin_breakpoints_alter(&$form, $form_state) {
+	if(isset($form['#items'])) {
+		$themes = list_themes();
+		$default_theme = variable_get('theme_default', '');
+		$links = array();
+	  $breakpoint_groups = breakpoints_breakpoint_group_load_all();
+	  foreach ($breakpoint_groups as $breakpoint_group) {
+			$continue = false;
+			foreach($themes as $theme_name => $theme) {
+				if($theme->status && $theme_name !== $default_theme) {
+					if(substr($breakpoint_group->machine_name, 0, strlen($theme_name)) === $theme_name) {
+						$continue = true;
+						break;
+					}
+				}
+			}
+			if($continue) continue;
+			$links[] = l($breakpoint_group->name, 'admin/config/media/picture/groups/' . $breakpoint_group->machine_name);
+	  }
+	  $form['#items'] = $links;
+	}
+	if(isset($form['picture_mapping']) && isset($form['picture_mapping']['mapping'])) {
+		$themes = list_themes();
+		$default_theme = variable_get('theme_default', '');
+		foreach(element_children($form['picture_mapping']['mapping']) as $layout) {
+			foreach($form['picture_mapping']['mapping'][$layout] as $zoom => &$element) {
+				if(isset($element['#options'])) {
+					foreach($themes as $theme_name => $theme) {
+						if($theme_name === $default_theme) continue;
+						foreach($element['#options'] as $key => $value) {
+							if(substr($key, 0, strlen($theme_name)) === $theme_name) {
+								unset($element['#options'][$key]);	
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

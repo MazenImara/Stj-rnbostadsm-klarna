@@ -1,0 +1,52 @@
+<?php
+
+/**
+ * Implementation of hook_schema().
+ */
+function vertical_scroll_schema() {
+  $schema['vertical_scroll'] = array(
+    'fields' => array(
+      'source_nid' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'destination_nid' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'view_mode' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ),
+      'weight' => array(
+        'type' => 'int',
+        'size' => 'tiny',
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array(
+      'source_nid',
+    ),
+    'indexes' => array(
+      'destination_nid' => array('destination_nid'),
+    ),
+  );
+  return $schema;
+}
+//Implements hook_uninstall().
+function vertical_scroll_uninstall() {
+  $variables = array(
+    'vertical_scroll_duration',
+    'vertical_scroll_margin',
+    'vertical_scroll_offset',
+    'vertical_scroll_sync_translations',
+    'vertical_scroll_all_links',
+  );
+  foreach($variables as $variable) {
+    variable_del($variable);
+  }
+}
+?>

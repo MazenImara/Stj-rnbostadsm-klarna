@@ -1,0 +1,32 @@
+<?php
+//Implements hook_menu().
+function cookiecontrol_improvements_menu() {
+  $items = array(
+
+  );
+  return $items;
+}
+//Implements hook_menu_alter().
+function cookiecontrol_improvements_menu_alter(&$items) {
+
+}
+//Implements hook_theme_registry_alter().
+function cookiecontrol_improvements_theme_registry_alter(&$theme_registry) {
+
+}
+//Implements hook_init().
+function cookiecontrol_improvements_init() {
+  drupal_add_css(drupal_get_path('module', 'cookiecontrol_improvements').'/css/cookiecontrol_improvements.css');
+  drupal_add_js(drupal_get_path('module', 'cookiecontrol_improvements').'/js/cookiecontrol_improvements.js');
+}
+//Implements hook_permission().
+function cookiecontrol_improvements_permission() {
+  $permissions = array(
+  
+  );
+  return $permissions;
+}
+//Implements hook_form_alter().
+function cookiecontrol_improvements_form_alter(&$form, $form_state, $form_id) {
+
+}

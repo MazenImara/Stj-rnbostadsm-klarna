@@ -1,0 +1,13 @@
+body.responsive-layout-mobile #sb-wrapper {
+  width: 80% !important;
+  left: 10% !important;
+}
+/* Fix för iphones */
+.browser-safari body.responsive-layout-mobile #sb-container {
+  width: 100% !important;
+  height: 100% !important;
+}
+.browser-safari body.responsive-layout-mobile #sb-body-inner {
+  -webkit-overflow-scrolling: touch !important;
+  overflow: scroll !important; 
+}

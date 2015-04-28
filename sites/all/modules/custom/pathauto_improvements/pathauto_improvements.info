@@ -1,0 +1,5 @@
+name = Pathauto Improvements
+description = Pathauto Improvements
+package = Custommoduler
+core = 7.x
+dependencies[] = metatag_improvements

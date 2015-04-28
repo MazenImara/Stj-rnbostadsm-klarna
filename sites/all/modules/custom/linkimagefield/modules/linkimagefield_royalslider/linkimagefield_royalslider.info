@@ -1,0 +1,7 @@
+name = LinkImage - Royal Slider
+description = Adds a Royal Slider field formatter for LinkImage
+package = Custommoduler
+core = 7.x
+
+dependencies[] = linkimagefield
+dependencies[] = royalslider

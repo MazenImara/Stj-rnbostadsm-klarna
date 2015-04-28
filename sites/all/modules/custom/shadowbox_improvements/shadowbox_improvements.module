@@ -1,0 +1,98 @@
+<?php
+//Implements hook_init()
+function shadowbox_improvements_init() {
+  drupal_add_css(drupal_get_path('module', 'shadowbox_improvements').'/css/shadowbox_improvements.css');
+}
+/**
+ * Implementation of hook_library_alter().
+ */
+function shadowbox_improvements_library_alter(&$javascript, $module) {
+  if ($module !== 'shadowbox') {
+    return;
+  }
+  $javascript['shadowbox']['js'][drupal_get_path('module', 'shadowbox_improvements').'/js/shadowbox-move.js'] = array();
+}
+//Implements hook_field_formatter_info_alter().
+function shadowbox_improvements_field_formatter_info_alter(&$info) {
+  if(!empty($info['shadowbox'])) {
+    $info['shadowbox']['field types'][] = 'linkimagefield';
+  }
+}
+//Implements hook_theme_registry_alter().
+function shadowbox_improvements_theme_registry_alter(&$theme_registry) {
+  if(isset($theme_registry['shadowbox_formatter'])) {
+    $theme_registry['shadowbox_formatter']['variables']['caption'] = '';
+    $theme_registry['shadowbox_formatter']['theme path'] = drupal_get_path('module', 'shadowbox_improvements');
+    $theme_registry['shadowbox_formatter']['function'] = 'theme_shadowbox_improvements_formatter';
+  }
+}
+function theme_shadowbox_improvements_formatter($variables) {
+  $item = $variables['item'];
+  $image = array(
+    'path' => $item['uri'],
+  );
+  // Do not output an empty 'title'/'alt' attribute.
+  if (drupal_strlen($item['title']) > 0) {
+    $image['title'] = $item['title'];
+  }
+  if(drupal_strlen($item['alt']) > 0) {
+    $image['alt'] = $item['alt'];
+  }
+
+  $image_style = $variables['image_style'];
+  if ( $variables['itemid'] == 0 || (isset($variables['compact']) && !$variables['compact']) ) {
+    if ($image_style) {
+      $image['style_name'] = $image_style;
+      $output = theme('image_style', $image);
+    }
+    else {
+      $output = theme('image', $image);
+    }
+  }
+  else {
+    $output = "";
+  }
+
+  $linked_style = $variables['image_link'];
+  if ($linked_style) {
+    $path = image_style_path($linked_style, $item['uri']);
+    if (!file_exists($path)) {
+      $path = image_style_url($linked_style, $item['uri']);
+    }
+  }
+  else {
+    $path = $item['uri'];
+  }
+  $gallery_id = $variables['gallery'];
+  $rel = ($gallery_id != '') ? "shadowbox[$gallery_id]" : 'shadowbox';
+
+  $link_attributes = array(
+    'rel' => $rel,
+    'title' => $variables['title'],
+  );
+  $separate_caption = '';
+  if($variables['caption']) {
+    $link_attributes['rev'] = $variables['caption'];
+  }
+  else if(!empty($item['caption'])) {
+    $link_attributes['rev'] = $item['caption'];
+    $separate_caption = $item['caption'];
+  }
+  else {
+    $link_attributes['rev'] = $variables['title'];
+    $separate_caption = $variables['title'];
+  }
+  $options = array(
+    'attributes' => $link_attributes,
+    'html' => TRUE,
+  );
+
+  $output = l($output, file_create_url($path), $options);
+  //Lägger till separat caption
+  if($separate_caption) {
+    $output .= '<span class="caption">'.$separate_caption.'</span>';
+  }
+
+  $wrapper_classes = ($gallery_id != '') ? "sb-image sb-gallery sb-gallery-$gallery_id" : 'sb-image sb-individual';
+  return '<div class="' . $wrapper_classes . '">' . $output . '</div>';
+}

@@ -1,0 +1,2 @@
+<?php
+//I stället för att användaren ska tvingas modifiera templatefiler, försök att i stället modifiera preprocess eller processfunktioner

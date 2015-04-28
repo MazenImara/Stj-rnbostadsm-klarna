@@ -1,0 +1,43 @@
+/*--------Generated css for parallax scroll. Please don't edit this file.-----------*/
+.parallax-layer {
+  width: 100%;
+  position: fixed;
+  background-position: 50% 0;
+  background-repeat: no-repeat;
+  z-index: -1;
+}
+body.responsive-layout-mobile #parallax-layer-0 {
+  background-image: url('../../../../../default/files/styles/parallax_1_mobile/public/parallax_scroll_images/rorproduktion-background.jpg');
+  max-width: 780px;
+  height: 5886px;
+}
+body.responsive-layout-narrow #parallax-layer-0 {
+  background-image: url('../../../../../default/files/styles/parallax_1_narrow/public/parallax_scroll_images/rorproduktion-background.jpg');
+  max-width: 1213px;
+  height: 4390px;
+}
+body.responsive-layout-normal #parallax-layer-0 {
+  background-image: url('../../../../../default/files/styles/parallax_1_normal/public/parallax_scroll_images/rorproduktion-background.jpg');
+  max-width: 1200px;
+  height: 3623px;
+}
+body.responsive-layout-wide #parallax-layer-0 {
+  background-image: url('../../../../../default/files/styles/parallax_1_wide/public/parallax_scroll_images/rorproduktion-background.jpg');
+  max-width: 2000px;
+  height: 5414px;
+}
+.parallax-layer-1 {
+  position: absolute;
+  background-image: url('../../../../../default/files/parallax_scroll_images/bubbla_big.png');
+  height: 183px;
+}
+.parallax-layer-2 {
+  position: absolute;
+  background-image: url('../../../../../default/files/parallax_scroll_images/bubbla_medium.png');
+  height: 138px;
+}
+.parallax-layer-3 {
+  position: absolute;
+  background-image: url('../../../../../default/files/parallax_scroll_images/bubbla_small.png');
+  height: 93px;
+}

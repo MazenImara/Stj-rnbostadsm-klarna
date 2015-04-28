@@ -1,0 +1,4 @@
+name = PHP HTML Parser
+description = PHP HTML Parser
+package = Custommoduler
+core = 7.x

@@ -1,0 +1,21 @@
+<?php
+
+/**
+ * Implements hook_theme().
+ */
+function views_improvements_theme() {
+  return array(
+    'views_ui_expose_filter_fields_compare_form' => array(
+      'render element' => 'form',
+      'file' => 'views_improvements.theme.inc',
+    ),
+  );
+}
+
+//Implements hook_views_api().
+function views_improvements_views_api() {
+  return array(
+    'api' => 3,
+    'path' => drupal_get_path('module', 'views_improvements') . '/views',
+  );
+}

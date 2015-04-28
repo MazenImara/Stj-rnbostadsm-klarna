@@ -1,0 +1,4 @@
+name = Unique
+description = H&auml;r kan du l&auml;gga kod som &auml;r unik f&ouml;r den h&auml;r webbplatsen.
+package = Custommoduler
+core = 7.x

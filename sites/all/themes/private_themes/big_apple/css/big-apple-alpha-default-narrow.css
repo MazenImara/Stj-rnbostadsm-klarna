@@ -1,0 +1,156 @@
+/* This file will hold styles that are loaded using the same media query as the narrow grid. */
+/* If you are using the default media queries provided by Omega, these styles will also
+ *  apply to the normal and widescreen layouts. You may override these styles in the normal 
+ *  and widescreen CSS files as appropriate. */
+/*----------Allmänt-----------*/
+h2 {
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 600;
+}
+body .container-24 {
+  width: 720px;
+}
+body .container-24 .grid-24 {
+  width: 720px;
+  margin: 0;
+}
+body .container-24 .grid-18 {
+  width: 544px;
+}
+#zone-menu {
+	margin-bottom: 13px;
+}
+#zone-header {
+  width: 718px;
+  height: 230px;
+}
+#zone-content {
+  width: 718px;
+}
+#region-sidebar-second {
+	width: 173px;
+}
+/*-----------Logo-----------*/
+#block-logo-block-logo {
+	padding-left: 10px;	
+}
+/*----------Språkbytare------------*/
+#block-locale-language {
+  padding: 45px 20px 0 0;
+}
+/*------------Adressruta-------------*/
+#block-nodeblock-179 {
+  width: 200px;
+  padding: 5px 0;
+}
+/*--------Huvudmeny----------*/
+#block-superfish-2 {
+
+}
+#block-superfish-2 ul.menu li a,
+#block-superfish-2 ul.menu li a:visited {
+	font-size: 12px;
+  padding: 13px 9px;
+}
+#block-superfish-2 ul.menu ul {
+	top: 43px;
+}
+.browser-firefox #block-superfish-2 ul.menu ul {
+  top: 43px;
+}
+#block-superfish-2 ul.menu ul a, #block-superfish-2 ul.menu ul a:visited {
+	font-size: 11px;
+	padding: 10px 9px;
+	line-height: normal;
+}
+/*-----------Vanlig sida------------*/
+.node-page.view-mode-full > .header {
+  padding-top: 39px;
+}
+/*-------------Startsidan----------*/
+body.front #region-content {
+	width: 544px;
+}
+/*----------Bildspel------------*/
+#block-nodeblock-213 {
+	width: 474px;
+}
+#block-nodeblock-213 .nivoSlider {
+  height: 211px; 
+}
+#block-nodeblock-213 .nivoSlider img {
+	height: 211px !important;
+}
+/*----------Senaste videon------------*/
+#block-nodeblock-214 {
+  width: 203px;
+}
+body.responsive-layout-narrow #block-nodeblock-214 iframe {
+	height: 170px;
+}
+/*----------Puffar-----------*/
+body .container-24 .panel-panel.grid-8 {
+  width: 160px;
+}
+body .container-24 .panel-panel.grid-8.top {
+	height: 395px;
+}
+body .container-24 .panel-panel.grid-8.top-right {
+  width: 161px;
+}
+body .container-24 .panel-panel.grid-24 {
+  width: 160px;
+}
+.main-content {
+  width: 281px;
+  height: 318px;
+}
+body .container-24 .panel-panel.middle {
+	width: 161px;
+	height: 358px;
+}
+body .container-24 .panel-panel.grid-6 {
+  width: 115px;
+	height: 420px;
+}
+body .container-24 .panel-panel.grid-6 .field-name-body {
+	height: 370px;
+}
+body .container-24 .panel-panel.bottom-4 {
+
+}
+/*-----------Bildgalleri-------------*/
+body.sidtyp-galleri .node-page.view-mode-full > .header {
+	padding-bottom: 3px;
+}
+body.sidtyp-galleri .node-page.view-mode-full .view-bildgalleri .views-row {
+  padding: 15px 30px;
+}
+/*-------------Kontaktsida-------------*/
+body.node-type-webform .node-webform.view-mode-full > .header {
+  padding-top: 39px;
+}
+body.node-type-webform h1 {
+	margin-bottom: 0;
+}
+input[type="text"], input[type="password"], input[type="email"], body textarea, select {
+
+}
+body.node-type-webform .node-webform.view-mode-full .webform-client-form input[type="text"],
+body.node-type-webform .node-webform.view-mode-full .webform-client-form input[type="password"],
+body.node-type-webform .node-webform.view-mode-full .webform-client-form input[type="email"],
+body.node-type-webform .node-webform.view-mode-full .webform-client-form textarea, 
+body.node-type-webform .node-webform.view-mode-full .webform-client-form select {
+  width: 352px;
+}
+body.node-type-webform .node-webform.view-mode-full .webform-client-form #edit-actions {
+  width: 352px;
+}
+/*----------Sidebar------------------*/
+#block-views-nyheter-block-2 .block-title {
+	font-size: 1.3em;
+}
+/*------------Nyheter-------------*/
+body.sidtyp-nyhetssida .node-page.view-mode-full .view-nyheter .views-row {
+  padding: 24px 0 10px;
+}

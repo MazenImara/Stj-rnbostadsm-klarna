@@ -1,0 +1,4 @@
+name = CKEditor Image Resize Plugin
+description = Enables Webkit and Opera browser support for image drag-resizing in CKEditor
+package = Custommoduler
+core = 7.x

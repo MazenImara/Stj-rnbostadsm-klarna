@@ -1,0 +1,17 @@
+name = Kopernikus Admin Theme
+description = Clean admin theme.
+base theme = rubik
+core = 7.x
+engine = phptemplate
+
+regions[content] = Content
+regions[help] = Help
+regions[page_top] = Page top
+regions[page_bottom] = Page bottom
+
+stylesheets[all][] = kopernikus_admin.css
+
+; Support shortcut module links
+settings[shortcut_module_link] = 1
+
+scripts[] = "js/browser_classes.js"

@@ -1,0 +1,5 @@
+name = Responsive Background Images
+description = Field formatter which displays an image as a responsive background image
+package = Custommoduler
+core = 7.x
+dependencies[] = picture_improvements

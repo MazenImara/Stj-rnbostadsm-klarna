@@ -1,0 +1,5 @@
+name = SFTP Management
+description = Module for handling SFTP activities.
+package = Custommoduler
+core = 7.x
+dependencies[] = libraries

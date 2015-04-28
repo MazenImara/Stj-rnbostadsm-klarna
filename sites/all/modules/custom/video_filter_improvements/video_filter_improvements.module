@@ -1,0 +1,22 @@
+<?php
+
+//Implements hook_theme_registry_alter().
+function video_filter_improvements_theme_registry_alter(&$theme_registry) {
+  if(!empty($theme_registry['video_filter_iframe'])) {
+    $theme_registry['video_filter_iframe']['function'] = 'video_filter_improvements_theme_video_filter_iframe';
+  }
+}
+/**
+ * Function that outputs HTML5 compatible iFrame for codecs that support it.
+ *
+ * @ingroup themeable
+ */
+function video_filter_improvements_theme_video_filter_iframe($variables) {
+  $video = $variables['video'];
+
+  $classes = video_filter_get_classes($video);
+
+  $output = '<iframe src="' . $video['source'] . '" width="' . $video['width'] . '" height="' . $video['height'] . '" class="' . implode(' ', $classes) . '"></iframe>';
+
+  return $output;
+}

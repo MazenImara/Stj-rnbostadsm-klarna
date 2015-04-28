@@ -1,0 +1,6 @@
+name = Logo Block
+description = Renders the site logo in a block
+package = Other
+core = 7.x
+dependencies[] = block
+dependencies[] = image

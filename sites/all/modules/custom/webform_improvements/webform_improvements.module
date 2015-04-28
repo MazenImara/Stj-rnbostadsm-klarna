@@ -1,0 +1,576 @@
+<?php
+
+/*
+TODO:
+
+-- Det finns inte fullt stöd än för att använda authenticated user som mottagare
+
+Potentiella problem:
+
+-- Om webform används för flera olika formulär så kommer mottagarna att läggas till för samtliga formulär.
+*/
+
+//Implements hook_permission()
+function webform_improvements_permission() {
+	return array(
+    'webform_improvements_tab_webform' => array(
+      'title' => t('Access Webform Tab'),
+    ),
+    'webform_improvements_subtab_email' => array(
+      'title' => t('Access Email Settings Subtab'), 
+    ),
+    'webform_improvements_subtab_formsettings' => array(
+      'title' => t('Access Form Settings Subtab'),
+    ),
+    'webform_improvements_nodeform_template' => array(
+      'title' => t('Display template field in node form'),
+    ),
+  );
+}
+function webform_improvements_menu_alter(&$items) {
+	$items['node/%webform_menu/webform']['access callback'] = 'user_access';
+	$items['node/%webform_menu/webform']['access arguments'] = array('webform_improvements_tab_webform');
+		
+	$items['node/%webform_menu/webform/emails']['access callback'] = 'user_access';
+	$items['node/%webform_menu/webform/emails']['access arguments'] = array('webform_improvements_subtab_email');
+
+	$items['node/%webform_menu/webform/configure']['access callback'] = 'user_access';
+	$items['node/%webform_menu/webform/configure']['access arguments'] = array('webform_improvements_subtab_formsettings');
+}
+//Implements hook_form_BASE_FORM_ID_alter()
+function  webform_improvements_form_node_form_alter(&$form, $form_state) {
+  $node = $form['#node'];
+  if (in_array($node->type, webform_variable_get('webform_node_types'))) {
+    if(isset($form['webform_template'])) {
+      if(!user_access('webform_improvements_nodeform_template')) {
+        $form['webform_template']['#access'] = false;
+      }
+    }
+  }
+}
+//Implements hook_form_alter()
+function webform_improvements_form_alter(&$form, $form_state, $form_id) {
+	switch($form_id) {
+		case 'system_site_information_settings':
+			/* Ser till att alla eventuella epostutskick till sitemailen uppdateras om sitemailen ändras*/
+			$form['#submit'] = array_merge(array('webform_improvements_site_information_settings_submit'), $form['#submit']);
+			break;
+
+		case 'webform_admin_settings':
+		  $form['webform_improvements'] = array(
+		    '#type' => 'fieldset',
+		    '#title' => t('Automatic e-mails'),
+		  );
+		  $user_roles = user_roles(TRUE); //Exluderar anonyma användare
+		  unset($user_roles[DRUPAL_AUTHENTICATED_RID]); //Exkluderar authenticated user eftersom det inte finns stöd för det
+		  $form['webform_improvements']['webform_improvements_recipient_roles'] = array(
+		    '#type' => 'checkboxes',
+		    '#title' => t('Recipient roles'),
+		    '#options' => $user_roles,
+		    '#default_value' => variable_get('webform_improvements_recipient_roles', array()),
+		  );
+		  $form['webform_improvements']['webform_improvements_use_site_mail'] = array(
+		    '#type' => 'checkbox',
+		    '#title' => t('Add site mail to recipients'),
+		    '#default_value' => variable_get('webform_improvements_use_site_mail', false),
+		  );
+		  $form['#submit'] = array_merge(array('webform_improvements_webform_admin_settings_submit'), $form['#submit']);
+		  break;
+	}
+}
+//Implements hook_node_presave()
+function webform_improvements_node_presave($node) {
+  if (!in_array($node->type, webform_variable_get('webform_node_types'))) {
+    return;
+  }
+  if(!$node->nid) { //Insert
+    $eid = 1;
+    $node->webform['emails'] = array();
+    //1. Lägg till site email
+    if(variable_get('webform_improvements_use_site_mail', false)) {
+      $site_email = strtolower(variable_get('site_mail', ''));
+      $new_email = webform_improvements_email_load($node, 'new');
+      $new_email['eid'] = $eid++;
+      $new_email['email'] = $site_email;
+      $node->webform['emails'][$new_email['eid']] = $new_email;
+    }
+    //2. Ladda alla ägare.
+    $users = webform_improvements_load_recipient_users();
+    if($users) {
+      //3. Lägg in ett utskick för varje ägare
+      foreach($users as $user) {
+        $address = strtolower($user->mail);
+        $add = true;
+        foreach($node->webform['emails'] as $email) {
+          if(strcmp($address, $email['email']) == 0) {
+            $add = false;
+            break;
+          }
+        }
+        if($add) {
+          $new_email = webform_improvements_email_load($node, 'new');
+          $new_email['eid'] = $eid++;
+          $new_email['email'] = $address;
+          $node->webform['emails'][$new_email['eid']] = $new_email;
+        }
+      }
+    }
+  }
+}
+function webform_improvements_rebuild_all($recipients_old) {
+  //Fyller alla webformkapabla noder med e-postutskick
+  //1. Ladda alla ägare.
+  $recipient_users_old = $recipients_old;
+  unset($recipient_users_old['sitemap']);
+  $users_old = webform_improvements_load_recipient_users($recipient_users_old);
+  $users = webform_improvements_load_recipient_users();
+
+  $nodes = webform_improvements_load_all_webform_nodes();
+  if($nodes) {
+    foreach($nodes as $nid => &$node) {
+      $eid = 1;
+      $old_emails = $node->webform['emails'];
+      $node->webform['emails'] = array();
+      //2. Lägg till site email
+      if(variable_get('webform_improvements_use_site_mail', false)) {
+        $site_email = strtolower(variable_get('site_mail', ''));
+        $new_email = webform_improvements_email_load($node, 'new');
+        $new_email['eid'] = $eid++;
+        $new_email['email'] = $site_email;
+        $node->webform['emails'][$new_email['eid']] = $new_email;
+      }
+      if($recipients_old['sitemap']) {
+        $site_email = strtolower(variable_get('site_mail', ''));
+        foreach($old_emails as $eid => $email) {
+          if($site_email===$email['email']) {
+            unset($old_emails[$eid]);
+            break;
+          }
+        }
+      }
+      if($users_old) {
+        foreach($users_old as $user) {
+          $address = strtolower($user->mail);
+          foreach($old_emails as $eid => $email) {
+            if($address===$email['email']) {
+              unset($old_emails[$eid]);
+              break;
+            }
+          }
+        }
+      }
+      if($users) {
+        //3. Lägg in ett utskick för varje ägare
+        foreach($users as $user) {
+          $address = strtolower($user->mail);
+          $add = true;
+          foreach($node->webform['emails'] as $email) {
+            if(strcmp($address, $email['email']) == 0) {
+              $add = false;
+              break;
+            }
+          }
+          if($add) {
+            $new_email = webform_improvements_email_load($node, 'new');
+            $new_email['eid'] = $eid++;
+            $new_email['email'] = $address;
+            $node->webform['emails'][$new_email['eid']] = $new_email;
+          }
+        }
+      }
+      if($old_emails) {
+        foreach($old_emails as $old_eid => $old_email) {
+          $found = false;
+          foreach($node->webform['emails'] as $new_eid => $new_email) {
+            if($old_email['email']===$new_email['email']) {
+              $found = true;
+              break;
+            }
+          }
+          if(!$found) {
+            $old_email['eid'] = $eid++;
+            $node->webform['emails'][$old_email['eid']] = $old_email;
+          }
+        }
+      }
+      //4. Spara noden
+      node_save($node);
+    }
+  }
+  drupal_set_message(t('Webform e-mails have been rebuilt.'));
+}
+/**
+* Load an e-mail setting from the database or initialize a new e-mail.
+*/
+function webform_improvements_email_load($nide, $eid) {
+  if(is_object($nide)) {
+    $node = $nide;
+  }
+  else {
+    $node = node_load($nid);
+  }
+  if ($eid == 'new') {
+    $email = array(
+      'email' => '',
+      'subject' => 'default',
+      'from_name' => 'default',
+      'from_address' => 'default',
+      'template' => 'default',
+      'excluded_components' => array(),
+      'html' => variable_get('webform_default_format', 0),
+      'attachments' => 0,
+      'nid' => $node->nid,
+    );
+  }
+  else {
+    $email = isset($node->webform['emails'][$eid]) ? $node->webform['emails'][$eid] : FALSE;
+    if (variable_get('webform_format_override', 0)) {
+      $email['html'] = variable_get('webform_default_format', 0);
+    }
+  }
+  return $email;
+}
+function webform_improvements_get_all_emails_for_node($nide) {
+  if(is_object($nide)) {
+    $node = $nide;
+  }
+  else {
+    $node = node_load($nid);
+  }
+  $emails = array();
+  if(isset($node->webform['emails'])) {
+    foreach($node->webform['emails'] as $eid => $email) {
+      if (variable_get('webform_format_override', 0)) {
+        $email['html'] = variable_get('webform_default_format', 0);
+      }
+      $emails[$eid] = $email;
+    }
+  }
+  return $emails;
+}
+function webform_improvements_generate_new_eid_for_node($nide) {
+  if(is_object($nide)) {
+    $nid = $nide->nid;
+  }
+  else {
+    $nid = $nide;
+  }
+  $next_id_query = db_select('webform_emails')->condition('nid', $nid);
+  $next_id_query->addExpression('MAX(eid) + 1', 'eid');
+  $eid = $next_id_query->execute()->fetchField();
+  if ($eid == NULL) {
+    $eid = 1;
+  }
+  return $eid;
+}
+function webform_improvements_load_recipient_users($recipient_roles = array()) {
+  $users = array();
+  if(!$recipient_roles) {
+    $recipient_roles = variable_get('webform_improvements_recipient_roles', array());
+  }
+  if($recipient_roles) {
+    $uids = array();
+    $select = db_select('users_roles', 'ur')
+    ->distinct()
+    ->fields('ur', array('uid'));
+    if(!in_array(DRUPAL_AUTHENTICATED_RID, $recipient_roles)) {
+      $select->condition('ur.rid', $recipient_roles);
+    }
+    $result = $select->execute();
+
+    if($result) {
+      while($record = $result->fetchField()) {
+        $uids[] = $record;
+      }
+      if($uids) {
+        $users = user_load_multiple($uids);
+      }
+    }
+  }
+  return $users;
+}
+function webform_improvements_load_all_webform_nodes() {
+  $node_types = webform_variable_get('webform_node_types');
+  $nodes = array();
+  $query = new EntityFieldQuery;
+  $result = $query
+    ->entityCondition('entity_type', 'node')
+    ->propertyCondition('type', $node_types)
+    ->execute();
+  if (!empty($result['node'])) {
+    $nodes = node_load_multiple(array_keys($result['node']));
+  }
+  return $nodes;
+}
+function webform_improvements_add_address($address) {
+  if($address) {
+    //1. Ladda alla noder som har webform
+    $nodes = webform_improvements_load_all_webform_nodes();
+    if($nodes) {
+      //2. Lägg till ett e-postutskick för varje nod med den nya ägarens e-postadress
+      foreach($nodes as $nid => &$node) {
+        $emails = webform_improvements_get_all_emails_for_node($node);
+        $new_email = array();
+        if($emails) { //Det finns minst ett e-postutskick för noden redan, kolla om e-postadressen redan finns inlagd
+          $add = true;
+          foreach($emails as $eid => $email) {
+            if(strcmp($email['email'], $address)==0) {
+              $add = false;
+              break;
+            }
+          }
+          if($add) {
+            $new_email = webform_improvements_email_load($node, $email['eid']); //Klonar den sista posten i loopen
+          }
+        }
+        else {
+          $new_email = webform_improvements_email_load($node, 'new');
+        }
+        if($new_email) {
+          $new_email['eid'] = webform_improvements_generate_new_eid_for_node($node);
+          $new_email['email'] = $address;
+          $node->webform['emails'][$new_email['eid']] = $new_email;
+          //3. Spara noden
+          node_save($node);
+        }
+      }
+    }
+  }
+}
+function webform_improvements_update_address_if_changed($old_address, $new_address) {
+  if($new_address) {
+		if(strcmp($old_address, $new_address) != 0)  { //Ändrat e-posten, uppdatera databasen.
+		  //1. Ladda alla noder som har webform
+      $nodes = webform_improvements_load_all_webform_nodes();
+      if($nodes) {
+        foreach($nodes as $nid => &$node) {
+          //2. Ändra adressen i alla e-postutskick som har den gamla adressen
+          $updated = false;
+          if(isset($node->webform['emails'])) {
+            foreach($node->webform['emails'] as $eid => &$email) {
+              if(strcmp($email['email'], $old_address) == 0) {
+                if (variable_get('webform_format_override', 0)) {
+                  $email['html'] = variable_get('webform_default_format', 0);
+                }
+                $email['email'] = $new_address;
+                $updated = true;
+              }
+            }
+          }
+          if($updated) {
+            //3. Spara noden
+            node_save($node);
+          }
+        }
+      }
+    }
+	}
+}
+function webform_improvements_delete_address($address) {
+  if($address) {
+    //1. Ladda alla noder som har webform
+    $nodes = webform_improvements_load_all_webform_nodes();
+    if($nodes) {
+      foreach($nodes as $nid => &$node) {
+        //2. Ta bort alla e-postutskick som innehåller e-postadressen
+        $updated = false;
+        if(isset($node->webform['emails'])) {
+          foreach($node->webform['emails'] as $eid => &$email) {
+            if(strcmp($email['email'], $address)==0) {
+              unset($node->webform['emails'][$eid]);
+              $updated = true;
+            }
+          }
+        }
+        if($updated) {
+          //3. Spara noden
+          node_save($node);
+        }
+      }
+    }
+  }
+}
+function webform_improvements_webform_admin_settings_submit($form, &$form_state) {
+  $old_recipients_value = variable_get('webform_improvements_recipient_roles', array());
+  $new_recipients_value = $form_state['values']['webform_improvements_recipient_roles'];
+  if($recipients_value_changed = ($old_recipients_value!=$new_recipients_value)) {
+    variable_set('webform_improvements_recipient_roles', $new_recipients_value);
+  }
+
+  $old_sitemail_value = variable_get('webform_improvements_use_site_mail', false);
+  $new_sitemail_value = $form_state['values']['webform_improvements_use_site_mail'];
+  if($sitemail_value_changed = ($old_sitemail_value!=$new_sitemail_value)) {
+    variable_set('webform_improvements_use_site_mail', $new_sitemail_value);
+  }
+
+
+
+  if($recipients_value_changed || $sitemail_value_changed) {
+    $recipients_old = array_merge($old_recipients_value, array('sitemap' => $old_sitemail_value));
+    webform_improvements_rebuild_all($recipients_old);
+  }
+}
+/* Ser till att alla eventuella epostutskick till sitemailen uppdateras om sitemailen ändras*/
+function webform_improvements_site_information_settings_submit($form, &$form_state) {
+  variable_set('webform_default_from_address', $form_state['values']['site_mail']);
+  variable_set('webform_default_from_name', $form_state['values']['site_name']);
+
+  if(variable_get('webform_improvements_use_site_mail', false)) {
+    $old_address = strtolower(variable_get('site_mail', ''));
+  	$new_address = strtolower(check_plain($form_state['values']['site_mail']));
+    $found_duplicate_old = false;
+    $found_duplicate_new = false;
+    //Se till att eventuella ägare som har samma mail som sitemailen bevaras, så att posten i så fall splittas upp i två.
+    //1. Ladda alla ägare
+    $recipient_roles = variable_get('webform_improvements_recipient_roles', array());
+    if($recipient_roles) {
+      //1. Ladda alla ägare.
+      $users = webform_improvements_load_recipient_users();
+      if($users) {
+        //2. Kolla igenom deras e-postadresser och se om någon är samma som den gamla eller nya sitemailen.
+        foreach($users as $user) {
+          if(strcmp($user->mail, $old_address) == 0) {
+            $found_duplicate_old = true;
+          }
+          elseif(strcmp($user->mail, $new_address) == 0) {
+            $found_duplicate_new = true;
+          }
+          if($found_duplicate_old && $found_duplicate_new) {
+            break;
+          }
+        }
+      }
+    }
+    if($new_address) {
+      //3. Om det finns en sådan, anropa webform_improvements_add_address i stället för webform_improvements_update_address_if_changed
+      if($found_duplicate_old) {
+        if($found_duplicate_new) {
+  
+        }
+        else {
+          webform_improvements_add_address($new_address);
+        }
+      }
+      else {
+        if($found_duplicate_new) {
+          webform_improvements_delete_address($old_address);
+        }
+        else {
+          webform_improvements_update_address_if_changed($old_address, $new_address);
+        }
+      }
+    }
+    else { //Sitemailen är tom, ta bort posten i databasen
+      if(!$found_duplicate_old) {
+        webform_improvements_delete_address($old_address);
+      }
+    }
+  }
+}
+/* Ser till att lägga till e-postutskick om en ägare läggs till*/
+//Implements hook_user_insert()
+function webform_improvements_user_insert(&$edit, $owner, $category) {
+  $recipient_roles = variable_get('webform_improvements_recipient_roles', array());
+  if(!$recipient_roles) return; //Det finns ingen ägarroll, avslutar.
+	//Kolla att användaren är ägare
+	$new_recipient_roles = array_uintersect_assoc($owner->roles, $recipient_roles, 'webform_improvements_cmp_roles_recipient');
+	if($new_recipient_roles) {
+    $address = strtolower($owner->mail);
+    $add_address = true;
+    if(variable_get('webform_improvements_use_site_mail', false)) {
+      $site_email = strtolower(variable_get('site_mail', ''));
+      //Om sitemailen är samma som ägarens adress ska ingenting göras
+      if($site_email && (strcmp($site_email, $address) == 0)) {
+        $add_address = false;
+      }
+    }
+    if($add_address) {
+      webform_improvements_add_address($address);
+    }
+	}
+}
+
+/* Ser till att epostutskicket till siteägaren uppdateras om ägarens roller/e-postadress ändras*/
+//Implements hook_user_update()
+function webform_improvements_user_update(&$edit, $owner, $category) {
+	//Hitta ägarrollens rid
+	$recipient_roles = variable_get('webform_improvements_recipient_roles', array());
+	if(!$recipient_roles) return; //Det finns ingen ägarroll, avslutar.
+  $old_address = strtolower($owner->original->mail);
+  $new_address = strtolower($owner->mail);
+  $site_email = strtolower(variable_get('site_mail', ''));
+  $use_site_mail = variable_get('webform_improvements_use_site_mail', false);
+  //Kolla om användaren som ändras ska bli ägare
+  $new_recipient_roles = array_uintersect_assoc($owner->roles, $recipient_roles, 'webform_improvements_cmp_roles_recipient');
+  $old_recipient_roles = array_uintersect_assoc($owner->original->roles, $recipient_roles, 'webform_improvements_cmp_roles_recipient');
+  if($new_recipient_roles) {
+    //Kolla om användaren redan är ägare
+		if($old_recipient_roles) {
+			//Uppdatera den gamla adressen till den nya
+      if($use_site_mail) {
+  			//Se till att sitemailen bevaras om den är samma som ägarens e-postadress
+        if($site_email && (strcmp($site_email, $old_address) == 0)) {
+          webform_improvements_add_address($new_address);
+        }
+        elseif($site_email &&  (strcmp($site_email, $new_address) == 0)) {
+          //Ta bort den gamla adressen om den nya är likadan som sitemailen, det här borde egentligen inte kunna inträffa men man vet aldrig.
+          webform_improvements_delete_address($old_address);
+        }
+        else {
+          webform_improvements_update_address_if_changed($old_address, $new_address);
+        }
+      }
+      else {
+        webform_improvements_update_address_if_changed($old_address, $new_address);
+      }
+    }
+    else { //Användaren är inte ägare än, skapa en ny post
+      webform_improvements_add_address($new_address);
+    }
+  }
+	else { //Användaren ska inte bli ägare
+		//Kolla om användaren har varit ägare
+		if($old_recipient_roles) {
+		  //Användaren har varit ägare, ta bort posten från databasen
+		  $delete = true;
+		  if($use_site_mail) {
+  		  //Se till att sitemailen bevaras om den är samma som ägarens e-postadress
+        if($site_email && (strcmp($site_email, $old_address) == 0)) {
+          $delete = false;
+        }
+      }
+      if($delete) {
+        webform_improvements_delete_address($old_address);
+      }
+    }
+  }
+	//Om användaren varken är eller ska bli ägare ska vi inte göra någonting.
+}
+
+//Implements hook_user_delete()
+function webform_improvements_user_delete($owner) {
+  $recipient_roles = variable_get('webform_improvements_recipient_roles', array());
+	if(!$recipient_roles) return; //Det finns ingen ägarroll, avslutar.
+	//Kolla att det är en ägare som ska tas bort
+	$old_recipient_roles = array_uintersect_assoc($owner->roles, $recipient_roles, 'webform_improvements_cmp_roles_recipient');
+	if($old_recipient_roles) {
+    $old_address = strtolower($owner->mail);
+    $site_email = strtolower(variable_get('site_mail', ''));
+    $delete = true;
+    if(variable_get('webform_improvements_use_site_mail', false)) {
+      //Se till att sitemailen bevaras om den är samma som ägarens e-postadress
+      if($site_email && (strcmp($site_email, $old_address) == 0)) {
+        $delete = false;
+      }
+    }
+    if($delete) {
+      webform_improvements_delete_address($old_address);
+    }
+  }
+}
+function webform_improvements_cmp_roles_recipient($a, $b) {
+  if($b) {
+    return 0;
+  }
+  return -1;
+}

@@ -1,0 +1,54 @@
+
+/**
+ *  Style from the new (great!) ZEN THEME for Drupal 
+ * http://drupal.org/project/zen
+ */
+
+.menu-tabs{
+  clear:both;
+}
+.menu-tabs ul{
+  margin-bottom: -4px;
+  padding:0;
+  font-size:1em;
+  list-style: none;
+  display: inline-block;
+  width: 100%;
+  background:transparent url(../images/tab-bar.png) left -3px;
+}
+.browser-ie-7 .menu-tabs ul {
+  margin-bottom: 4px;
+}
+.menu-tabs ul li{
+  float: left;
+  margin:0 5px 3px 5px;
+  padding: 0 0 0 5px;
+  background:transparent url(../images/tab-left-ie6.png) no-repeat left -38px;
+}
+.menu-tabs ul li a{
+  font:bold 12px/170% Verdana;
+  font-size-adjust:none;
+  display: block;
+  margin: 0;
+  padding:4px 17px 0px 12px;
+  border-width: 0;
+  font-weight:bold;
+  text-decoration:none;
+  background: transparent url(../images/tab-right-ie6.png) no-repeat right -38px;
+}
+.menu-tabs ul li:hover a{
+  border-width: 0;
+  background:transparent url(../images/tab-right-ie6.png) no-repeat right -76px;
+}
+.menu-tabs ul li:hover{
+  background:transparent url(../images/tab-left-ie6.png) no-repeat left -76px;
+}
+.menu-tabs ul li.active a,
+.menu-tabs ul li.active a:hover{
+  text-decoration:none;
+  border-width: 0;
+  background:transparent url(../images/tab-right-ie6.png) no-repeat right 0;
+}
+.menu-tabs ul li.active{
+  background:transparent url(../images/tab-left-ie6.png) no-repeat left 0;
+}

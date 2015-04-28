@@ -1,0 +1,78 @@
+<?php
+//Implements hook_theme().
+function plain_text_formatter_theme($existing, $type, $theme, $path) {
+  return array(
+    'plain_text_formatter' => array(
+      'variables' => array(
+        'value' => '',
+        'line_break' => 'br',
+      ),
+      'file' => 'plain_text_formatter.theme.inc',
+    ),
+  );
+}
+/**
+ * Implements hook_field_formatter_info().
+ */
+function plain_text_formatter_field_formatter_info() {
+  return array(
+    'plain_text_formatter' => array(
+      'label' => t('Plain Text Formatter'),
+      'field types' => array('text', 'text_long'),
+      'settings' => array(
+        'line_break' => 'br',
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_settings_form().
+ */
+function plain_text_formatter_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+
+  $form = array();
+  $options = array(
+    'br' => t('Normal line break (<br />)'),
+    'p' => t('Enclosed in paragraphs (<p></p>)'),
+  );
+  $form['line_break'] = array(
+    '#type' => 'select',
+    '#title' => t('Line breaks'),
+    '#empty_value' => '_none',
+    '#options' => $options,
+    '#default_value' => $settings['line_break'],
+  );
+
+  return $form;
+}
+
+/**
+ * Implements hook_field_formatter_settings_summary().
+ */
+function plain_text_formatter_field_formatter_settings_summary($field, $instance, $view_mode) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+  $summary = array(
+    t('Line breaks').': '.$settings['line_break'],
+  );
+  return implode('<br />', $summary);
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function plain_text_formatter_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+  $settings = $display['settings'];
+  foreach ($items as $delta => $item) {
+    $element[$delta] = array(
+      '#theme' => 'plain_text_formatter',
+      '#value' => $item['value'],
+      '#line_break' => $settings['line_break'],
+    );
+  }
+  return $element;
+}

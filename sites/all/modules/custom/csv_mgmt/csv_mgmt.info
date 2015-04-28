@@ -1,0 +1,4 @@
+name = CSV Management
+description = Module for handling CSV generation from internal data
+package = Custommoduler
+core = 7.x

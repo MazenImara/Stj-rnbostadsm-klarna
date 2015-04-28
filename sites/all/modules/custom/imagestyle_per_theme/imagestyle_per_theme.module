@@ -1,0 +1,52 @@
+<?php
+//Implements hook_menu_alter()
+function imagestyle_per_theme_menu_alter(&$items) {
+  if(isset($items['admin/config/media/image-styles'])) {
+    $items['admin/config/media/image-styles']['page callback'] = 'imagestyle_per_theme_image_style_list';
+    $items['admin/config/media/image-styles']['file'] = 'imagestyle_per_theme.admin.inc';
+    $items['admin/config/media/image-styles']['file path'] = drupal_get_path('module', 'imagestyle_per_theme');
+  }
+}
+function imagestyle_per_theme_filter_styles($image_styles) {
+  $themes = list_themes();
+  $default_theme = variable_get('theme_default', '');
+  foreach($themes as $t_name => $theme) {
+    if($t_name === $default_theme) continue;
+    foreach($image_styles as $s_name => $title) {
+      if(substr($s_name, 0, (strlen($t_name) + 1)) === $t_name.'_') {
+        unset($image_styles[$s_name]);
+      }
+    }
+  }
+  return $image_styles;
+}
+//Implements hook_form_FORMID_alter().
+function imagestyle_per_theme_form_field_ui_display_overview_form_alter(&$form, $form_state) {
+  $themes = list_themes();
+  $default_theme = variable_get('theme_default', '');
+  if(isset($form['fields'])) {
+    foreach(element_children($form['fields']) as $field) {
+      if(!empty($form['fields'][$field]['format']['settings_edit_form']['settings']['image_style']['#options'])) {
+        $form['fields'][$field]['format']['settings_edit_form']['settings']['image_style']['#options'] = imagestyle_per_theme_filter_styles($form['fields'][$field]['format']['settings_edit_form']['settings']['image_style']['#options']);
+        //Reducera alternativen för responsive image i de fall de förekommer
+        $responsive_images = array();
+        foreach($form['fields'][$field]['format']['settings_edit_form']['settings']['image_style']['#options'] as $s_name => $title) {
+          $chopped_up = explode('_', $s_name);
+          if($chopped_up) {
+            $suffix = array_pop($chopped_up);
+            $base_form = implode('_', $chopped_up);
+            if($suffix === 'mobile') {
+              $responsive_images[$base_form] = $base_form;
+              unset($form['fields'][$field]['format']['settings_edit_form']['settings']['image_style']['#options'][$s_name]);
+            }
+            else {
+              if(isset($responsive_images[$base_form])) {
+                unset($form['fields'][$field]['format']['settings_edit_form']['settings']['image_style']['#options'][$s_name]);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,41 @@
+.extimgfield-slideshow {
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.extimgfield-slideshow-slide, .extimgfield-slideshow-slide a, .extimgfield-slideshow-slide img {
+  max-width: 100%;
+  height: auto !important;
+  width: auto !important;
+}
+
+.region-content ul.extimgfield-slideshow-pager {
+  list-style-type: none;
+  padding: 0;
+  overflow: hidden;
+}
+
+.extimgfield-slideshow-pager li {
+  float: left;
+  margin-right: 5px;
+}
+
+.jcarousel-clip {
+  overflow: hidden;
+}
+
+.extimgfield-slideshow-carousel li {
+  opacity: 0.6;
+}
+.extimgfield-slideshow-carousel li.activeSlide {
+  opacity: 1;
+}
+
+.extimgfield-slideshow-carousel-wrapper .hidden {
+  display: none;
+  visibility: hidden;
+}
+
+.extimgfield-slideshow-controls .play {
+  display: none;
+}

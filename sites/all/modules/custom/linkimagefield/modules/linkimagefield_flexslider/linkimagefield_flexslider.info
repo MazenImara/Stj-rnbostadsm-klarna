@@ -1,0 +1,7 @@
+name = LinkImage - Flex Slider
+description = Adds a Flex Slider field formatter for LinkImage
+core = 7.x
+package = Fields
+
+dependencies[] = linkimagefield
+dependencies[] = flexslider

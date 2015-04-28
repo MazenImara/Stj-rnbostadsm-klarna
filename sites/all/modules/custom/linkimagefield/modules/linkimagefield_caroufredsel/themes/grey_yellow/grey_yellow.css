@@ -1,0 +1,40 @@
+.caroufredsel-theme-grey_yellow {
+  background: none repeat scroll 0 0 #CCCCCC;
+  border-top: 15px solid #CCCCCC;
+  border-bottom: 15px solid #CCCCCC;
+  border-left: 7px solid #CCCCCC;
+  border-right: 7px solid #CCCCCC;
+  border-radius: 4px 4px 4px 4px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+.caroufredsel-theme-grey_yellow .caroufredsel_controls {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  -webkit-transition: all .3s ease;
+}
+.caroufredsel-theme-grey_yellow:hover .caroufredsel_controls {
+  opacity: 0.5;
+}
+.caroufredsel-theme-grey_yellow .caroufredsel_controls:hover {
+  opacity: 1;
+}
+.caroufredsel-theme-grey_yellow .caroufredsel_controls a {
+  position: absolute;
+  width: 40px;
+  height: 45px;
+  margin: -20px 0 0;
+  display: block;
+  background: url(bg_direction_nav.png) no-repeat 0 0;
+  z-index: 10;
+  cursor: pointer;
+  text-indent: -9999px;
+  opacity: 1;
+}
+.caroufredsel-theme-grey_yellow .caroufredsel_controls .caroufredsel_prev {
+  left: -10px;
+}
+.caroufredsel-theme-grey_yellow .caroufredsel_controls .caroufredsel_next {
+  background-position: 100% 0;
+  right: -10px;
+}

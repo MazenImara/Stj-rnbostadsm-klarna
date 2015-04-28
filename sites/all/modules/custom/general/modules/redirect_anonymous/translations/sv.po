@@ -1,0 +1,43 @@
+# $Id$
+#
+# LANGUAGE translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  redirect_anonymous.module: n/a
+#  redirect_anonymous.info: n/a
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2011-12-29 11:40+0100\n"
+"PO-Revision-Date: 2011-12-29 11:42+0100\n"
+"Last-Translator: Kristofer Tengström <krille012@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: redirect_anonymous.module:25
+msgid "The website is open to the public"
+msgstr "Webbplatsen är öppen för allmänheten"
+
+#: redirect_anonymous.module:33;34;41;42
+msgid "Redirect Anonymous settings"
+msgstr "Öppna webbplatsen"
+
+#: redirect_anonymous.module:53
+msgid "administer redirect anonymous"
+msgstr ""
+
+#: redirect_anonymous.info:0
+msgid "Redirect Anonymous"
+msgstr ""
+
+#: redirect_anonymous.info:0
+msgid "Redirect anonymous visitors to another page"
+msgstr ""
+
+#: redirect_anonymous.info:0
+msgid "Custommoduler"
+msgstr ""
+

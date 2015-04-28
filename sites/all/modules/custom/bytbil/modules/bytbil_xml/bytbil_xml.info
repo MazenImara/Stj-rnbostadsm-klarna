@@ -1,0 +1,10 @@
+name = Byt Bil - XML Import
+description = Byt Bil - XML Import
+package = Custommoduler
+
+dependencies[] = bytbil
+dependencies[] = field_extract
+dependencies[] = shadowbox
+dependencies[] = webform
+dependencies[] = general
+core = 7.x

@@ -1,0 +1,2 @@
+<?php
+module_load_include('php', 'html_parser', 'simple_html_dom');

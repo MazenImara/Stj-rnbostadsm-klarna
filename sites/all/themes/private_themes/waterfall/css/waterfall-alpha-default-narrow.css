@@ -1,0 +1,103 @@
+/* This file will hold styles that are loaded using the same media query as the narrow grid. */
+/* If you are using the default media queries provided by Omega, these styles will also
+ *  apply to the normal and widescreen layouts. You may override these styles in the normal 
+ *  and widescreen CSS files as appropriate. */
+body .container-24 {
+  width: 720px;
+}
+body .container-24 .grid-24 {
+  width: 720px;
+}
+body .container-24 .grid-8 {
+  width: 220px;
+}
+/*--------Logo------*/
+
+#block-logo-block-logo {
+
+  padding: 10px 0 0 10px;}
+/*--------Tagline-------*/
+#block-nodeblock-211 {
+float: left;
+  padding: 30px 0 0 12px;
+  width:170px;
+
+}
+
+#block-nodeblock-211 p {
+
+  font-size: 16px;
+
+}
+/*-------Adressruta---------*/
+
+#block-nodeblock-179 {
+
+  float: right;
+
+  padding: 38px 0;
+
+  width: 185px;
+  background:#1F2122;
+
+}
+
+#block-nodeblock-179 p {
+
+  color: #797A7A;
+
+  font-family: 'Josefin Slab',serif;
+
+  font-size: 13px;
+
+  font-style: italic;
+
+  font-weight: 600;
+
+  text-align: center;
+  line-height:150%;
+
+}
+/*----------Social-----------*/
+.social-links{padding:90px 0 0 0;}
+
+/*----------Page-----------*/
+body .container-24 .grid-6 {
+
+  width: 160px;
+  margin: 0;
+
+}
+body .container-24 .grid-18 {
+
+  width: 560px;
+
+  margin: 0;
+
+  max-width: 560px;
+
+}
+/*----------Bildspel-----------*/
+.node-bildspel .field-name-field-linkimages .nivoSlider {
+  height: 326px;
+}
+.node-bildspel .field-name-field-linkimages img {
+	height: 326px !important;
+}
+/*--------Panel------*/
+.node-panel .panel-display {
+  min-height: 350px;
+}
+/*---------Huvudmeny----------*/
+
+#block-superfish-1 ul.menu li a,
+#block-superfish-1 ul.menu li a:visited{ padding: 16px 12px;font-size: 15px;}
+
+/*-----------Sidfot------------*/
+#block-nodeblock-212 {
+  min-height: 300px;
+}
+#block-nodeblock-212 .field-name-body,
+#block-nodeblock-212 .field-name-field-extra-textfalt .field-item {
+  width: 220px;
+}

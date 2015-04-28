@@ -1,0 +1,5 @@
+name = Advanced Cache Logic Nodes
+description = Advanced Cache Logic for nodes appearing on other pages (includes panels support)
+dependencies[] = advanced_cache_logic
+package = Advanced Cache Logic
+core = 7.x

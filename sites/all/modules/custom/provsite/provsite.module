@@ -1,0 +1,64 @@
+<?php
+//Implements hook_menu()
+function provsite_menu() {
+  $items = array(
+    'provsite-login' => array(
+      'title' => 'Login as test user',
+      'page callback' => 'provsite_login_user',
+      'access callback' => 'provsite_login_access',
+      'type' => MENU_CALLBACK,
+    ),
+  );
+  return $items;
+}
+function provsite_init() {
+  drupal_add_css(drupal_get_path('module', 'provsite').'/css/provsite.css');
+}
+//Implements hook_block_info()
+function provsite_block_info() {
+  $blocks['login'] = array(
+    'info' => t('Provsite login'),
+    'cache' => DRUPAL_NO_CACHE,
+    'status' => 1,
+    'region' => 'content',
+    'visibility' => BLOCK_VISIBILITY_PHP,
+    'pages' => '<?php global $user; if(!$user->uid) return true; else return false; ?>',
+  );
+  return $blocks;
+}
+//Implements hook_block_view()
+function provsite_block_view($delta = '') {
+  $block = array();
+  switch ($delta) {
+    case 'login':
+      $destination = drupal_get_destination();
+      $destination = $destination['destination'];
+      foreach(module_implements('provsite_login_destination') as $module) {
+        $destination = module_invoke($module, 'provsite_login_destination', $destination);
+      };
+      $block['subject'] = '';
+      $block['content'] = l(t('Login as test user'), 'provsite-login', array('query' => array('destination' => $destination)));
+      break;
+  }
+  return $block;
+}
+function provsite_login_user(){
+  $form_state['uid'] = 3;
+  user_login_submit(array(), $form_state);
+  global $base_url;
+  if(isset($_GET['destination'])) {
+    drupal_goto($base_url.$_GET['destination']);
+  }
+  else {
+    drupal_goto($base_url.'/user');
+  }
+}
+function provsite_login_access() {
+	global $user;
+	if($user->uid) {
+    return false;
+  }
+	else {
+    return true;
+  }
+}

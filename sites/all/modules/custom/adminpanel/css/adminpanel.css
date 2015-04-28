@@ -1,0 +1,81 @@
+#adminpanel-edit-your-account-form .form-type-password-confirm .password-strength {
+  float: none;
+}
+body .menu-overview-form .menu-overview-table tbody tr td {
+  background-color: #ffffff;
+}
+body .menu-overview-form .menu-overview-table tbody tr.type-menu-link td {
+  background-color: #f9f9f9;
+}
+.menu-overview-form .menu-overview-table tbody tr.hidden {
+  display: none;
+}
+.menu-overview-form .menu-overview-table tbody td.col-title .open-children {
+  width: 16px;
+  height: 20px;
+  float: left;
+  margin-left: -5px;
+  margin-right: 5px;
+  cursor: pointer;
+  display: none;
+  background: transparent url(../images/arrow_right.png) center left no-repeat;
+}
+.menu-overview-form .menu-overview-table tbody td.col-title .open-children.open {
+  background: transparent url(../images/arrow_down.png) bottom left no-repeat;
+}
+.menu-overview-form .menu-overview-table tbody .link-parent td.col-title .open-children {
+  display: inline-block;
+}
+.menu-overview-form .menu-overview-table tbody td.col-content-type {
+  width: 120px;
+}
+.menu-overview-form .menu-overview-table tbody td.menu-enabled {
+  width: 70px;
+}
+.page-admin-dashboard td.type-menu-link {
+  font-style: italic;
+}
+.menu-overview-form .menu-overview-table tbody td.menu-sublinks {
+  width: 105px;
+}
+.menu-overview-form .menu-overview-table tbody td.menu-sublinks.cursor-pointer {
+  cursor: pointer;
+}
+.menu-overview-form .menu-overview-table tbody td.menu-sublinks span {
+  margin-top: 2px;
+  margin-right: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  display: inline-block;
+  min-width: 20px;
+  height: 20px;
+  text-align: center;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.menu-overview-form .menu-overview-table tbody td.menu-sublinks.cursor-pointer span {
+  border-radius: 10px;
+  background-color: #e2e2e2;
+}
+.menu-overview-form .menu-overview-table tbody td.menu-sublinks.cursor-pointer .menu-sublinks-total {
+
+}
+.menu-overview-form .menu-overview-table tbody td.menu-sublinks.cursor-pointer .menu-sublinks-published {
+
+}
+.menu-overview-form .menu-overview-table tbody td.menu-sublinks .menu-sublinks-translated {
+  display: none;
+}
+body.multilanguage .menu-overview-form .menu-overview-table tbody td.menu-sublinks .menu-sublinks-translated {
+  display: inline-block;
+}
+
+.menu-overview-form .menu-overview-table tbody  td.col-create-sublink {
+  width: 160px;
+}
+.content-type-view form {
+  display: none;
+}
+.content-type-view form#adminpanel-generate-node-list-none {
+  display: block;
+}

@@ -1,0 +1,162 @@
+<?php
+//Implements hook_init()
+function i18n_init() {
+  //Vidarebefordra en nod till dess alias om ett sådant finns. Se till att bara göra detta om sökvägen är node/xx.
+  $current_path = request_path();
+  $query = drupal_get_query_parameters();
+  $current_path_split = explode('/', $current_path);
+  if(count($current_path_split) == 2 && $current_path_split[0] === 'node' && !$query) {
+    $nid = $current_path_split[1];
+    $node = node_load($nid);
+    if($node) {
+      $lang = $node->language;
+      $languages = language_list();
+      $language = $languages[$lang];
+      $alias = drupal_lookup_path('alias', $current_path, $lang);
+      if($alias) {
+        drupal_goto($alias, array('alias' => true, 'language' => $language), 301);
+      }
+    }
+  }
+}
+//Implements hook_node_insert()
+function i18n_improvements_node_insert($node) {
+  if(!$node->tnid) {
+    $node->tnid = $node->nid;
+    drupal_write_record('node', $node, 'nid');
+  }
+}
+function i18n_improvements_get_node_translations($node, $full_node = false) {
+  if($node) {
+    $query = db_select('node', 'n')
+      ->fields('n', array('nid'))
+      ->condition('tnid', $node->tnid);
+    $result = $query->execute();
+    $translations = array();
+    while($nid = $result->fetchField()) {
+      if($nid!=$node->nid) {
+        $translations[] = $nid;
+      }
+    }
+    if($full_node) {
+      return node_load_multiple($translations);
+    }
+    return $translations;
+  }
+  else {
+    return false;
+  }
+}
+function i18n_improvements_get_translated_nid($nid) {
+	if(function_exists('translation_node_get_translations')) {
+		global $language;
+		$curlang = $language->language;
+		$tnids = translation_node_get_translations($nid);
+		if($tnids) {
+			if(isset($tnids[$curlang])) return $tnids[$curlang]->nid;
+		}
+	}
+	return $nid;
+}
+function i18n_improvements_get_enabled_languages() {
+  $languages = language_list();
+  //Ta bort språk som är inaktiverade
+  foreach($languages as $langcode => $lang) {
+    if(!$lang->enabled) {
+      unset($languages[$langcode]);
+    }
+  }
+  return $languages;
+}
+/*----------Ändrar ordningen för hooks--------*/
+/**
+ * Implements hook_module_implements_alter().
+ */
+function i18n_improvements_module_implements_alter(&$implementations, $hook) {
+  if ($hook === 'form_alter' || $hook === 'form_node_form_alter' || $hook === 'language_switch_links_alter') {
+    // Move my_module_theme_registry_alter() to the end of the list. module_implements()
+    // iterates through $implementations with a foreach loop which PHP iterates
+    // in the order that the items were added, so to move an item to the end of
+    // the array, we remove it and then add it.
+    if(isset($implementations['i18n_improvements'])) {
+      $group = $implementations['i18n_improvements'];
+      unset($implementations['i18n_improvements']);
+      $implementations['i18n_improvements'] = $group;
+    }
+  }
+}
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function i18n_improvements_form_node_type_form_alter(&$form, $form_state) {
+  if(!$form['#node_type']->type) { //Ny nodtyp, sätt standardvärden
+    $form['#submit'][] = 'i18n_improvements_node_type_form_new_submit';
+    if(isset($form['workflow'])) {
+      if(isset($form['workflow']['language_content_type'])) {
+        $form['workflow']['language_content_type']['#default_value'] = 2;
+      }
+    }
+  }
+  //Inaktivera språkalternativ så att ingen kan göra något misstag
+  if(isset($form['i18n']) && isset($form['i18n']['i18n_node_options'])) {
+    $form['i18n']['i18n_node_options']['#disabled'] = true;
+  }
+}
+function i18n_improvements_node_type_form_new_submit($form, &$form_state) {
+  if($form_state['values']['language_content_type']>0) {
+    $node_type = $form_state['values']['type'];
+    $node_options = array(
+      'current',
+      'required',
+    );
+    variable_set("i18n_node_options_$node_type", $node_options);
+    variable_set("i18n_node_extended_$node_type", 1);
+  }
+}
+//Implements hook_form_FORMID_alter().
+function i18n_improvements_form_node_type_delete_confirm_alter(&$form, $form_state) {
+  $form['#submit'][] = 'i18n_improvements_node_type_delete_confirm_submit';
+}
+function i18n_improvements_node_type_delete_confirm_submit($form, &$form_state) {
+  if($form_state['values']['confirm']) {
+    $node_type = $form['type']['#'.$form['type']['#type']];
+    variable_del("i18n_node_options_$node_type");
+    variable_del("i18n_node_extended_$node_type");
+  }
+}
+//Implements hook_form_BASE_FORM_ID_alter().
+function i18n_improvements_form_node_form_alter(&$form, $form_state) {
+  $form['#attached']['css'][] = drupal_get_path('module', 'i18n_improvements').'/css/i18n_improvements_node_form.css';
+  //Låser språkalternativen om lang eller target är definierat
+  if(isset($form['language'])) {
+    $lang = '';
+    if(isset($_GET['lang'])) {
+      $lang = check_plain($_GET['lang']);
+    }
+    elseif(isset($_GET['target'])) {
+      $lang = check_plain($_GET['target']);
+    }
+    if($lang) {
+      if(isset($form['language']['#options'][$lang])) {
+        $form['language']['#default_value'] = $lang;
+        $form['language']['#disabled'] = true;
+      }
+    }
+  }
+  //Döljer "Block translations options" (hör till Node Blocks) som alltid ska vara avstängd
+  if(isset($form['nodeblock'])) {
+    $form['nodeblock']['#access'] = false;
+  }
+}
+/**
+ * Implements hook_language_switch_links_alter().
+ *
+ * Döljer flagga/länk för språk där översättningen saknas eller besökaren inte har tillgång till den
+ */
+function i18n_improvements_language_switch_links_alter(array &$links, $type, $path) {
+   foreach($links as $langcode => &$item) {
+    if(!isset($item['href']) || !drupal_valid_path($item['href'])) {
+      $links[$langcode] = array();
+    }
+  }
+}

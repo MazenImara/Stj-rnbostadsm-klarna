@@ -1,0 +1,31 @@
+<?php
+//Implements hook_menu().
+function unique_menu() {
+  $items = array(
+
+  );
+  return $items;
+}
+//Implements hook_menu_alter().
+function unique_menu_alter(&$items) {
+
+}
+//Implements hook_theme_registry_alter().
+function unique_theme_registry_alter(&$theme_registry) {
+
+}
+//Implements hook_init().
+function unique_init() {
+
+}
+//Implements hook_permission().
+function unique_permission() {
+  $permissions = array(
+  
+  );
+  return $permissions;
+}
+//Implements hook_form_alter().
+function unique_form_alter(&$form, $form_state, $form_id) {
+
+}

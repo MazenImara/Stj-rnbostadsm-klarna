@@ -1,0 +1,5 @@
+name = Font-Your-Face Improvements
+description = Font-Your-Face Improvements
+package = Custommoduler
+core = 7.x
+dependencies[] = fontyourface_ui

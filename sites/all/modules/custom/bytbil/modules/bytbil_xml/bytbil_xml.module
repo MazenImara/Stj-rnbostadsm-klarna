@@ -1,0 +1,341 @@
+<?php
+//Implements hook_menu()
+function bytbil_xml_menu() {
+  $items = array();
+  $items['no-crawl/bytbil-xml-sync'] = array(
+  	'title' => '',
+  	'page callback' => 'bytbil_xml_sync',
+  	'access callback' => 'bytbil_xml_access',
+  	'type' => MENU_CALLBACK,
+  );
+  $items['no-crawl/bytbil-intresseanmalan/%/%/%'] = array(
+  	'title' => '',
+  	'page callback' => 'bytbil_xml_intresseanmalan',
+	 	'page arguments' => array(2, 3, 4),
+  	'file' => 'bytbil_xml.pages.inc',
+  	'access callback' => true,
+  	'type' => MENU_CALLBACK,
+  );
+  $items['no-crawl/bytbil-tipsa/%/%/%/%'] = array(
+  	'title' => '',
+  	'page callback' => 'bytbil_xml_tipsa',
+  	'page arguments' => array(2,3,4,5),
+  	'file' => 'bytbil_xml.pages.inc',
+  	'access callback' => true,
+  	'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+function bytbil_init() {
+  drupal_set_message(utf8_encode('Fixa site name-variabeln i "Tipsa en vän"-formuläret, den är hårdskriven.')); 
+}
+function bytbil_xml_access() {
+	if(isset($_GET['token'])) {
+		$cron_key = variable_get('cron_key', '');
+		if(check_plain($_GET['token']) === $cron_key) {
+			return true;
+		}
+	}
+	return false;
+}
+//Implements hook_redirect_anonymous_allowed_path().
+function bytbil_xml_redirect_anonymous_allowed_path() {
+	return 'no-crawl/bytbil-xml-sync';
+}
+function bytbil_xml_sync() {
+	drupal_page_is_cacheable(false);
+
+	$last_run = variable_get('bytbil_xml_last_run', date('Y-m-d', 0));
+	$today = date('Y-m-d');
+	$queue = DrupalQueue::get('bytbil_xml');
+	if($today > $last_run) {
+		module_load_include('inc', 'bytbil_xml', 'bytbil_xml.pages');
+		$items = bytbil_xml_init();
+		if($items) {
+		  // Put everything in a queue for processing.
+		  foreach($items as $item) {
+		    $queue->createItem($item);
+		  }
+		  variable_set('bytbil_xml_running', 1);
+			variable_set('bytbil_xml_last_run', $today);
+		}
+		else {
+			return false;
+		}
+	}
+	$items_left = $queue->numberOfItems();
+	if($items_left > 0) {
+		watchdog('bytbil_xml', "$items_left items left");
+		drupal_cron_run();
+	}
+	else {
+		$running = variable_get('bytbil_xml_running', 0);	
+		if($running) {
+			variable_set('bytbil_xml_running', 0);
+			watchdog('bytbil_xml', t('Finished all jobs.'));
+			if(module_exists('redirect_anonymous')) {
+		  	variable_set('redirect_anonymous_open', true);
+			}
+		  // Clear page caches again.
+		  if (module_exists('block')) {
+		    cache_clear_all('*', 'cache_block', TRUE);
+		  }
+		  cache_clear_all('*', 'cache_page', TRUE);
+		}
+	}
+}
+/**
+ * Implementation of hook_cron_queue_info()
+ */
+function bytbil_xml_cron_queue_info() {
+	$max_time =   ini_get('max_execution_time');
+  $queues['bytbil_xml'] = array(
+    'worker callback' => 'bytbil_xml_run', // This is the callback function for each queue item.
+    'time' => $max_time / 2,
+  );
+  return $queues;
+}
+/**
+ * Worker Callback for the runner cron queue.
+ */
+function bytbil_xml_run($item) {
+  module_load_include('inc', 'bytbil_xml', 'bytbil_xml.pages');
+  $function = $item[0];
+  $arguments = $item[1];
+  call_user_func_array($function, $arguments);
+}
+//Implements hook_form_FORMID_alter().
+function bytbil_xml_form_views_exposed_form_alter(&$form, &$form_state) {
+  if ($form_state['view']->name === 'bytbil_bilar') {
+		$form['#attached']['js'][] = drupal_get_path('module', 'bytbil_xml').'/js/bytbil_xml_exposed_filters.js';
+
+		$fields = array(
+			'miltal',
+			'pris',
+			'arsmodell',
+		);
+		$settings = array('limits' => array());
+
+		$minmax = variable_get('bytbil_minmax', array());
+
+		foreach($fields as $name) {
+			$fieldname = 'field_bytbil_'.$name.'_value';
+			if(isset($form[$fieldname])) {
+				//Hämta korrekta suffix
+				$suffix = '';
+				$field_instance = field_info_instance('node', 'field_bytbil_'.$name, 'bytbil_bil');
+				if($field_instance) {
+					if(isset($field_instance['settings']) && isset($field_instance['settings']['suffix'])) {
+						$suffix = $field_instance['settings']['suffix'];
+					}
+				}
+
+				$settings['limits'][$fieldname] = array();
+				if(isset($form[$fieldname]['min'])) {
+					//Titel
+					$form[$fieldname]['min']['#title'] = t('Min');
+					//Suffix
+					if($suffix) {
+						$form[$fieldname]['min']['#suffix'] = '<span class="field-suffix">'.$suffix.'</span>';
+					}
+					//Minvärde
+					if(isset($minmax[$name])) {
+						if (!isset($form_state['view']->exposed_input[$fieldname])) {
+							$form_state['input'][$fieldname]['min'] = $minmax[$name]['min'];
+						}
+					}
+					$settings['limits'][$fieldname]['min'] = $minmax[$name]['min'];
+				}
+				if(isset($form[$fieldname]['max'])) {
+					//Titel
+					$form[$fieldname]['max']['#title'] = t('Max');
+					//Suffix
+					if($suffix) {
+						$form[$fieldname]['max']['#suffix'] = '<span class="field-suffix">'.$suffix.'</span>';
+					}
+					//Maxvärde
+					if(isset($minmax[$name])) {
+						if (!isset($form_state['view']->exposed_input[$fieldname])) {
+							$form_state['input'][$fieldname]['max'] = $minmax[$name]['max'];
+						}
+					}
+					$settings['limits'][$fieldname]['max'] = $minmax[$name]['max'];
+				}
+			}
+		}
+		$field_defaults = array(
+			'karosseri' => 'Karosseri (Alla)',
+			'drivhjul' => 'Drivhjul (Alla)',
+			'drivmedel' => 'Drivmedel (Alla)',
+			'vaxellada' => utf8_encode('Växellåda (Alla)'),
+		);
+		foreach($field_defaults as $name => $default_value) {
+			$fieldname = 'field_bytbil_'.$name.'_tid';
+			if(isset($form[$fieldname])) {
+				if(isset($form[$fieldname]['#options']) && isset($form[$fieldname]['#options']['All'])) {
+					$form[$fieldname]['#options']['All'] = $default_value;
+				}
+			}
+		}
+		if($settings) {
+			$form['#attached']['library'][] = array('system', 'ui.slider');
+			$form['#attached']['js'][] = array(
+			  'data' => array('bytbil_xml' => $settings),
+			  'type' => 'setting',
+			);
+		}
+		if(isset($form['sort_by'])) {
+			$form['sort_by']['#title'] = '';
+			$form['sort_by']['#prefix'] = '<label>'.t('Sort by').'</label>';
+		}
+		if(isset($form['sort_order'])) {
+			$form['sort_order']['#title'] = '';
+		}
+		if(isset($form['submit'])) {
+			$form['submit']['#value'] = t('Search');	
+		}
+  }
+}
+//Implements hook_preprocess_views_exposed_form().
+function bytbil_xml_preprocess_views_exposed_form(&$vars) {
+	//Lägger till klass för intervallfilter
+	$form =& $vars['form'];
+	 foreach ($form['#info'] as $id => $info) {
+	 	if(isset($form[$info['value']]['#type']) && $form[$info['value']]['#type'] === 'select') {
+			$vars['widgets'][$id]->classes = 'bytbil-select-filter';
+		}
+    elseif(isset($form[$info['value']]['min'])) {
+			$vars['widgets'][$id]->classes = 'bytbil-interval-filter';
+		}
+  }
+}
+//Implements hook_views_query_alter().
+function bytbil_xml_views_query_alter(&$view, &$query) {
+	if($view->name === 'bytbil_bilar') {
+		//Ser till att between-filtren funkar även om man bara fyller i ett värde
+		$fields = array(
+			'miltal',
+			'pris',
+			'arsmodell',
+		);
+		foreach($fields as $name) {
+			$fieldname = 'field_bytbil_'.$name.'_value';
+			if(isset($view->exposed_input[$fieldname])) {
+				$min = '';
+				$max = '';
+				if(isset($view->exposed_input[$fieldname]['min'])) {
+					$min = $view->exposed_input[$fieldname]['min'];
+				}
+				if(isset($view->exposed_input[$fieldname]['max'])) {
+					$max = $view->exposed_input[$fieldname]['max'];
+				}
+				if(!strlen($min)) {
+					$found = 0;
+					foreach($query->where as $i => $where) {
+						if(isset($where['conditions'])) {
+							foreach($where['conditions'] as $j => $condition) {
+								$condfield = $condition['field'];
+								if(strpos($condfield, $fieldname) !== false) {
+									$found = 1;
+									$query->where[$i]['conditions'][$j]['value'] = (string) $max;
+									$query->where[$i]['conditions'][$j]['operator'] = '<=';
+									break;
+								}
+							}
+						}
+						if($found) break;
+					}
+				}
+				elseif(!strlen($max)) {
+					$found = 0;
+					foreach($query->where as $i => $where) {
+						if(isset($where['conditions'])) {
+							foreach($where['conditions'] as $j => $condition) {
+								$condfield = $condition['field'];
+								if(strpos($condfield, $fieldname) !== false) {
+									$found = 1;
+									$query->where[$i]['conditions'][$j]['value'] = (string) $min;
+									$query->where[$i]['conditions'][$j]['operator'] = '>=';
+									break;
+								}
+							}
+						}
+						if($found) break;
+					}
+				}
+			}
+		}
+	}
+}
+/**
+ * Implementation of hook_theme_registry_alter().
+ */
+function bytbil_xml_theme_registry_alter(&$theme_registry) {
+	if(isset($theme_registry['node']['preprocess functions'])) {
+		$key = array_search('bytbil_xml_preprocess_node', $theme_registry['node']['preprocess functions']);
+		if($key !== false) {
+			unset($theme_registry['node']['preprocess functions'][$key]);
+			$theme_registry['node']['preprocess functions'][] = 'bytbil_xml_preprocess_node';
+		}
+	}
+}
+//Implements hook_preprocess_HOOK().
+function bytbil_xml_preprocess_node(&$vars) {
+	/*--------------Lägger in knappar på bilnodens sida--------------*/
+	$node = $vars['node'];
+	$trimmed_view_mode = $vars['trimmed_view_mode'];
+	if($node->type === 'bytbil_bil' && $trimmed_view_mode === 'full') {
+	  $vars['knappar_overst'] = '';
+	  $knapp_tillbaka = '<a class="knapp float-left" href="#" onClick="history.back();return false;">'.t('Back').'</a>';
+	  $knapp_skrivut = '<a class="knapp float-right" href="#" onClick="window.print();return false;">'.t('Print this page').'</a>';
+	  $farg = field_extract_value('node', $node, 'field_bytbil_colorname');
+	  if($farg) {
+	    $farg = strtolower($farg);
+	  }
+	  $modell = '';
+	  $marke = '';
+		$tids = field_extract_values('node', $node, 'field_bytbil_bilmodell', array('key' => 'tid'));
+  	if($tids) {
+			for($i=0, $imax = count($tids); $i<$imax; $i++) {
+				$parents = taxonomy_get_parents($tids[$i]);
+				if($parents) {
+					$marke_term = array_shift($parents);
+					$marke = $marke_term->name;
+					$modell_term = taxonomy_term_load($tids[$i]);
+					$modell = $modell_term->name;
+					break;
+				}
+			}
+		}
+	  $modellar = field_extract_value('node', $node, 'field_bytbil_arsmodell');
+
+		$knapp_intresseanmalan = l(utf8_encode('Intresseanmälan'), "no-crawl/bytbil-intresseanmalan/$farg/$marke/$modell", array('absolute' => true, 'attributes' => array('class' => 'knapp float-right', 'rel' => 'shadowbox;width=400')));
+
+		$knapp_tipsa = l(utf8_encode('Tipsa en vän'), "no-crawl/bytbil-tipsa/$node->nid/$marke/$modell/$modellar", array('absolute' => true, 'attributes' => array('class' => 'knapp float-right', 'rel' => 'shadowbox;width=320;height=368')));
+
+		$knapp_finansering = '';
+		$regnr = field_extract_value('node', $node, 'field_bytbil_regnr');
+		if($regnr) {
+			$knapp_finansering = l('Finansiering', 'http://data.bytbil.com/carinfo.cgi?finansiering=1&regno='.$regnr.'&look=autoitalia', array('attributes' => array('class' => 'knapp float-right link-finansiering', 'rel' => 'shadowbox;width=540;height=400')));
+		}
+
+	  $vars['knappar_overst'] .= $knapp_tillbaka;
+	  $vars['knappar_overst'] .= $knapp_finansering;
+	  $vars['knappar_overst'] .= $knapp_tipsa;
+	  $vars['knappar_overst'] .= $knapp_intresseanmalan;
+	  $vars['knappar_overst'] .= $knapp_skrivut;
+	  /*---------------Parsar infotexten--------------*/
+	  $info = field_extract_value('node', $node, 'field_bytbil_info');
+	  if($info) {
+			$info_array = explode(', ', $info);
+			$vars['content']['field_bytbil_info'][0] = array(
+				'#theme' => 'item_list',
+				'#items' => $info_array,
+			);
+		}
+		/*---------Sätter "Faktaruta" ovanför tabellen-----------*/
+		if(isset($vars['content']['field_bytbil_arsmodell'])) {
+			$vars['content']['field_bytbil_arsmodell']['#prefix'] = '<div class="faktaruta">Faktaruta</div>';
+		}
+	}
+}

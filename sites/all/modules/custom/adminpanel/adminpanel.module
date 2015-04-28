@@ -1,0 +1,551 @@
+<?php
+//Implements hook_menu().
+function adminpanel_menu() {
+  $items = array();
+  $items['admin/dashboard'] = array(
+    'title' => t('Dashboard'),
+    'page callback' => 'adminpanel_page',
+    'access arguments' => array('adminpanel_access'),
+    'file' => 'adminpanel.include.inc',
+    'weight' => 15,
+  );
+  $items['admin/config/system/dashboard'] = array(
+    'title' => t('Configure Admin Panel'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('adminpanel_settings_form'),
+    'access arguments' => array('adminpanel_configure'),
+    'file' => 'adminpanel.include.inc',
+  );
+  $items['ajax/dashboard-refresh'] = array(
+    'title' => t('Refresh table for admin panel'),
+    'page callback' => 'adminpanel_ajax_refresh_table_callback',
+    'access arguments' => array('adminpanel_access'),
+    'file' => 'adminpanel.include.inc',
+    'type' => MENU_CALLBACK,
+  );
+  $items['ajax/dashboard-search'] = array(
+    'title' => t('Search results for admin panel'),
+    'page callback' => 'adminpanel_ajax_search_callback',
+    'access arguments' => array('adminpanel_access'),
+    'file' => 'adminpanel.include.inc',
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+//Implements hook_theme().
+function adminpanel_theme() {
+  return array(
+    'adminpanel_menu_overview_form' => array(
+      'file' => 'adminpanel.include.inc',
+      'render element' => 'form',
+    ),
+  );
+}
+//Implements hook_permission()
+function adminpanel_permission() {
+  return array(
+    'adminpanel_access' => array(
+      'title' => t('Access Admin Panel'),
+    ),
+    'adminpanel_display_seo' => array(
+      'title' => t('Display SEO Block'),
+    ),
+    'adminpanel_configure' => array(
+      'title' => t('Configure Admin Panel'),
+    ),
+  );
+}
+//Implements hook_provsite_login_destination()
+function adminpanel_provsite_login_destination($destination) {
+  $account = user_load(3);
+  if(user_access('adminpanel_access', $account)) {
+    return 'admin/dashboard';
+  }
+  return $destination;
+}
+//Implements hook_forms().
+function adminpanel_forms($form_id, $args) {
+  if (strpos($form_id, 'adminpanel_menu_overview_form_') !== FALSE) {
+    $forms[$form_id] = array(
+      'callback' => 'adminpanel_menu_overview_form',
+      'callback arguments' => array($args[0], $args[1]),
+    );
+    return $forms;
+  }
+  elseif(strpos($form_id, 'adminpanel_generate_node_list_') !== FALSE) {
+    $forms[$form_id] = array(
+      'callback' => 'adminpanel_generate_node_list',
+      'callback arguments' => array($args[0]),
+    );
+    return $forms;
+  }
+}
+//Implements hook_form_FORMID_alter()
+function adminpanel_form_user_login_alter(&$form, &$form_state) {
+  $form['#submit'][] = 'adminpanel_user_login_submit';
+}
+function adminpanel_user_login_submit($form, &$form_state) {
+  if(user_access('adminpanel_access')) {
+    if(!isset($_GET['destination'])) {
+      $_GET['destination'] = 'admin/dashboard';
+    }
+  }
+}
+//Implements hook_preprocess_HOOK().
+function adminpanel_preprocess_html(&$vars) {
+  module_load_include('inc', 'adminpanel', 'adminpanel.include');
+  adminpanel_initialize();
+  $current_path = current_path();
+  if($current_path==='admin/dashboard') {
+    if($vars['user']->language != $vars['language']->language) {
+      drupal_goto($current_path, array('language' => user_preferred_language($vars['user'])));
+    }
+  }
+
+}
+//Implements hook_block_info()
+function adminpanel_block_info() {
+  $blocks['overview'] = array(
+    'info' => t('Admin Panel: Overview'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['create_content'] = array(
+    'info' => t('Admin Panel: Create Content'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['edit_site_configuration'] = array(
+    'info' => t('Admin Panel: Edit Site Configuration'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['edit_your_account'] = array(
+    'info' => t('Admin Panel: Edit Your Account'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  return $blocks;
+}
+//Implements hook_block_view()
+function adminpanel_block_view($delta = '') {
+  $block = array();
+  module_load_include('inc', 'adminpanel', 'adminpanel.include');
+  switch ($delta) {
+    case 'overview':
+      $block['subject'] = t('Content');
+      $block['content'] = array(
+        '#title' => t('Content'),
+      );
+      $block['content']['content'] = adminpanel_overview_content();
+      break;
+      
+    case 'create_content':
+      $block['subject'] = t('Create content');
+      $block['content'] = array(
+        '#title' => t('Create content'),
+      );
+      $block['content']['content'] = adminpanel_create_content_content();
+      break;
+
+    case 'edit_site_configuration':
+      $block['subject'] = t('Edit site configuration');
+      $block['content'] = array(
+        '#title' => t('Edit site configuration'),
+      );
+      $block['content']['content'] = drupal_get_form('adminpanel_edit_site_configuration_form');
+      break;
+
+    case 'edit_your_account':
+      $block['subject'] = t('Edit your account');
+      $block['content'] = array(
+        '#title' => t('Edit your account'),
+      );
+      $block['content']['content'] = drupal_get_form('adminpanel_edit_your_account_form');
+      break;
+  }
+  return $block;
+}
+//Ändrar "Redigera meny"-länken så att den pekar mot adminpanelen i stället
+//Implements hook_contextual_links_view_alter()
+function adminpanel_contextual_links_view_alter(&$element, &$items) {
+  if(isset($element['#element']['#block'])) {
+    if($element['#element']['#block']->module==='superfish' || $element['#element']['#block']->module==='menu' || $element['#element']['#block']->module==='menu_block') {
+      if(isset($element['#links']['menu'])) {
+        if(user_access('adminpanel_access')) {
+          $element['#links']['menu']['href'] = url('admin/dashboard', array('absolute' => TRUE));
+        }
+      }
+    }
+  }
+}
+/*--------------UPPDATERAR DATABASEN NÄR NODER UPPDATERAS-----------------*/
+//Implements hook_node_insert()
+function adminpanel_node_insert($node) {
+  module_load_include('inc', 'adminpanel', 'adminpanel.include');
+  adminpanel_node_insert_callback($node);
+  //Inaktivera cache.
+  cache_clear_all('adminpanel', 'cache', true);
+}
+//Implements hook_node_update()
+function adminpanel_node_update($node) {
+  module_load_include('inc', 'adminpanel', 'adminpanel.include');
+  adminpanel_node_update_callback($node);
+  //Inaktivera cache.
+  cache_clear_all('adminpanel', 'cache', true);
+}
+//Implements hook_node_delete()
+function adminpanel_node_delete($node) {
+  module_load_include('inc', 'adminpanel', 'adminpanel.include');
+  adminpanel_node_delete_callback($node);
+  //Inaktivera cache.
+  cache_clear_all('adminpanel', 'cache', true);
+}
+/*--------------------Integration med formulär---------------------------------*/
+/*----------Ändrar ordningen för hooks--------*/
+/**
+ * Implements hook_module_implements_alter().
+ */
+function adminpanel_module_implements_alter(&$implementations, $hook) {
+  if ($hook === 'form_alter' || $hook === 'contextual_links_view_alter') {
+    // Move my_module_theme_registry_alter() to the end of the list. module_implements()
+    // iterates through $implementations with a foreach loop which PHP iterates
+    // in the order that the items were added, so to move an item to the end of
+    // the array, we remove it and then add it.
+    if(isset($implementations['adminpanel'])) {
+      $group = $implementations['adminpanel'];
+      unset($implementations['adminpanel']);
+      $implementations['adminpanel'] = $group;
+    }
+  }
+}
+//Implements hook_form_FORMID_alter()
+function adminpanel_form_general_settings_form_alter(&$form, &$form_state) {
+  $form_state['storage']['batch_operations'] = array_merge(array('adminpanel_form_general_settings_submit'), $form_state['storage']['batch_operations']);
+}
+function adminpanel_form_general_settings_submit(&$context) {
+  $form =& $_SESSION['general_settings_form'];
+  $form_state =& $_SESSION['general_settings_form_state'];
+  $old_option = variable_get('general_language_settings', 'single');
+  $new_option = $form_state['values']['general_language_settings'];
+  if($old_option!==$new_option) {
+    //Flagga för att adminpanelen ska byggas om
+    $context['results']['adminpanel_rebuild'] = true;
+  }
+}
+//Implements hook_form_FORMID_alter().
+function adminpanel_form_menu_edit_menu_alter(&$form, $form_state) {
+  $form['#submit'][] = 'adminpanel_form_menu_edit_menu_submit';
+  $adminpanel_menus = variable_get('adminpanel_menus', array());
+  $default_value = true;
+  if(!$form['#insert']) {
+    $menu_name = $form['menu_name']['#default_value'];
+    if(isset($adminpanel_menus[$menu_name])) {
+      $default_value = $adminpanel_menus[$menu_name] ? true : false;
+    }
+  }
+  $form['adminpanel_display_menu'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Display menu on dashboard'),
+    '#default_value' => $default_value,
+  );
+}
+function adminpanel_form_menu_edit_menu_submit($form, &$form_state) {
+  $adminpanel_menus = variable_get('adminpanel_menus', array());
+  $old_menu_value = $form['menu_name']['#default_value'];
+  $new_menu_value = $form_state['values']['menu_name'];
+  $old_value = $form['adminpanel_display_menu']['#default_value'];
+  $new_value = $form_state['values']['adminpanel_display_menu'];
+  $changed = false;
+  if($form['#insert']) { //Ny meny
+    $adminpanel_menus['menu-'.$new_menu_value] = $new_value ? 'menu-'.$new_menu_value : 0;
+    $changed = true;
+  }
+  else { //Befintlig meny
+    //Ta bort det gamla menynamnet om man ändrar det
+    if($old_menu_value !== $new_menu_value) {
+      unset($adminpanel_menus[$old_menu_value]);
+      $changed = true;
+    }
+    //Uppdatera arrayen med det nya värdet om man ändrar det
+    if($old_value != $new_value) {
+      $adminpanel_menus[$new_menu_value] = $new_value ? $new_menu_value : 0;
+      $changed = true;
+    }
+  }
+  if($changed) {
+    variable_set('adminpanel_menus', $adminpanel_menus);
+  }
+}
+//Implements hook_form_FORMID_alter().
+function adminpanel_form_menu_delete_menu_confirm_alter(&$form, $form_state) {
+  $form['#submit'][] = 'adminpanel_form_menu_delete_menu_confirm_submit';
+}
+function adminpanel_form_menu_delete_menu_confirm_submit($form, &$form_state) {
+  if(isset($form_state['complete form']) && isset($form_state['complete form']['#menu'])) {
+    //Ta bort menyn från adminpanelen
+    $adminpanel_menus = variable_get('adminpanel_menus', array());
+    $menu_name = $form_state['complete form']['#menu']['menu_name'];
+    if(isset($adminpanel_menus[$menu_name])) {
+      unset($adminpanel_menus[$menu_name]);
+      variable_set('adminpanel_menus', $adminpanel_menus);
+    }
+  }
+}
+//Implements hook_form_FORMID_alter().
+function adminpanel_form_node_type_form_alter(&$form, $form_state) {
+  $form['#submit'][] = 'adminpanel_node_type_form_submit';
+  $form['adminpanel'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Dashboard'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#group' => 'additional_settings',
+  );
+  $default_value = true;
+  if($form['#node_type']->type) {
+    $node_type = $form['#node_type']->type;
+    $types = node_type_get_names();
+    $allowed_types = variable_get('adminpanel_node_types', array_keys($types));
+    if(!(isset($allowed_types[$node_type]) && $allowed_types[$node_type])) {
+      $default_value = false;
+    }
+  }
+  $form['adminpanel']['display_on_adminpanel'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Display this content type on dashboard'),
+    '#default_value' => $default_value,
+  );
+}
+function adminpanel_node_type_form_submit($form, &$form_state) {
+  $old_value = $form['adminpanel']['display_on_adminpanel']['#default_value'];
+  $new_value = $form_state['values']['display_on_adminpanel'];
+  $current_type = $form_state['values']['type'];
+  if($form['#node_type']->type) { //Befintlig nodtyp
+    $type_has_changed = false;
+    $old_type = $form['#node_type']->type;
+    $new_type = $form_state['values']['type'];
+    if($old_type !== $new_type) {
+      $type_has_changed = true;
+    }
+    if($type_has_changed) {
+      $types = node_type_get_names();
+      $allowed_types = variable_get('adminpanel_node_types', array_keys($types));
+      unset($allowed_types[$form['#node_type']->type]);
+      $allowed_types[$current_type] = $new_value ? $current_type : 0;
+      variable_set('adminpanel_node_types', $allowed_types);
+      adminpanel_rebuild_all(null, false);
+    }
+    else {
+      if($old_value!=$new_value) {
+        adminpanel_update_settings_for_content_type($current_type, $new_value);
+        adminpanel_rebuild_all(null, false);
+      }
+    }
+  }
+  else { //Ny nodtyp
+    if($new_value) { //Visa på adminpanel
+      adminpanel_update_settings_for_content_type($current_type, $new_value);
+      adminpanel_rebuild_all(null, false);
+    }
+  }
+}
+function adminpanel_update_settings_for_content_type($node_type, $new_value) {
+  $types = node_type_get_names();
+  $allowed_types = variable_get('adminpanel_node_types', array_keys($types));
+  $allowed_types[$node_type] = $new_value ? $node_type : 0;
+  variable_set('adminpanel_node_types', $allowed_types);
+}
+//Implements hook_form_FORMID_alter().
+function adminpanel_form_node_type_delete_confirm_alter(&$form, $form_state) {
+  $form['#submit'][] = 'adminpanel_node_type_delete_confirm_submit';
+}
+function adminpanel_node_type_delete_confirm_submit($form, &$form_state) {
+  if($form_state['values']['confirm']) {
+    $rebuild = false;
+    $node_type = $form['type']['#'.$form['type']['#type']];
+    $types = node_type_get_names();
+    $allowed_types = variable_get('adminpanel_node_types', array_keys($types));
+    if(isset($allowed_types[$node_type]) && $allowed_types[$node_type]) {
+      $rebuild = true;
+    }
+    unset($allowed_types[$node_type]);
+    variable_set('adminpanel_node_types', $allowed_types);
+    if($rebuild) {
+      adminpanel_rebuild_all(null, false);
+    }
+  }
+}
+function adminpanel_rebuild_all($multilanguage = null, $use_batch = true) {
+  //Inaktivera cache.
+  cache_clear_all('adminpanel', 'cache', true);
+  unset($_SESSION['adminpanel_rebuild']);
+  db_truncate('adminpanel')->execute();
+
+  $allowed_types = variable_get('adminpanel_node_types', array());
+  $has_sidtyper = array();
+  $allowed_sidtyp = variable_get('adminpanel_sidtyper', array());
+  foreach($allowed_types as $type => $name) {
+    $fields = field_info_instances("node",$type);
+    if(isset($fields['field_sidtyp'])) {
+      $has_sidtyper[$type] = true;
+    }
+  }
+  $dead_nodes = variable_get('general_dead_nodes', array(0));
+  $result = db_select('node', 'n')
+  ->fields('n', array('nid', 'type', 'tnid', 'title', 'status'))
+  ->condition('n.type', $allowed_types)
+  ->condition('n.nid', $dead_nodes, 'NOT IN')
+  ->execute();
+  if($result) {
+    if($multilanguage === null) {
+      $multilanguage = (variable_get('general_language_settings', 'single')==='multi') ? true : false;
+    }
+    $translations = array();
+    $insert = array();
+    if($use_batch) {
+      $batch_operations = array();
+      while($record = $result->fetchAssoc()) {
+        $batch_operations[] = array('adminpanel_process_record', array($record, $has_sidtyper, $allowed_sidtyp, $multilanguage));
+      }
+      $batch = array(
+        'title' => t('Updating admin panel').'...',
+        'operations' => $batch_operations,
+        'finished' => 'adminpanel_process_record_finished',
+      );
+      batch_set($batch);
+      batch_process();
+    }
+    else {
+      $results = array();
+      while($record = $result->fetchAssoc()) {
+        if(!isset($results['translations'])) $results['translations'] = array();
+        if(!isset($results['insert'])) $results['insert'] = array();
+        if(!isset($results['multilanguage'])) $results['multilanguage'] = $multilanguage;
+        $node = node_load($record['nid']);
+        if(isset($has_sidtyper[$record['type']])) {
+          $term_sidtyp = field_extract_value('node', $node, 'field_sidtyp');
+          if(!$allowed_sidtyp[$term_sidtyp->tid]) {
+            continue;
+          }
+        }
+        if ($multilanguage) {
+          if($record['tnid']==$record['nid'] || $record['tnid']==0) { //tsource
+            if(!isset($results['translations'][$record['nid']])) $results['translations'][$record['nid']] = array();
+            $results['translations'][$record['nid']] += array($record['nid'] => $record);
+          }
+          else { //tslave
+            if(!isset($results['translations'][$record['tnid']])) $results['translations'][$record['tnid']] = array();
+            $results['translations'][$record['tnid']] += array($record['nid'] => $record);
+          }
+        }
+        else { //Enspråkig
+          $record['translations'] = 0;
+          $record['translation_points'] = 0;
+          unset($record['tnid']);
+          $results['insert'][] = $record;
+        }
+      }
+      if($results['multilanguage']) {
+        $languages = i18n_improvements_get_enabled_languages();
+        $lang_count = count($languages);
+        foreach($results['translations'] as $tsource => &$records) {
+          $translation_count = 0;
+          $points = 0;
+          foreach($results['translations'][$tsource] as $nid => $record) {
+            $translation_count++;
+            $points += 5;
+            if($record['status']) {
+              $points += 1;
+            }
+          }
+          $records[$tsource]['translations'] = $translation_count;
+          $records[$tsource]['translation_points'] = $points;
+          unset($records[$tsource]['tnid']);
+          $results['insert'][] = $records[$tsource];
+        }
+      }
+      $query = db_insert('adminpanel')->fields(array('nid', 'type', 'title', 'status', 'translations', 'translation_points'));
+      foreach ($results['insert'] as $record) {
+        $query->values($record);
+      }
+      $query->execute();
+      drupal_set_message(t('Admin panel has been updated.'));
+    }
+  }
+}
+function adminpanel_process_record($record, $has_sidtyper, $allowed_sidtyp, $multilanguage, &$context) {
+  if(!isset($context['results']['translations'])) $context['results']['translations'] = array();
+  if(!isset($context['results']['insert'])) $context['results']['insert'] = array();
+  if(!isset($context['results']['multilanguage'])) $context['results']['multilanguage'] = $multilanguage;
+  $node = node_load($record['nid']);
+  if(isset($has_sidtyper[$record['type']])) {
+    $term_sidtyp = field_extract_value('node', $node, 'field_sidtyp');
+    if(!$allowed_sidtyp[$term_sidtyp->tid]) {
+      return;
+    }
+  }
+  if ($multilanguage) {
+    if($record['tnid']==$record['nid'] || $record['tnid']==0) { //tsource
+      if(!isset($context['results']['translations'][$record['nid']])) $context['results']['translations'][$record['nid']] = array();
+      $context['results']['translations'][$record['nid']] += array($record['nid'] => $record);
+    }
+    else { //tslave
+      if(!isset($context['results']['translations'][$record['tnid']])) $context['results']['translations'][$record['tnid']] = array();
+      $context['results']['translations'][$record['tnid']] += array($record['nid'] => $record);
+    }
+  }
+  else { //Enspråkig
+    $record['translations'] = 0;
+    $record['translation_points'] = 0;
+    unset($record['tnid']);
+    $context['results']['insert'][] = $record;
+  }
+}
+function adminpanel_process_record_finished($success, $results, $operations) {
+  // The 'success' parameter means no fatal PHP errors were detected. All
+  // other error management should be handled using 'results'.
+  if ($success) {
+    $message = t('Admin panel has been updated.');
+    //Bearbetar translations
+    if($results['multilanguage']) {
+      $languages = i18n_improvements_get_enabled_languages();
+      $lang_count = count($languages);
+      foreach($results['translations'] as $tsource => &$records) {
+        $translation_count = 0;
+        $points = 0;
+        foreach($results['translations'][$tsource] as $nid => $record) {
+          $translation_count++;
+          $points += 5;
+          if($record['status']) {
+            $points += 1;
+          }
+        }
+        $records[$tsource]['translations'] = $translation_count;
+        $records[$tsource]['translation_points'] = $points;
+        unset($records[$tsource]['tnid']);
+        $results['insert'][] = $records[$tsource];
+      }
+    }
+    $query = db_insert('adminpanel')->fields(array('nid', 'type', 'title', 'status', 'translations', 'translation_points'));
+    foreach ($results['insert'] as $record) {
+      $query->values($record);
+    }
+    $query->execute();
+  }
+  else {
+    $message = t('Finished with an error.');
+  }
+  drupal_set_message($message);
+}
+//Implements hook_menu_node_insert().
+function adminpanel_menu_node_insert($link, $node) {
+  //Inaktivera cache.
+  cache_clear_all('adminpanel:menu', 'cache', true);
+}
+//Implements hook_menu_node_update().
+function adminpanel_menu_node_update($link, $node) {
+  //Inaktivera cache.
+  cache_clear_all('adminpanel:menu', 'cache', true);
+}
+//Implements hook_menu_node_delete().
+function adminpanel_menu_node_delete($link, $node) {
+  //Inaktivera cache.
+  cache_clear_all('adminpanel:menu', 'cache', true);
+}

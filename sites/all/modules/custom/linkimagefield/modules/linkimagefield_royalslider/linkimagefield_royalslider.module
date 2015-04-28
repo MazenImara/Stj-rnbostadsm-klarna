@@ -1,0 +1,94 @@
+<?php
+
+/**
+ * Implements hook_theme().
+ */
+function linkimagefield_royalslider_theme($existing, $type, $theme, $path) {
+  return array(
+    'linkimagefield_royalslider' => array(
+      'variables' => array(
+        'royalslider_id' => '',
+        'optionset' => 'default',
+        'skin' => '',
+        'picture_group' => '',
+        'fallback_image_style' => '',
+        'items' => array(),
+      ),
+      'path' => $path . '/theme',
+      'template' => 'royalslider',
+      'file' => 'linkimagefield_royalslider.theme.inc',
+    ),
+    'linkimagefield_royalslider_item' => array(
+      'variables' => array(
+        'royalslider_id' => '',
+        'optionset' => 'default',
+        'picture_group' => '',
+        'fallback_image_style' => '',
+        'item' => NULL,
+      ),
+      'path' => $path . '/theme',
+      'template' => 'royalslider-item',
+      'file' => 'linkimagefield_royalslider.theme.inc',
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function linkimagefield_royalslider_field_formatter_info() {
+  $formatter = royalslider_field_formatter_info();
+  $formatter['linkimagefield_royalslider'] = $formatter['royalslider'];
+  unset($formatter['royalslider']);
+  $formatter['linkimagefield_royalslider']['field types'][] = 'linkimagefield';
+  $formatter['linkimagefield_royalslider']['settings']['picture_group'] = '';
+  $formatter['linkimagefield_royalslider']['settings']['fallback_image_style'] = '';
+  return $formatter;
+}
+/**
+ * Implements hook_field_formatter_info_alter().
+ */
+function linkimagefield_royalslider_field_formatter_info_alter(&$info) {
+  unset($info['royalslider']);
+}
+
+/**
+ * Implements hook_field_formatter_settings_form().
+ */
+function linkimagefield_royalslider_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  $royalslider_instance = $instance;
+  $royalslider_instance['display'][$view_mode]['type'] = 'royalslider';
+  $elements = royalslider_field_formatter_settings_form($field, $royalslider_instance, $view_mode, $form, $form_state);
+  $elements += picture_field_formatter_settings_form($field, $instance, $view_mode, $form, $form_state);
+  unset($elements['image_link']);
+  return $elements;
+}
+
+/**
+ * Implements hook_field_formatter_settings_summary().
+ */
+function linkimagefield_royalslider_field_formatter_settings_summary($field, $instance, $view_mode) {
+  $royalslider_instance = $instance;
+  $royalslider_instance['display'][$view_mode]['type'] = 'royalslider';
+  $summary = royalslider_field_formatter_settings_summary($field, $royalslider_instance, $view_mode);
+  $picture_instance = $instance;
+  $picture_instance['display'][$view_mode]['settings']['image_link'] = '';
+  $summary .= '<br />' . picture_field_formatter_settings_summary($field, $picture_instance, $view_mode);
+  return $summary;
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function linkimagefield_royalslider_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $royalslider_display = $display;
+  $royalslider_display['type'] = 'royalslider';
+  $elements = royalslider_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $royalslider_display);
+  $settings = $display['settings'];
+  foreach($elements as &$element) {
+    $element['#theme'] = 'linkimagefield_royalslider';
+    $element['#picture_group'] = $settings['picture_group'];
+    $element['#fallback_image_style'] = $settings['fallback_image_style'];
+  }
+  return $elements;
+}

@@ -1,0 +1,570 @@
+/* This file will hold styles for all layouts using the alpha grid (i.e. not the mobile layout). */
+
+body.html input[type="text"],
+
+body.html input[type="password"], 
+
+body.html input[type="email"], 
+
+body.html textarea, 
+
+body.html select {
+
+  background: none repeat scroll 0 0 #CCCCCC;
+
+  border: 1px solid #777777;
+
+  border-radius: 2px 2px 2px 2px;
+
+  color: #777777;
+
+  display: block;
+
+  font: 13px "HelveticaNeue","Helvetica Neue",Helvetica,Arial,sans-serif;
+
+  margin: 0 0 20px;
+
+  max-width: 100%;
+
+  outline: medium none;
+
+  padding: 6px 4px;
+
+  width: 420px;
+
+ 
+
+}
+
+body.html form #edit-actions {
+
+  width: 420px;
+
+}
+
+/*--------Telefonruta----------*/
+
+#block-nodeblock-165 {
+
+  float: right;
+
+  padding: 20px 4px 0 69px;
+
+  background: transparent url("../images/bestallbg.png") left 19px no-repeat;
+
+}
+
+#block-nodeblock-165 p {
+
+  color: #CCC;
+
+  font-family: 'Milonga', cursive;
+
+  font-size: 16px;
+
+}
+
+/*----------------------------*/
+
+/*------------Huvudmeny---------*/
+
+#block-superfish-1 {
+
+  height: 50px;
+
+}
+
+#block-superfish-1 ul.sf-menu li {
+
+  border-right: 1px solid #333333;
+
+}
+
+#block-superfish-1 ul.sf-menu li a,
+
+#block-superfish-1 ul.sf-menu li a:visited {
+
+    border: medium none;
+
+    color: #B42D50;
+
+    display: block;
+
+    font-family: 'Milonga',cursive;
+
+    font-size: 18px;
+
+    font-weight: 300;
+
+    line-height: 22px;
+
+    padding: 14px 22px;
+
+    text-decoration: none;
+
+}
+
+#block-superfish-1 ul.sf-menu li a.active {
+
+    background: none repeat scroll 0 0 #B42D50;
+
+    color: #000000;
+
+    display: block;
+
+}
+
+#block-superfish-1 ul.sf-menu li a:hover {
+
+	text-decoration: none;	
+
+	display: block;	
+
+	background:#B42D50;
+
+	color: #000;
+
+}
+
+/*---Nivå 2--*/
+#zone-menu-wrapper {padding:0px;}
+
+#block-superfish-1 ul.sf-menu ul {
+
+  top: 50px;
+
+}
+
+#block-superfish-1 ul.sf-menu ul li {
+
+  background-image: linear-gradient(bottom, rgb(0,0,0) 0%, rgb(34,34,34) 100%);
+
+  background-image: -o-linear-gradient(bottom, rgb(0,0,0) 0%, rgb(34,34,34) 100%);
+
+  background-image: -moz-linear-gradient(bottom, rgb(0,0,0) 0%, rgb(34,34,34) 100%);
+
+  background-image: -webkit-linear-gradient(bottom, rgb(0,0,0) 0%, rgb(34,34,34) 100%);
+
+  background-image: -ms-linear-gradient(bottom, rgb(0,0,0) 0%, rgb(34,34,34) 100%);
+
+  
+
+  background-image: -webkit-gradient(
+
+  	linear,
+
+  	left bottom,
+
+  	left top,
+
+  	color-stop(0, rgb(0,0,0)),
+
+  	color-stop(1, rgb(34,34,34))
+
+  );
+
+}
+
+.browser-ie #block-superfish-1 ul.sf-menu ul li {
+
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#343434', endColorstr='#000000');
+
+}
+
+/*---Nivå 3--*/
+
+#block-superfish-1 ul.sf-menu ul ul {
+
+  top: 0;
+
+}
+
+/*---------Språkknappar i huvudmenyn---------*/
+
+#block-superfish-1 .language-switcher ul li a {
+
+  line-height: 22px;
+
+  margin: 14px 5px;
+
+  float: left;
+
+}
+
+#block-superfish-1 .language-switcher ul li.first a {
+
+  margin-left: 20px;
+
+}
+
+.language-switcher ul.language-switcher-locale-url li{padding:0;}
+/*------------------------------*/
+
+/*-----------Bildspel-----------*/
+
+body.front #zone-header-wrapper {
+
+  background: url("../images/sliderbg.png") repeat-x scroll left top transparent;
+
+}
+
+#block-nodeblock-163 {
+
+  margin-top: 80px;
+
+  margin-bottom: 80px;
+
+}
+
+.caroufredsel-theme-grey_yellow .caroufredsel_controls .caroufredsel_prev {
+
+  left: -33px;
+
+}
+
+.caroufredsel-theme-grey_yellow .caroufredsel_controls .caroufredsel_next {
+
+  right: -33px;
+
+}
+
+/*------------------------------*/
+
+/*------------Main Content--------------*/
+
+#block-system-main {
+
+  padding: 30px 0 15px 0;
+
+  margin: 0 24px 0 20px;
+
+}
+
+#block-system-main .field-name-body,
+
+#block-system-main .field-name-field-extra-textfalt {
+
+  text-align: justify;
+
+  margin-bottom: 10px;
+
+  padding: 10px 0px 10px 0px;
+
+}
+
+#block-system-main ul li {
+
+  padding: 15px 0;
+
+}
+
+#block-system-main .node.view-mode-full .field-name-field-sidhuvud {
+
+  padding-bottom: 20px;
+
+}
+
+/*------------------------------*/
+
+/*-----------Vanlig undersida--------*/
+
+.node-page.view-mode-full .field-name-field-extra-textfalt > .field-items > .field-item {
+
+  width: 440px;
+
+}
+
+.node-page.view-mode-full .field-name-field-extra-textfalt > .field-items > .field-item.even {
+
+  float: left;
+
+}
+
+.node-page.view-mode-full .field-name-field-extra-textfalt > .field-items > .field-item.odd {
+
+  float: right;
+
+}
+
+/*-----------Startsida----------*/
+
+.browser-firefox .panel-pane, .browser-opera .panel-pane, .browser-ie .panel-pane {
+
+    min-height: 0;
+
+}
+
+body.front #block-system-main {
+
+  padding: 0;
+
+  margin: 0;
+
+}
+
+body.front #block-system-main .field-name-body,
+
+body.front #block-system-main .field-name-field-extra-textfalt {
+
+  text-align: left;
+
+  margin: 0;
+
+  padding: 0;
+
+}
+
+body.front #zone-content-wrapper {
+
+  background: transparent url(../images/patternbg.png) top left repeat-x;
+
+  min-height: 250px;
+
+}
+
+body.front .header {
+
+  clear: both;
+
+}
+
+#node-panel-1 .panel-display {
+
+  display: inline-block;
+
+  padding-bottom: 28px;
+
+}
+.panel-display {background:none;}
+
+.panel-pane {
+
+  min-height: 0;
+
+}
+
+#node-panel-1 .panel-panel.grid-8 {
+
+  padding: 25px 0 20px 0;
+
+  min-height: 205px;
+
+}
+
+#node-panel-1 .panel-panel.grid-8 h2 {
+
+  font-size: 18px;
+
+  color: #FBC90A;
+
+  font-weight: 300;
+
+  font-family: 'Milonga', cursive;
+
+  line-height: 25px;
+
+}
+
+#node-panel-1 .panel-panel.grid-8 .pane-content {
+
+  font-size: 13px;
+
+  color: #E2E1E1;
+
+}
+
+#node-panel-1 .panel-panel.grid-8 .pane-content p,
+
+#node-panel-1 .panel-panel.grid-8 .pane-content .smart-trim {
+
+  padding: 0 20px 0 0;
+
+}
+
+#node-panel-1 .panels-ipe-editing .panels-ipe-portlet-content {
+
+  background: #222222;
+
+}
+
+#node-panel-1 a,
+
+#node-panel-1 a:visited {
+
+  color: #FBC90A;
+
+  font-style: italic;
+
+  text-decoration: underline;
+
+  background: transparent;
+
+  border: 0;
+
+  padding: 0;
+
+  text-shadow: none;
+
+  font-weight: normal;
+
+}
+
+#node-panel-1 .node-links a:hover {
+
+  text-decoration: none;
+
+}
+
+.panel-content {
+
+  margin: 0 24px 0 20px;
+
+}
+
+#node-panel-1 .field-name-field-text {
+
+  text-align: justify;
+
+  margin-bottom: 10px;
+
+  padding: 10px 0px 10px 0px;
+
+}
+
+/*------------------------------*/
+
+/*-----------Nyheter------------*/
+
+.view-nyheter .field-name-field-sidhuvud {
+
+  float: left;
+
+  padding-right: 20px;
+
+}
+/*-----------Blog------------*/
+#region-sidebar-second h2.block-title{padding-top:40px;}
+
+/*------------------------------*/
+
+/*-----------Galleri------------*/
+
+.view-bildgalleri {
+
+  padding-top: 25px;
+
+}
+
+.view-bildgalleri .views-row {
+
+  width: 120px;
+
+  float: left;
+
+  padding: 0 20px 30px 5px;
+
+}
+
+.view-bildgalleri .views-row .gallery-bildtext {
+
+  text-align: center;
+
+  background: none repeat scroll 0 0 #B42D50;
+
+  font-size: 11px;
+
+  color: white;
+
+  line-height: 15px;
+
+  padding: 10px 4px;
+
+  width: 112px;
+
+  height: 30px;
+
+  -moz-border-radius: 0 0 7px 7px;
+
+  border-radius: 0 0 7px 7px;
+
+  font-family: 'Milonga', cursive;
+
+}
+
+#sb-info, #sb-info-inner {
+
+  height: 56px;
+
+  line-height: 20px;
+
+  background-color: #B42D50;
+
+  -moz-border-radius: 0 0 10px 10px;
+
+  border-radius: 0 0 10px 10px;
+
+}
+
+#sb-title {
+
+  display: none;
+
+}
+
+/*------------------------------*/
+
+/*-----------Personal-------------*/
+
+.view-id-personal.view-display-id-block{ line-height:170%;}
+.view-id-personal.view-display-id-block .views-field-title{font-weight:bold;font-family: 'Milonga', cursive;}
+.view-id-personal.view-display-id-block .views-field-field-befattning{font-size:12px;}
+.view-id-personal.view-display-id-block .views-row{float:left; padding:0 10px 10px 0;}
+.view-id-personal.view-display-id-block .views-field-field-bild{padding-bottom:6px;} 
+/*------------------------------*/
+
+/*-----------Sidfot-------------*/
+
+#section-footer {
+
+  clear: both;
+
+  background: #B42D50;
+
+  min-height: 171px;
+
+}
+
+#footer-copyright {
+
+  color: #222222;
+
+  font-size: 12px;
+
+  letter-spacing: 1px;
+
+  margin: 0;
+
+  padding: 30px 0;
+
+  text-align: center;
+
+  text-transform: uppercase;
+  float:left;
+
+}
+
+#section-footer a {
+
+  color: #CCCCCC;
+
+}
+.region-footer-first-inner{padding:0 70px;}
+#block-block-3{float:left; padding:10px 0 0 50px;}
+.social-links{height:56px; width:112px;}
+#block-block-3 .social-links a{float:left;}
+#block-block-3 .social-links a.social-links-facebook {
+  background: transparent url("../images/facebook-logo.png")top center no-repeat;height:56px; width:56px; display:block; }
+  
+#block-block-3 .social-links a.social-links-twitter {
+background: transparent url("../images/twitter-bird2.png")top center no-repeat;height:56px; width:56px; ;display:block;  }
+/*------------------------------*/

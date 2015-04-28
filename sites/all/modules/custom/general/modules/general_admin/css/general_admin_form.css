@@ -1,0 +1,38 @@
+.domain-warning {
+	margin-bottom: 10px;
+	font-size: 16px;
+	color: red;
+	padding: 10px;
+	border: 2px solid brown;
+}
+#general-admin-settings-form .form-item-general-admin-cache-toggle {
+  float: left;
+}
+#general-admin-settings-form .form-item-general-admin-cache-css-js {
+  float: left;
+  display: inline-block;
+  margin-left: 10px;
+}
+#general-admin-settings-form .form-type-radios.form-item-general-admin-pagecache-backend {
+  clear: both;
+  padding-top: 10px;
+}
+#general-admin-settings-form .form-type-radios.form-item-general-admin-pagecache-backend .form-type-radio {
+  float: left;
+  margin-right: 10px;
+  margin-top: 0;
+}
+#general-admin-settings-form .form-item-general-admin-sitemap-toggle {
+  clear: both;
+}
+#general-admin-settings-form .form-item-facebook-like-button {
+  float: left;
+}
+#general-admin-settings-form #edit-facebook-like-button-address .form-item {
+  float: left;
+  margin-left: 10px;
+  margin-top: 0;
+}
+#general-admin-settings-form .form-item-facebook-like-box {
+  clear: both;
+}

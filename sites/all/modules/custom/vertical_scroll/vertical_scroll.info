@@ -1,0 +1,5 @@
+name = Vertical Scroll
+description = Vertical Scroll
+package = Custommoduler
+core = 7.x
+dependencies[] = libraries

@@ -1,0 +1,17 @@
+name = "Custom Contextual Links - Views"
+description = "Add on module for for Custom Contextual Links to enable support for views."
+
+core = 7.x
+package = Custom Contextual Links
+
+dependencies[] = contextual
+dependencies[] = ccl
+dependencies[] = views
+
+files[] = ccl_views.module
+; Information added by drupal.org packaging script on 2012-05-22
+version = "7.x-1.3"
+core = "7.x"
+project = "ccl"
+datestamp = "1337645151"
+

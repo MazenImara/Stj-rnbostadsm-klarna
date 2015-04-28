@@ -1,0 +1,15 @@
+name = Adminpanel
+description = Block och sidor till adminpanelen
+dependencies[] = general
+dependencies[] = menu_improvements
+dependencies[] = metatag
+dependencies[] = metatag_improvements
+dependencies[] = translation
+dependencies[] = field_extract
+dependencies[] = menu_node
+dependencies[] = menu_node_improvements
+dependencies[] = i18n_improvements
+dependencies[] = libraries
+dependencies[] = node_per_theme
+package = Custommoduler
+core = 7.x

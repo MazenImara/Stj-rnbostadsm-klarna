@@ -1,0 +1,206 @@
+<?php
+//Implements hook_menu()
+function contextual_links_improvements_menu() {
+  $items = array();
+  $items['admin/config/media/edit-logo'] = array(
+    'title' => 'Edit logo',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('contextual_links_edit_logo_form'),
+    'access arguments' => array('contextual_links_improvements_display_logo'),
+    'file' => 'contextual_links_improvements.admin.inc',
+    'type' => MENU_LOCAL_ACTION,
+    'context' => MENU_CONTEXT_INLINE,
+  );
+  return $items;
+}
+//Implements hook_theme()
+function contextual_links_improvements_theme() {
+  return array(
+    'contextual_links_improvements_logo_block_wrapper' => array(
+      'render element' => 'element',
+    ),
+  );
+}
+//Implements hook_contextual_links_view_alter()
+function contextual_links_improvements_contextual_links_view_alter(&$element, &$items) {
+  //Lägger till "Redigera meny"-länk
+  if(isset($element['#element']['#block'])) {
+    if($element['#element']['#block']->module==='superfish' || $element['#element']['#block']->module==='menu' || $element['#element']['#block']->module==='menu_block') {
+      $module = $element['#element']['#block']->module;
+      unset($element['#links'][str_replace('_', '-', $module).'-list']);
+      unset($element['#links'][str_replace('_', '-', $module).'-edit']);
+      $menu_name = '';
+      if($module==='superfish') {
+        $menu_name = variable_get('superfish_menu_'.$element['#element']['#block']->delta, '');
+      }
+      elseif($module==='menu') {
+        $menu_name = $element['#element']['#block']->delta;
+      }
+      elseif($module==='menu_block') {
+        $menu_name = $element['#element']['#config']['menu_name'];
+      }
+      if($menu_name) {
+        $menu_name = explode(':', $menu_name);
+        $menu_name = $menu_name[0];
+        $display_link = true;
+        $excepted_menus = variable_get('contextual_links_improvements_admin_menu_cl_exceptions', array());
+        if($excepted_menus) {
+          if(isset($excepted_menus[$menu_name]) && $excepted_menus[$menu_name]) {
+            if(!user_access('contextual_links_improvements_display_menu')) {
+              $display_link = false;
+            }
+          }
+        }
+        if($display_link) {
+          if(user_access('administer menu') || user_access("administer $menu_name menu items")) {
+            $element['#links']['menu'] = array(
+              'title' => t('Edit menu'),
+              'href' => url("admin/structure/menu/manage/$menu_name", array('absolute' => TRUE, 'query' => array('destination' => current_path()))),
+            );
+          }
+        }
+      }
+    }
+  }
+  else {
+    foreach($element['#links'] as $key => &$link) {
+      if($key !== 'node-edit') {
+        $link['query'] = array();
+      }
+    }
+  }
+
+  //Hanterar contextual links för varje nod
+  if(isset($element['#contextual_links']['node'])) {
+    $disallowed_add_types = array(
+      'subinnehall' => 'subinnehall',
+    );
+    $nodes = $element['#contextual_links']['node'][1];
+    if($nodes) {
+      $nodes = node_load_multiple($nodes);
+      //$node_types = node_type_get_types();
+      foreach($nodes as $node) {
+        //Lägger till access control på "Radera"-länken
+        if(isset($element['#links']['node-delete']) && !user_access('contextual_links_improvements_display_delete')) {
+          unset($element['#links']['node-delete']);
+        }
+
+        //Lägger till "Översätt"-länk
+        if(module_exists('translation') && _translation_tab_access($node)) {
+          $element['#links']['node-translate'] = array(
+            'title' => t('Translate'),
+            'href' => url("node/$node->nid/translate", array('absolute' => TRUE)),
+          );
+        }
+        /*
+        //Lägger till "Skapa xxx"-länk
+        if(!isset($disallowed_add_types[$node->type]) && user_access("create $node->type content")) {
+          if(isset($node_types[$node->type])) {
+            $element['#links']['node-add'] = array(
+              'title' => t('Add').' '.strtolower($node_types[$node->type]->name),
+              'href' => url("node/add/$node->type", array('absolute' => TRUE)),
+            );
+          }
+        }
+        */
+      }
+    }
+  }
+  /*
+  //Lägger till "Skapa xxx"-länk på views pages
+  if(isset($element['#element']['#type']) && $element['#element']['#type']=='page') {
+    $view = views_get_page_view();
+    if(!empty($view)) {
+      $node_types = array();
+      if(isset($view->display[$view->current_display]->handler->handlers['filter']['type']->value)) {
+        $node_types = $view->display[$view->current_display]->handler->handlers['filter']['type']->value;
+      }
+      else if(isset($view->display['default']->handler->handlers['filter']['type']->value)) {
+        $node_types = $view->display['default']->handler->handlers['filter']['type']->value;
+      }
+      $all_node_types = node_type_get_types();
+      foreach($node_types as $type) {
+        if(user_access("create $type content")) {
+          $element['#links']['add'] = array(
+            'title' => t('Add').' '.strtolower($all_node_types[$type]->name),
+            'href' => url("node/add/$type", array('absolute' => TRUE)),
+          );
+        }
+      }
+    }
+  }
+  */
+}
+/**
+ *  Contextual links maker
+ */
+function contextual_links_improvements_make_contextual_links($nid) {
+  $render_array = array(
+    '#contextual_links' => array(
+      'node' => array('node', array($nid)),
+    ),
+  );
+  $result = contextual_pre_render_links($render_array);
+  return $result;
+}
+function contextual_links_improvements_render_contextual_links($links) {
+  $body = '
+      <div class="contextual-links-wrapper">
+        <ul class="contextual-links">
+  ';
+  foreach($links['#links'] as $istring => $link) {
+    $query = array();
+    if(isset($link['query']) && $link['query']) {
+      $query = array('query' => $link['query']);
+    }
+    $body .= "<li class='$istring'>".l($link['title'], $link['href'], $query);
+    $body .= '</li>';
+  }
+  $body .= '
+        </ul>
+      </div>
+  ';
+  return $body;
+}
+/**
+ * Adds contextual links to views templates
+ */
+function contextual_links_improvements_preprocess_views_view_fields(&$vars) {
+  if(isset($vars['row']->nid)) {
+    $vars['row']->contextual_links = contextual_links_improvements_render_contextual_links(contextual_links_improvements_make_contextual_links($vars['row']->nid));
+  }
+}
+//Implements hook_block_view_MODULE_DELTA_alter()
+function contextual_links_improvements_block_view_logo_block_logo_alter(&$data, $block) {
+  $data['content']['#contextual_links']['edit-logo'] = array(
+    'admin/config/media/edit-logo',
+    array($block->module),
+  );
+}
+//Implements hook_form_FORMID_alter()
+function contextual_links_improvements_form_general_admin_finetune_form_alter(&$form, $form_state) {
+  $menus = menu_get_menus();
+  $form['contextual_links_improvements_admin_menu_cl_exceptions'] = array(
+    '#title' => t('These menus will not have the "edit menu" contextual link:'),
+    '#description' => t('Note that those with the permission "display contextual links for all menus" will still see the link.'),
+    '#type' => 'checkboxes',
+    '#options' => $menus,
+    '#default_value' => variable_get('contextual_links_improvements_admin_menu_cl_exceptions', array()),
+  );
+}
+/**
+ * Implements hook_permission().
+ */
+function contextual_links_improvements_permission() {
+  return array(
+    'contextual_links_improvements_display_delete' => array(
+      'title' => t('Display "Delete" contextual link for node'),
+    ),
+    'contextual_links_improvements_display_menu' => array(
+      'title' => t('Display contextual links for all menus'),
+    ),
+    'contextual_links_improvements_display_logo' => array(
+      'title' => t('Display contextual links for site logo'),
+    ),
+  );
+}

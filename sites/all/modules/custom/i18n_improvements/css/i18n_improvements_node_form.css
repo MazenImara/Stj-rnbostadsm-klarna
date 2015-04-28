@@ -1,0 +1,6 @@
+.node-form .form-item-language {
+  display: none; 
+}
+body.multilanguage .node-form .form-item-language {
+  display: block;
+}

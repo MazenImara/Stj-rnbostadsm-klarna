@@ -1,0 +1,20 @@
+<?php
+/**
+ * Implementation of hook_enable().
+ */
+function provsite_enable() {
+	$user = user_load(3);
+	if($user) {
+    user_save($user, array('status' => 1));
+  }
+}
+/**
+ * Implementation of hook_disable().
+ */
+function provsite_disable() {
+	$user = user_load(3);
+	if($user) {
+    user_save($user, array('status' => 0));
+  }
+}
+?>

@@ -1,0 +1,34 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ *
+ */
+
+/**
+ * Implements hook_field_schema().
+ */
+function submittedfield_field_schema($field) {
+  return array(
+    'columns' => array(
+      'name' => array(
+        'type' => 'varchar',
+        'length' => 60,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Unique user name.',
+      ),
+      'created' => array(
+        'description' => 'The Unix timestamp when the node was created.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'indexes' => array(
+      'name' => array('name'),
+      'created' => array('created'),
+    ),
+  );
+}

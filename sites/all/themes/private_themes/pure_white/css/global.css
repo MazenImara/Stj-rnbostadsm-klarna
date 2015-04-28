@@ -1,0 +1,515 @@
+/* This file will hold styles for the mobile version of your website (mobile first). */
+/* This also can include ANY global CSS that applies site-wide. Unless overwritten by a more specific style rule, CSS declarations in global.css will apply site-wide. */
+body {
+  margin: 0;
+  padding: 0;
+  background: #FFF;
+  font-family: Georgia, serif;
+  font-size: 14px;
+  color: #7a8991;
+}
+h1, h2, h3 {
+  color: #5D839C;
+  font-family: 'Oswald',sans-serif;
+  font-weight: 300;
+  margin: 2px 0 15px;
+  padding: 0;
+}
+h1 {
+  font-size: 2.2em;
+}
+h2 {
+  font-size: 1.8em;
+}
+h3 {
+  font-size: 1.6em;
+}
+h4, h5, h6 {
+  color: #333333;
+  font-family: 'Oswald',sans-serif;
+  font-weight: 700;
+  padding: 10px 0;
+  text-transform: uppercase;
+}
+h4 {
+  font-size: 1.4em;
+}
+h5 {
+  font-size: 1.2em;
+}
+h6 {
+  font-size: 1em;
+  font-style: italic;
+}
+p, ul, ol, .smart-trim {
+  line-height: 180%;
+  margin-top: 0;
+}
+a, a:visited {
+	text-decoration: none;
+	color: #4b7590;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+#zone-menu {
+  border-top: 1px solid #CCC;
+  border-bottom: 1px solid #CCC;
+  min-height: 105px;
+  position: relative;
+  padding-top: 20px;
+  margin-bottom: 15px;
+}
+body .block .omega-grid, 
+body .container-16 .block .omega-grid, 
+body .container-24 .block .omega-grid {
+  margin-left: 0;
+  margin-right: 0;
+}
+.feed-icon {
+  padding: 10px 0;
+}
+.node .field-name-body img,
+.node .field-name-field-extra-textfalt img {
+	max-width: 100%;
+	height: auto;
+}
+#admin-menu-wrapper {
+  max-width: 1200px;
+  margin: auto;
+}
+/*---------Adressruta------------*/
+#block-nodeblock-179 {
+  padding: 20px 0 15px;
+  float:left;
+}
+#block-nodeblock-179 p {
+  text-transform: uppercase;
+  color: #a4b6c0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  width:250px;
+}
+/*---------Social links------------*/
+
+#block-block-3{position:absolute; top:37px; right:0px;}
+.social-links{height:54px; width:76px;}
+#block-block-3 .social-links a{float:left;}
+#block-block-3 .social-links a.social-links-facebook {
+  background: transparent url("../images/facebook_64.png")top center no-repeat;height:54px; width:38px; display:block; }
+  
+#block-block-3 .social-links a.social-links-twitter {
+background: transparent url("../images/twitter_64.png")top center no-repeat;height:54px; width:38px; display:block;  }
+
+/*---------Huvudmeny----------*/
+
+/* Meny
+================================================== */
+#region-menu {
+ 
+  width: 100%;
+  
+}
+#block-superfish-1 select{ background: none repeat scroll 0 0 #FFF;
+	color:#777;
+    border-radius: 3px 3px 3px 3px;
+    font-size: 14px;
+    padding: 0;
+	margin:10px 0 10px 10px;
+	display:inline-block;
+	width:250px;}
+
+
+/*---------Language switcher------------*/
+#block-superfish-1 .language-switcher {
+
+	display: inline;
+
+	float: right;
+
+	padding:0;
+
+}
+#block-superfish-1 .language-switcher ul li {
+  float: left;
+	margin-right: 10px;
+	width: auto;
+	/*height: auto;*/
+}
+/*---------Startsida----------*/
+.panel-pane .more-link {
+  color: #5d839c;
+  font-style: italic;
+  text-decoration: underline;
+}
+.panel-pane .more-link:hover {
+  text-decoration: none;}
+  .panel-pane .pane-content {
+
+  padding: 20px 0;
+
+}
+.panel-pane .field-name-field-sidhuvud img {
+
+  width: auto;
+
+}
+.panel-pane .field-name-field-sidhuvud,
+
+.panel-pane .field-name-field-linkimages {
+
+  padding: 10px 0 18px;
+
+}
+body.front .block-webform {
+
+  width: 280px;
+
+  display: inline;
+
+  float: none;
+
+  margin-left: 10px;
+
+  margin-right: 10px;
+
+  padding-top: 29px;
+
+}
+
+body.front .block-webform .block-inner {
+
+  background: #ededed;
+
+  width: 280px;
+
+  padding-bottom: 25px;
+
+}
+
+body.front .block-webform	.header {
+
+  padding: 19px 20px 0;
+
+}
+
+.webform-client-form {
+
+	width: 260px;
+
+	padding: 0 20px 20px;
+
+}
+
+.webform-client-form	.form-item {
+
+  margin: 0;
+
+}
+
+.webform-client-form	fieldset {
+
+		margin-bottom: 5px; }
+
+.webform-client-form	input[type="text"],
+
+.webform-client-form input[type="password"],
+
+.webform-client-form	input[type="email"],
+
+.webform-client-form	textarea,
+
+.webform-client-form	select {
+
+		border: 1px solid #CCC;
+
+		padding: 6px 4px;
+
+		outline: none;
+
+		-moz-border-radius: 2px;
+
+		-webkit-border-radius: 2px;
+
+		border-radius: 2px;
+
+		font: 11px "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+		color: #777;
+
+		margin: 0;
+
+		width: 230px;
+
+		max-width: 100%;
+
+    height: 30px;
+
+		display: block;
+
+		margin-bottom: 9px;
+
+		background: #FFF;
+
+  }
+
+.webform-client-form	select {
+
+		padding: 0; }
+
+.webform-client-form	input[type="text"]:focus,
+
+.webform-client-form	input[type="password"]:focus,
+
+.webform-client-form	input[type="email"]:focus,
+
+.webform-client-form textarea:focus {
+
+		border: 1px solid #aaa;
+
+		color: #444;
+
+		-moz-box-shadow: 0 0 3px rgba(0,0,0,.7);
+
+		-webkit-box-shadow: 0 0 3px rgba(0,0,0,.7);
+
+		box-shadow:  0 0 3px rgba(0,0,0,.7); }
+
+.webform-client-form	textarea {
+
+		min-height: 100px; }
+
+.webform-client-form	label,
+
+.webform-client-form	legend,
+
+body.front .block-webform h2 {
+
+		display: block;
+
+		font-size: 11px;
+
+		font-family: 'Oswald', sans-serif;
+
+		padding: 0 0 3px;
+
+		font-weight: normal;
+
+}
+
+
+
+body.front .block-webform h2 {font-size:16px;padding-bottom: 10px; color: #7a8991; margin: 0;}
+
+.webform-client-form	select {
+
+		width: 220px; }
+
+.webform-client-form	input[type="checkbox"] {
+
+		display: inline; }
+
+.webform-client-form	label span,
+
+.webform-client-form	legend span {
+
+		font-weight: normal;
+
+		font-size: 13px;
+
+		color: #444; }
+		
+		
+  /*-----------Kontakt-------------*/		
+		
+.node-type-webform .webform-client-form {
+
+  width: 260px;
+
+	padding: 29px 20px 20px;
+
+  float: none;
+
+margin: 25px 0 15px -10px;
+
+  background: #ededed;
+
+ 
+ 
+}
+
+.node.view-mode-full > .field-name-field-sidhuvud img {max-width: 100%;
+	height: auto; margin: 0 0 30px 0px;}
+  /*-----------Personal-------------*/
+
+.view-id-personal.view-display-id-block{ line-height:170%; margin-top: 10px;}
+.view-id-personal.view-display-id-block .views-field-title{font-weight:bold; font-family: 'Oswald',sans-serif; font-size:16px;}
+.view-id-personal.view-display-id-block .views-field-field-befattning{font-size:12px;}
+.view-id-personal.view-display-id-block .views-row{float:none; padding:0 20px 10px 0px;text-align:center;}
+.view-id-personal.view-display-id-block .views-field-field-bild{padding-bottom:6px;} 
+/*-------------------Galleri----------------------*/
+
+.view-bildgalleri {
+
+  clear: both;
+
+  display: inline-block;
+
+  margin-top: 30px;
+
+  width: 100%;
+
+}
+
+.view-bildgalleri article {
+
+  color: #7a8991;
+
+  display: block;
+
+  float: none;
+
+  margin: 0 10px 10px 0;
+
+  padding: 5px 5px 5px 0;
+
+  text-align: center;
+  
+  height:159px;
+
+}
+
+
+
+
+.view-bildgalleri .gallery-bildtext {
+  font-size: 11px;
+  line-height: 150%;
+  font-family: Arial, Helvetica, sans-serif;
+  padding:7px 4px;
+}
+
+#sb-caption {
+  color: #FFF;
+  font-family: 'Oswald',sans-serif;
+  font-size: 15px;
+}
+#sb-info, #sb-info-inner{background:#5D839C;}
+
+/*-------------------Blog----------------------*/
+#region-sidebar-second{
+	background: none repeat scroll 0 0 #CCCCCC;
+    margin: 0;
+    padding-left: 30px;
+	color:#FFF;
+	}
+#region-sidebar-second a{color:#FFF;}	
+#region-sidebar-second h2.block-title{padding-top:20px; color:#FFF;}
+#region-sidebar-second .item-list li {list-style-type: circle;}
+#region-sidebar-second .item-list ul{margin:0; padding-bottom:5px;}
+ #region-sidebar-second .item-list ul li{margin: 0 0 0 1.5em;
+    padding: 0 0 3px 0;}
+	
+body.sidtyp-bloggsida #block-system-main {
+  padding: 0;
+}
+body.sidtyp-bloggsida h1 {
+  padding: 30px 30px 10px 40px;
+}
+body.sidtyp-bloggsida .view-enterprise-blog .views-row {
+  float: none;
+  display: block;
+  margin-left: 10px;
+  margin-right: 10px;
+  
+}
+body.sidtyp-bloggsida .view-enterprise-blog .views-row .node {
+  padding: 10px 30px 20px 30px;
+}
+body.sidtyp-bloggsida .view-enterprise-blog .views-row .node .field-name-field-tags .field-item, body.node-type-enterprise-blog article.node-enterprise-blog .field-name-field-tags .field-item  {
+  float: left;
+  padding: 0 5px 5px 0;
+  text-decoration:underline;
+}
+body.sidtyp-bloggsida .view-enterprise-blog .views-row .node .field-name-field-submitted, body.node-type-enterprise-blog article.node-enterprise-blog .field-name-field-submitted {
+  clear: both;
+  border-bottom: 1px solid #E5E5E5;
+  border-top: 1px solid #E5E5E5;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 11px;
+  font-style: italic;
+  padding: 5px 0;
+  text-align: left;
+  line-height: 180%;
+}
+body.sidtyp-bloggsida .view-enterprise-blog .feed-icon {
+  clear: both;
+} 
+
+/*-------------------Nyheter----------------------*/
+body.sidtyp-nyhetssida .view-nyheter .views-row {
+
+  margin-left: 10px;
+
+  margin-right: 10px;
+  padding-bottom:20px;
+  } 
+  body.sidtyp-nyhetssida .view-nyheter .views-row .node .field-name-field-submitted {
+
+  border-bottom: 1px solid #E5E5E5;
+
+  border-top: 1px solid #E5E5E5;
+
+  font-family: Arial,Helvetica,sans-serif;
+
+  font-size: 11px;
+
+  font-style: italic;
+
+  padding: 5px 0;
+
+  text-align: left;
+
+  line-height: 180%;
+
+}
+/*-------------------SIDFOT----------------------*/
+
+#zone-footer {
+
+  background: none repeat scroll 0 0 #5D839C;
+
+  clear: both;
+
+}
+
+#zone-footer #footer-copyright {
+
+  color: #222222;
+
+  font-size: 10px;
+
+  letter-spacing: 1px;
+
+  margin: 0;
+
+  padding: 14px 0 15px;
+
+  text-align: center;
+
+  text-transform: uppercase;
+
+  line-height: 180%;
+
+}
+
+#zone-footer a,
+
+#zone-footer a:visited {
+
+  color: #CCCCCC;
+
+}
+
+/*-----------------------------------------------*/

@@ -1,0 +1,43 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ *
+ */
+
+/**
+ * Implements hook_field_schema().
+ */
+function extimgfield_field_schema($field) {
+  return array(
+    'columns' => array(
+      'url' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Url to external image',
+      ),
+      'alt' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Alternate text',
+      ),
+      'title' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Title',
+      ),
+    ),
+    'indexes' => array(
+      'url' => array('url'),
+      'alt' => array('alt'),
+      'title' => array('title'),
+    ),
+  );
+}

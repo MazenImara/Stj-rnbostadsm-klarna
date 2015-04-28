@@ -1,0 +1,6 @@
+name = General Admin Form
+description = Adminformul&auml;r f&ouml;r utvecklare
+dependencies[] = general
+dependencies[] = metatag_improvements
+package = Custommoduler
+core = 7.x

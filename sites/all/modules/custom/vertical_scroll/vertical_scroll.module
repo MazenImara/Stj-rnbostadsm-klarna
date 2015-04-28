@@ -1,0 +1,601 @@
+<?php
+
+/*
+TODO:
+- Lägg till möjlighet att lägga till/ta bort destinationer och källor i gränssnittet
+*/
+
+//Implements hook_menu().
+function vertical_scroll_menu() {
+  $items = array(
+    'ajax/vertical-scroll/autocomplete' => array(
+      'access arguments' => array('vertical_scroll_node_form'),
+      'page callback' => '_vertical_scroll_autocomplete',
+      'file' => 'vertical_scroll.pages.inc',
+      'type' => MENU_CALLBACK,
+    ),
+    'admin/structure/vertical-scroll' => array(
+      'title' => 'Vertical Scroll',
+      'access arguments' => array('vertical_scroll_map'),
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('vertical_scroll_map_form'),
+      'file' => 'vertical_scroll.pages.inc',
+      'type' => MENU_NORMAL_ITEM,
+    ),
+    'admin/structure/vertical-scroll/map' => array(
+      'title' => 'Overview',
+      'type' => MENU_DEFAULT_LOCAL_TASK,
+    ),
+    'admin/structure/vertical-scroll/map/%' => array(
+      'title' => 'Vertical Scroll',
+      'access arguments' => array('vertical_scroll_map'),
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('vertical_scroll_map_form', 4),
+      'file' => 'vertical_scroll.pages.inc',
+      'type' => MENU_CALLBACK,
+    ),
+    'admin/structure/vertical-scroll/settings' => array(
+      'title' => 'Settings',
+      'access arguments' => array('vertical_scroll_settings'),
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('vertical_scroll_settings_form'),
+      'file' => 'vertical_scroll.pages.inc',
+      'type' => MENU_LOCAL_TASK,
+    ),
+  );
+  return $items;
+}
+//Implements hook_menu_alter().
+function vertical_scroll_menu_alter(&$items) {
+
+}
+//Implements hook_theme().
+function vertical_scroll_theme($existing, $type, $theme, $path) {
+  return array(
+    'vertical_scroll_destination' => array(
+      'variables' => array('node' => NULL, 'active' => ''),
+      'file' => 'vertical_scroll.pages.inc',
+    ),
+    'vertical_scroll_sources' => array(
+      'render element' => 'elements',
+      'file' => 'vertical_scroll.pages.inc',
+    ),
+    'vertical_scroll_uplink' => array(
+    	'render element' => 'element',
+    ),
+  );
+}
+//Implements hook_theme_registry_alter().
+function vertical_scroll_theme_registry_alter(&$theme_registry) {
+
+}
+//Implements hook_init().
+function vertical_scroll_init() {
+
+}
+//Implements hook_permission().
+function vertical_scroll_permission() {
+  $permissions = array(
+    'vertical_scroll_node_form' => array(
+      'title' => t('Vertical Scroll interface for node forms'),
+    ),
+    'vertical_scroll_map' => array(
+      'title' => t('Access Vertical Scroll map'),
+    ),
+    'vertical_scroll_settings' => array(
+      'title' => t('Access Vertical Scroll settings page'),
+    ),
+  );
+  return $permissions;
+}
+//Implements hook_form_alter().
+function vertical_scroll_form_alter(&$form, $form_state, $form_id) {
+
+}
+function vertical_scroll_get_data($type = 'all', $nid = 0) {
+  $result = array();
+  $settings = &drupal_static(__FUNCTION__);
+  if (!isset($settings)) {
+    if ($cache = cache_get('vertical_scroll')) {
+      $settings = $cache->data;
+    }
+    else {
+      // Do your expensive calculations here, and populate $my_data
+      // with the correct stuff..
+      $query = db_select('vertical_scroll', 'vs')
+        ->fields('vs')
+        ->execute();
+      $settings = array();
+      if($query) {
+        while($record = $query->fetchAssoc()) {
+          $settings[] = $record;
+        }
+      }
+      cache_set('vertical_scroll', $settings, 'cache');
+    }
+  }
+  if($type === 'all') {
+    $result = $settings;
+  }
+  elseif($type === 'destination') {
+    foreach($settings as $row) {
+      if($row['source_nid'] == $nid) {
+        $result[] = $row['destination_nid'];
+        break;
+      }
+    }
+  }
+  elseif($type === 'destination_full') {
+    foreach($settings as $row) {
+      if($row['source_nid'] == $nid) {
+        $result[] = $row;
+        break;
+      }
+    }
+  }
+  elseif($type === 'sources') {
+    foreach($settings as $row) {
+      if($row['destination_nid'] == $nid) {
+        $result[] = $row['source_nid'];
+      }
+    }
+  }
+  elseif($type === 'sources_full') {
+    foreach($settings as $row) {
+      if($row['destination_nid'] == $nid) {
+        $result[] = $row;
+      }
+    }
+  }
+  return $result;
+}
+function vertical_scroll_add_rows($rows) {
+  if($rows) {
+    $multilanguage = (variable_get('general_language_settings', 'single')==='multi') ? true : false;
+    $hierarchy = array();
+    foreach($rows as $row) {
+      if($multilanguage) { //Synka översättningar
+        if(variable_get('vertical_scroll_sync_translations', true)) {
+          //Sources
+          $subquery = db_select('node', 'n')
+            ->fields('n', array('tnid'))
+            ->condition('nid', $row['source_nid']);
+          $result = db_select('node', 'n')
+            ->fields('n', array('nid', 'language'))
+            ->condition('tnid', $subquery, 'in')
+            ->execute();
+          $sources = array();
+          if($result) {
+            while($record = $result->fetchAssoc()) {
+              if($record['nid']!=$row['source_nid']) {
+                $sources[$record['language']] = $record['nid'];
+              }
+            }
+          }
+          //Destinations
+          $subquery = db_select('node', 'n')
+            ->fields('n', array('tnid'))
+            ->condition('nid', $row['destination_nid']);
+          $result = db_select('node', 'n')
+            ->fields('n', array('nid', 'language'))
+            ->condition('tnid', $subquery, 'in')
+            ->execute();
+          $destinations = array();
+          if($result) {
+            while($record = $result->fetchAssoc()) {
+              if($record['nid']!=$row['destination_nid']) {
+                $destinations[$record['language']] = $record['nid'];
+              }
+            }
+          }
+
+          foreach($sources as $language => $nid) {
+            if(isset($destinations[$language])) {
+              if(!isset($hierarchy[$destinations[$language]])) $hierarchy[$destinations[$language]] = array();
+              $hierarchy[$destinations[$language]][$nid] = array(
+                'source_nid' => $nid,
+                'destination_nid' => $destinations[$language],
+                'view_mode' => $row['view_mode'],
+                'weight' => $row['weight'],
+              );
+            }
+          }
+        }
+      }
+      if(!isset($hierarchy[$row['destination_nid']])) $hierarchy[$row['destination_nid']] = array();
+      $hierarchy[$row['destination_nid']][$row['source_nid']] = $row;
+    }
+    if($hierarchy) {
+      $delete = array();
+      $insert = array();
+      foreach($hierarchy as $destination_nid => $sources) {
+        $destination_node = node_load($destination_nid);
+        node_save($destination_node);
+        foreach($sources as $source_nid => $source) {
+          $source_node = node_load($source_nid);
+          node_save($source_node);
+          if(vertical_scroll_get_data('destination', $source_nid)) {
+            $delete[] = $source_nid;
+          }
+          $insert[] = $source;
+        }
+      }
+      if($delete) vertical_scroll_delete_rows($delete);
+      if($insert) vertical_scroll_insert_rows($insert);
+      cache_clear_all('vertical_scroll', 'cache');
+      drupal_set_message(t('Your changes have been saved.'));
+    }
+  }
+}
+function vertical_scroll_insert_rows($rows) {
+  $query = db_insert('vertical_scroll')->fields(array('source_nid', 'destination_nid', 'view_mode', 'weight'));
+  foreach ($rows as $record) {
+    $query->values($record);
+  }
+  $query->execute();
+}
+function vertical_scroll_delete_rows($source_nids) {
+  db_delete('vertical_scroll')
+    ->condition('source_nid', $source_nids)
+    ->execute();
+}
+function vertical_scroll_delete_row($source_nid) {
+  $multilanguage = (variable_get('general_language_settings', 'single')==='multi') ? true : false;
+  $delete = array();
+  if($multilanguage) { //Synka översättningar
+    if(variable_get('vertical_scroll_sync_translations', true)) {
+      //Sources
+      $subquery = db_select('node', 'n')
+        ->fields('n', array('tnid'))
+        ->condition('nid', $source_nid);
+      $result = db_select('node', 'n')
+        ->fields('n', array('nid', 'language'))
+        ->condition('tnid', $subquery, 'in')
+        ->execute();
+      $sources = array();
+      if($result) {
+        while($record = $result->fetchAssoc()) {
+          if($record['nid']!=$source_nid) {
+            $sources[$record['language']] = $record['nid'];
+          }
+        }
+      }
+      foreach($sources as $language => $nid) {
+        $delete[] = $nid;
+      }
+    }
+  }
+  $delete[] = $source_nid;
+  $hierarchy = array();
+  foreach($delete as $source_nid) {
+    $destination_nid = vertical_scroll_get_data('destination', $source_nid);
+    if($destination_nid) {
+      $destination_nid = $destination_nid[0];
+      if(!isset($hierarchy[$destination_nid])) $hierarchy[$destination_nid] = array();
+      $hierarchy[$destination_nid][$source_nid] = $source_nid;
+    }
+  }
+  foreach($hierarchy as $destination_nid => $sources) {
+    $destination_node = node_load($destination_nid);
+    node_save($destination_node);
+    foreach($sources as $source_nid) {
+      $source_node = node_load($source_nid);
+      node_save($source_node);
+    }
+  }
+  vertical_scroll_delete_rows($delete);
+  cache_clear_all('vertical_scroll', 'cache');
+}
+/*---------------Lägger till display för noder------------*/
+//Implements hook_entity_info_alter()
+function vertical_scroll_entity_info_alter(&$entity_info) {
+  $entity_info['node']['view modes']['vertical_scroll'] = array('label' => t('Vertical Scroll'), 'custom settings' => 'TRUE');
+}
+//Implements hook_preprocess_HOOK().
+function vertical_scroll_preprocess_page(&$variables) {
+  if(variable_get('vertical_scroll_all_links', true)) {
+    if ($path = libraries_get_path('scrollto')) {
+      drupal_add_js($path . '/jquery.scrollTo.min.js');
+      drupal_add_js(drupal_get_path('module', 'vertical_scroll').'/js/jquery.localscroll.min.js');
+      $js = '
+        (function($) {
+	        $(document).ready(function(){
+            $.localScroll({
+              duration: '.variable_get('vertical_scroll_duration', 500).',
+              margin: '.variable_get('vertical_scroll_margin', 'false').',
+              offset: '.variable_get('vertical_scroll_offset', 0).'
+            });
+          });
+        })(jQuery);
+      ';
+      drupal_add_js($js, 'inline');
+    }
+  }
+  if(isset($variables['node'])) {
+    if(isset($variables['node']->nid)) {
+      if(current_path() === 'node/'.$variables['node']->nid) {
+        $this_nid = $variables['node']->nid;
+        $destination_nid = vertical_scroll_get_data('destination', $this_nid);
+        if($destination_nid) { //Noden hör hemma på någon annan nod
+          /*
+          $destination_nid = $destination_nid[0];
+          $fragment = drupal_get_path_alias("node/$this_nid");
+          if(variable_get('site_frontpage', '') === "node/$destination_nid") {
+            drupal_goto('', array('fragment' => "$fragment"), 301);
+          }
+          else {
+            drupal_goto("node/$destination_nid", array('fragment' => "$fragment"), 301);
+          }
+          */
+        }
+        else { //Kolla om det här är en destinationsnod
+          $result = vertical_scroll_get_data('sources', $this_nid);
+          if($result) {
+            $sources = array();
+            foreach($result as $nid) {
+              $base = "node/$nid";
+              $alias = drupal_get_path_alias("node/$nid");
+              $sources["#$alias"][] = $base;
+              $sources["#$alias"][] = url($base, array('alias' => true));
+              $sources["#$alias"][] = url($base, array('alias' => true, 'absolute' => true));
+              if($base!==$alias) {
+                $sources["#$alias"][] = $alias;
+                $sources["#$alias"][] = url($alias, array('alias' => true));
+                $sources["#$alias"][] = url($alias, array('alias' => true, 'absolute' => true));
+              }
+            }
+            if(variable_get('vertical_scroll_all_links', true)) {
+              //Lägg till hashning av länkar till den befintliga sidan, som pekar mot toppen
+              $base = current_path();
+              $alias = drupal_get_path_alias($base);
+              $sources['#'][] = $base;
+              $sources['#'][] = url($base, array('alias' => true));
+              $sources['#'][] = url($base, array('alias' => true, 'absolute' => true));
+              if($base!==$alias) {
+                $sources['#'][] = $alias;
+                $sources['#'][] = url($alias, array('alias' => true));
+                $sources['#'][] = url($alias, array('alias' => true, 'absolute' => true));
+              }
+              if($base === variable_get('site_frontpage', '')) { //Framsida
+                $base = '';
+                $sources['#'][] = $base;
+                $sources['#'][] = url($base, array('alias' => true));
+                $sources['#'][] = url($base, array('alias' => true, 'absolute' => true));
+              }
+            }
+            if($sources) {
+              if (($path_scrollto = libraries_get_path('scrollto')) && ($path_hashchange = libraries_get_path('hashchange'))) {
+                drupal_add_js($path_hashchange . '/jquery.ba-hashchange.min.js');
+
+                drupal_add_js($path_scrollto . '/jquery.scrollTo.min.js');
+                drupal_add_js(array('vertical_scroll_sources' => $sources), 'setting');
+                $settings = array(
+                  'duration' => variable_get('vertical_scroll_duration', 500),
+                  'margin' => variable_get('vertical_scroll_margin', false),
+                  'offset' => variable_get('vertical_scroll_offset', 0),
+                );
+                drupal_add_js(array('vertical_scroll_settings' => $settings), 'setting');
+                drupal_add_js(drupal_get_path('module', 'vertical_scroll').'/js/vertical_scroll.js');
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+//Implements hook_block_info()
+function vertical_scroll_block_info() {
+  $blocks[] = array(
+    'info' => t('Vertical Scroll'),
+    'cache' => DRUPAL_NO_CACHE,
+    'region' => 'content',
+    'status' => 1,
+    'visibility' => BLOCK_VISIBILITY_NOTLISTED,
+  );
+
+  return $blocks;
+}
+//Implements hook_block_info_alter()
+function vertical_scroll_block_info_alter(&$blocks, $theme, $code_blocks) {
+  if($theme === 'kopernikus_admin') {
+    $blocks['vertical_scroll'][0]['status'] = 0;
+  }
+}
+//Implements hook_block_view()
+function vertical_scroll_block_view($delta = '') {
+  $block = array();
+  if($delta == 0) {
+    $block['content'] = array(
+      '#title' => t('Content'),
+    );
+    $block['content'] = vertical_scroll_render_block();
+  }
+  return $block;
+}
+
+function vertical_scroll_render_block() {
+  $current_path = current_path();
+  $patharr = explode('/', $current_path);
+  $render_array = null;
+  if($patharr[0] === 'node') {
+    $nid = $patharr[1];
+    $result = vertical_scroll_get_data('sources_full', $nid);
+    if($result) {
+      $nodes = array();
+      foreach($result as $record) {
+        $nodes[] = $record;
+      }
+      $render_array = array();
+      usort($nodes, 'vertical_scroll_sort_array_by_weight');
+      foreach($nodes as $i => $values) {
+        $nid = $values['source_nid'];
+        $node = node_load($nid);
+        $fragment = drupal_get_path_alias("node/$nid");
+        $view = node_view($node, $values['view_mode']);
+        $view['#prefix'] = "<div class='vertical-scroll-item' id='vertical-block-nid-$nid'><a id='vertical-scroll-anchor-$fragment'></a>";
+        $view['#suffix'] = '</div>';
+        $render_array = array_merge($render_array, array($view));
+        $render_array[$i]['uplink'] = array(
+        	'#theme' => 'vertical_scroll_uplink',
+          '#weight' => 9999,
+        );
+      }
+    }
+  }
+  if(!$render_array) {
+    return null;
+  }
+  return $render_array;
+}
+function theme_vertical_scroll_uplink($variables) {
+	return l(t('To top'), request_path(), array('absolute' => true, 'attributes' => array('class' => array('vertical-scroll-toplink'))));
+}
+function vertical_scroll_sort_array_by_weight($a, $b) {
+  return $a['weight'] - $b['weight'];
+}
+//Implements hook_form_BASE_FORM_ID_alter().
+function vertical_scroll_form_node_form_alter(&$form, $form_state, $form_id) {
+  $form['#validate'][] = 'vertical_scroll_node_form_validate';
+  $form['actions']['submit']['#submit'][] = 'vertical_scroll_node_form_submit';
+  $result = array();
+  if(isset($form['#node']->nid)) {
+    $result = vertical_scroll_get_data('destination_full', $form['#node']->nid);
+  }
+  $default_values = array(
+    'vertical_scroll_destination' => '',
+    'vertical_scroll_view_mode' => 'vertical_scroll',
+    'vertical_scroll_weight' => 0,
+  );
+  if($result) {
+    $result = $result[0];
+    $destination_title = db_select('node', 'n')
+      ->fields('n', array('title'))
+      ->condition('nid', $result['destination_nid'])
+      ->range(0, 1)
+      ->execute()
+      ->fetchField();
+    $default_values['vertical_scroll_destination'] = $destination_title;
+    $default_values['vertical_scroll_view_mode'] = $result['view_mode'];
+    $default_values['vertical_scroll_weight'] = $result['weight'];
+  }
+  $form['vertical_scroll'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Vertical Scroll'),
+    '#collapsible' => true,
+    '#collapsed' => true,
+    '#group' => 'additional_settings',
+    '#access' => user_access('vertical_scroll_node_form'),
+  );
+  $form['vertical_scroll']['vertical_scroll_destination'] = array(
+    '#title' => t('Destination'),
+    '#type' => 'textfield',
+    '#default_value' => $default_values['vertical_scroll_destination'],
+    '#description' => t('Enter the title of the node where you want this content to appear'),
+    '#autocomplete_path' => 'ajax/vertical-scroll/autocomplete',
+  );
+  $entity_info = entity_get_info('node');
+  $view_modes = array();
+  foreach($entity_info['view modes'] as $key => $mode) {
+    $view_modes[$key] = $mode['label'];
+  }
+  $form['vertical_scroll']['vertical_scroll_view_mode'] = array(
+    '#title' => t('View mode'),
+    '#type' => 'select',
+    '#default_value' => $default_values['vertical_scroll_view_mode'],
+    '#options' => $view_modes,
+  );
+  $form['vertical_scroll']['vertical_scroll_weight'] = array(
+    '#title' => t('Weight'),
+    '#type' => 'weight',
+    '#default_value' => $default_values['vertical_scroll_weight'],
+  );
+}
+function vertical_scroll_node_form_validate($form, &$form_state) {
+  if($form_state['values']['vertical_scroll_destination']) {
+    if(!is_numeric($form_state['values']['vertical_scroll_destination'])) {
+      global $language;
+      //Kolla om det är en titel som har matats in
+      $result = db_select('node', 'n')
+        ->fields('n', array('nid'))
+        ->condition('title', $form_state['values']['vertical_scroll_destination'])
+        ->condition('language', $language->language)
+        ->range(0, 1)
+        ->execute();
+      $results_exist = $result->rowCount();
+
+      if($results_exist) {
+        $form_state['values']['vertical_scroll_destination'] = $result->fetchField();
+      }
+      else {
+        form_set_error('vertical_scroll_destination', t('The node "@title" does not exist!', array('@title' => $form_state['values']['vertical_scroll_destination'])));
+      }
+    }
+    else {
+      $nid = $form_state['values']['vertical_scroll_destination'];
+      $result = db_select('node', 'n')
+        ->fields('n', array('nid'))
+        ->condition('nid', $nid)
+        ->execute()
+        ->rowCount();
+      if($result==0) {
+        form_set_error('vertical_scroll_destination', t("The node with nid @nid doesn't exist!", array('@nid' => $nid)));
+      }
+    }
+    //Kontrollera att det inte finns ett omvänt förhållande redan
+    if(isset($form_state['values']['nid'])) {
+      $sources = vertical_scroll_get_data('sources', $form_state['values']['nid']);
+      if(in_array($form_state['values']['vertical_scroll_destination'], $sources)) {
+        form_set_error('vertical_scroll_destination', t('The destination is already listed as a source for this node.'));
+      }
+    }
+  }
+}
+function vertical_scroll_node_form_submit($form, &$form_state) {
+  $old_values = array(
+    'destination' => $form['vertical_scroll']['vertical_scroll_destination']['#default_value'],
+    'view_mode' => $form['vertical_scroll']['vertical_scroll_view_mode']['#default_value'],
+    'weight' => $form['vertical_scroll']['vertical_scroll_weight']['#default_value'],
+  );
+  $new_values = array(
+    'destination' => $form_state['values']['vertical_scroll_destination'],
+    'view_mode' => $form_state['values']['vertical_scroll_view_mode'],
+    'weight' => $form_state['values']['vertical_scroll_weight'],
+  );
+  if($new_values['destination']) {
+    $rows = array();
+    if($new_values != $old_values) {
+      $row = array(
+        'source_nid' => $form_state['values']['nid'],
+        'destination_nid' => $form_state['values']['vertical_scroll_destination'],
+        'view_mode' => $form_state['values']['vertical_scroll_view_mode'],
+        'weight' => $form_state['values']['vertical_scroll_weight'],
+      );
+      $rows[] = $row;
+    }
+    vertical_scroll_add_rows($rows);
+  }
+  else {
+    if($old_values['destination']) {
+      vertical_scroll_delete_row($form_state['values']['nid']);
+    }
+  }
+}
+//Implements hook_node_delete().
+function vertical_scroll_node_delete($node) {
+  $nid = $node->nid;
+  $nids = array();
+  $destination = vertical_scroll_get_data('destination', $nid);
+  if($destination) {
+    $nids[] = $nid;
+  }
+  $sources = vertical_scroll_get_data('sources', $nid);
+  if($sources) {
+    foreach($sources as $source_nid) {
+      $nids[] = $source_nid;
+    }
+  }
+  if($nids) {
+    vertical_scroll_delete_row($nids);
+  }
+}

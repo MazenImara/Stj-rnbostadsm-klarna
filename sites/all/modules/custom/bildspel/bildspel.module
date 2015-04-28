@@ -1,0 +1,74 @@
+<?php
+
+//Implements hook_theme().
+function bildspel_theme($existing, $type, $theme, $path) {
+  return array(
+    'bildspel' => array(
+      'variables' => array(
+        'items' => array(),
+        'slider_settings' => array(
+          'frame_length' => 0,
+          'transition' => 'fade',
+          'skin' => 'default',
+          'navigation' => true,
+          'pager' => false,
+        ),
+      ),
+      'file' => 'bildspel.theme.inc',
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function bildspel_field_formatter_info() {
+  $fields = array_keys(field_info_field_types());
+  $formatters = array(
+    'bildspel' => array(
+      'label' => t('Slider'),
+      'field types' => $fields,
+      'settings' => array(
+        'slider_settings' => array(
+          'frame_length' => 0,
+          'transition' => 'fade',
+          'skin' => 'default',
+          'navigation' => true,
+          'pager' => false,
+        ),
+        'item_display' => '',
+        'item_settings' => array(),
+      ),
+    ),
+  );
+  return $formatters;
+}
+
+/**
+ * Implements hook_field_formatter_settings_form().
+ */
+function bildspel_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  module_load_include('inc', 'bildspel', 'bildspel.admin');
+  return bildspel_get_field_formatter_settings_form($field, $instance, $view_mode, $form, $form_state);
+}
+
+//Ajax callback for field formatter settings form
+function bildspel_ajax_update_item_settings($form, &$form_state) {
+  module_load_include('inc', 'bildspel', 'bildspel.admin');
+  return bildspel_get_ajax_update_item_settings($form, $form_state);
+}
+
+/**
+ * Implements hook_field_formatter_settings_summary().
+ */
+function bildspel_field_formatter_settings_summary($field, $instance, $view_mode) {
+  module_load_include('inc', 'bildspel', 'bildspel.admin');
+  return bildspel_get_field_formatter_settings_summary($field, $instance, $view_mode);
+}
+/**
+ * Implements hook_field_formatter_view().
+ */
+function bildspel_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  module_load_include('inc', 'bildspel', 'bildspel.pages');
+  return bildspel_get_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display);
+}

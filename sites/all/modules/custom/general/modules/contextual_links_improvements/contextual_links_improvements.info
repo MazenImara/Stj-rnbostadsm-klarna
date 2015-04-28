@@ -1,0 +1,5 @@
+name = Contextual Links Improvements
+description = Contextual Links Improvements
+package = Custommoduler
+core = 7.x
+dependencies[] = general

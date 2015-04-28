@@ -1,0 +1,5 @@
+name = Sweaver Improvements
+description = Sweaver Improvements
+package = Custommoduler
+core = 7.x
+dependencies[] = sweaver

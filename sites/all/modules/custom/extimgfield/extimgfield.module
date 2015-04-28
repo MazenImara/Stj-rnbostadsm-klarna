@@ -1,0 +1,276 @@
+<?php
+/**
+ * Implements hook_field_info().
+ */
+function extimgfield_field_info() {
+  return array(
+    'extimgfield' => array(
+      'label' => t('External image'),
+      'description' => t('External image'),
+      'default_widget' => 'extimgfield_widget',
+      'default_formatter' => 'extimgfield_formatter',
+    ),
+  );
+}
+/**
+ * Implements hook_field_is_empty().
+ */
+function extimgfield_field_is_empty($item, $field) {
+  $temp = array_keys($field['columns']);
+  $key = array_shift($temp);
+  return empty($item[$key]);
+}
+/**
+ * Implements hook_field_widget_info().
+ */
+function extimgfield_field_widget_info() {
+  return array(
+    'extimgfield_widget' => array(
+      'label' => t('External Image'),
+      'field types' => array('extimgfield'),
+      'settings' => array(),
+      'behaviors' => array(
+        'multiple values' => FIELD_BEHAVIOR_DEFAULT,
+        'default value' => FIELD_BEHAVIOR_NONE,
+      ),
+    ),
+  );
+}
+/**
+ * Implements hook_field_widget_form().
+ */
+function extimgfield_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+  if ($instance['widget']['type'] === 'extimgfield_widget') {
+    $element['url'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Url to image'),
+      '#maxlength' => 255,
+      '#default_value' => isset($items[$delta]['url']) ? $items[$delta]['url'] : '',
+      '#attributes' => array('class' => array('extimgfield-url')),
+    );
+	  $element['alt'] = array(
+	    '#title' => t('Alternate text'),
+	    '#type' => 'textfield',
+	    '#default_value' => isset($item[$delta]['alt']) ? $item[$delta]['alt'] : '',
+	    '#description' => t('This text will be used by screen readers, search engines, or when the image cannot be loaded.'),
+	    '#maxlength' => 255,
+	  );
+	  $element['title'] = array(
+	    '#type' => 'textfield',
+	    '#title' => t('Title'),
+	    '#default_value' => isset($item[$delta]['title']) ? $item[$delta]['title'] : '',
+	    '#description' => t('The title is used as a tool tip when the user hovers the mouse over the image.'),
+	    '#maxlength' => 255,
+	  );
+  }
+  return $element;
+}
+//Implements hook_field_prepare_view().
+function extimgfield_field_prepare_view($entity_type, $entities, $field, $instances, $langcode, &$items) {
+	foreach($items as $nid => $real_items) {
+		if(!$real_items) {
+			$items[$nid][0] = array();
+			$logo_path = '';
+	    $default_logo = theme_get_setting('default_logo');
+	    if ($default_logo && function_exists('logo_block_get_default_logo_path')) {
+	      $logo_path = logo_block_get_default_logo_path();
+	    }
+	    else {
+	      $logo_path = theme_get_setting('logo_path');
+	    }
+	    if ($logo_path) {
+	      $items[$nid][0]['logo_path'] = $logo_path;
+			}
+			$items[$nid][0]['text'] = '<span>'.t('No image exists').'</span>';
+			$items[$nid][0]['title'] = '';
+		}
+	}
+}
+/**
+ * Implements hook_field_formatter_info().
+ *
+ */
+function extimgfield_field_formatter_info() {
+  return array(
+    'extimgfield_formatter' => array(
+      'label' => t('External Image Formatter'),
+      'field types' => array('extimgfield'),
+      'settings' => array(
+        'image_style' => '',
+        'image_link' => '',
+        'how_many' => 'all',
+        'display_noimage' => true,
+      ),
+    ),
+  );
+}
+/**
+ * Implements hook_field_formatter_settings_form().
+ *
+ */
+function extimgfield_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+
+  $image_styles = image_style_options(FALSE);
+  $element['image_style'] = array(
+    '#title' => t('Image style'),
+    '#type' => 'select',
+    '#default_value' => $settings['image_style'],
+    '#empty_option' => t('None (original image)'),
+    '#options' => $image_styles,
+  );
+
+  $link_types = array(
+    'content' => t('Content'),
+    'file' => t('File'),
+  );
+  $element['image_link'] = array(
+    '#title' => t('Link image to'),
+    '#type' => 'select',
+    '#default_value' => $settings['image_link'],
+    '#empty_option' => t('Nothing'),
+    '#options' => $link_types,
+  );
+  $element['how_many'] = array(
+  	'#title' => t('Which items should be displayed?'),
+  	'#type' => 'select',
+  	'#default_value' => $settings['how_many'],
+  	'#options' => array(
+  		'all' => t('All'),
+  		'first' => t('First'),
+  		'last' => t('Last'),
+  	),
+  );
+  $element['display_noimage'] = array(
+  	'#title' => t('Display replacement box when no image exists'),
+  	'#type' => 'checkbox',
+  	'#default_value' => $settings['display_noimage'],
+  );
+  
+  return $element;
+}
+/**
+ * Implements hook_field_formatter_settings_summary().
+ *
+ */
+function extimgfield_field_formatter_settings_summary($field, $instance, $view_mode) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+
+  $summary = array();
+
+  $image_styles = image_style_options(FALSE);
+  // Unset possible 'No defined styles' option.
+  unset($image_styles['']);
+  // Styles could be lost because of enabled/disabled modules that defines
+  // their styles in code.
+  if (isset($image_styles[$settings['image_style']])) {
+    $summary[] = t('Image style: @style', array('@style' => $image_styles[$settings['image_style']]));
+  }
+  else {
+    $summary[] = t('Original image');
+  }
+
+  $link_types = array(
+    'content' => t('Linked to content'),
+    'file' => t('Linked to file'),
+  );
+  // Display this setting only if image is linked.
+  if (isset($link_types[$settings['image_link']])) {
+    $summary[] = $link_types[$settings['image_link']];
+  }
+  $summary[] = t('Display these items').': '.t($settings['how_many']);
+  $summary[] = t('Display replacement box when no image exists').': ' . ($settings['display_noimage'] ? t('Yes') : t('No'));
+
+  return implode('<br />', $summary);
+}
+/**
+ * Implements hook_field_formatter_view().
+ */
+function extimgfield_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+	$element = array();
+	$settings = $display['settings'];
+  // Check if the formatter involves a link.
+  if ($settings['image_link'] == 'content') {
+		$entity_uri = entity_uri($entity_type, $entity);
+    $uri = $entity_uri['path'];
+  }
+  elseif ($settings['image_link'] == 'file') {
+    $link_file = TRUE;
+  }
+
+	if($settings['how_many'] === 'first') {
+		$items = array(array_shift($items));
+	}
+	elseif($settings['how_many'] === 'last') {
+		$items = array(array_pop($items));
+	}
+  foreach ($items as $delta => $item) {
+		if(isset($item['text'])) { //Ingen bild finns, returnera markupen.
+			if($settings['display_noimage']) {
+				$element[$delta] = array();
+				if(isset($item['logo_path'])) {
+					$element[$delta]['logo'] = array(
+						'#theme' => 'image',
+						'#path' => $item['logo_path'],
+					);
+				}
+				$element[$delta]['text'] = array(
+					'#markup' => $item['text'],
+				);
+			}
+		}
+		else {
+	    if (isset($link_file)) {
+	      $uri = $item['url'];
+	    }
+	    if($settings['image_style']) {
+		    $element[$delta] = array(
+					'#theme' => 'imagecache_external',
+		      '#style_name' => $settings['image_style'],
+		      '#path' => $item['url'],
+		    );
+		    if($item['alt']) $element[$delta]['#alt'] = $item['alt'];
+		    if($item['title']) $element[$delta]['#title'] = $item['title'];
+			}
+			else {
+				$element[$delta] = array(
+				 	'#theme' => 'image',
+		      '#path' => $item['url'],
+		    );
+		    if($item['alt']) $element[$delta]['#alt'] = $item['alt'];
+		    if($item['title']) $element[$delta]['#title'] = $item['title'];
+			}
+		}
+		if(isset($element[$delta])) {
+	    if(isset($uri)) {
+				$element[$delta] = array(
+					'#theme' => 'link',
+					'#text' => drupal_render($element[$delta]),
+					'#path' => $uri,
+					'#options' => array(
+						'attributes' => array(),
+						'html' => true,
+					),
+				);
+			  if($item['title']) $element[$delta]['#options']['attributes']['title'] = $item['title'];
+				if(isset($item['text'])) { //Ingen bild finns
+					$element[$delta]['#options']['attributes']['class'] = array('extimgfield-noimage');
+				}
+			}
+			else {
+				if(isset($item['text'])) { //Ingen bild finns
+					$element[$delta] = array(
+						'#type' => 'container',
+						'#attributes' => array(
+							'class' => array('extimgfield-noimage'),
+						),
+						'elements' => $element[$delta],
+					);
+				}
+			}
+		}
+  }
+  return $element;
+}

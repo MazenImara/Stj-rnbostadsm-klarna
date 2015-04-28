@@ -1,0 +1,5 @@
+name = Advanced Cache Logic Views
+description = Advanced Cache Logic for nodes appearing in views
+dependencies[] = advanced_cache_logic
+package = Advanced Cache Logic
+core = 7.x

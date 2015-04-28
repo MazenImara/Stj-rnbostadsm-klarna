@@ -1,0 +1,5 @@
+name = View Reference Improvements
+description = View Reference Improvements
+dependencies[] = viewreference
+package = Custommoduler
+core = 7.x

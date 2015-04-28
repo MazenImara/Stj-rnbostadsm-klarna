@@ -1,0 +1,164 @@
+<?php
+
+/*--------------------Integration med general_settings_form---------------------------------*/
+//Implements hook_form_FORMID_alter()
+function advanced_cache_logic_form_general_settings_form_alter(&$form, &$form_state) {
+  drupal_add_css(drupal_get_path('module', 'advanced_cache_logic').'/css/advanced_cache_logic.css');
+  drupal_add_js(drupal_get_path('module', 'advanced_cache_logic').'/js/advanced_cache_logic.js');
+  $form['general_production']['general_advanced_cache_logic'] = array(
+    '#title' => t('Use advanced cache logic'),
+    '#type' => 'checkbox',
+    '#default_value' => variable_get('general_advanced_cache_logic', false),
+    '#weight' => 0,
+    '#disabled' => 1,
+  );
+  $form_state['storage']['batch_operations'][] = 'advanced_cache_logic_form_general_settings_submit';
+}
+function advanced_cache_logic_form_general_settings_submit() {
+  $form =& $_SESSION['general_settings_form'];
+  $form_state =& $_SESSION['general_settings_form_state'];
+
+  $old_option = variable_get('general_advanced_cache_logic', false);
+  $new_option = $form_state['values']['general_advanced_cache_logic'];
+  if($old_option!=$new_option) {
+    variable_set('general_advanced_cache_logic', $new_option);
+  }
+}
+/*-------------------------------------------------------------------------------------------*/
+
+/*-----------------------NODE HOOKS------------------------------*/
+
+//Implements hook_node_insert()
+function advanced_cache_logic_node_insert($node) {
+  static $done;
+  if(!$done) {
+    $done = true;
+    switch($cache_backend = variable_get('general_pagecache_backend', false)) {
+      case 'boost':
+        if($use_advanced_logic = variable_get('general_advanced_cache_logic', false)) {
+          //Anropa avancerad expiration logic
+          boost_flush_caches();
+        }
+        else {
+          boost_flush_caches();
+        }
+        break;
+      case 'drupal':
+        cache_clear_all();
+        break;
+      
+      default:
+    }
+  }
+}
+//Implements hook_node_update()
+function advanced_cache_logic_node_update($node) {
+  static $done;
+  if(!$done) {
+    $done = true;
+    switch($cache_backend = variable_get('general_pagecache_backend', false)) {
+      case 'boost':
+        if($use_advanced_logic = variable_get('general_advanced_cache_logic', false)) {
+          //Anropa avancerad expiration logic
+          boost_flush_caches();
+        }
+        else {
+          boost_flush_caches();
+        }
+        break;
+        
+      case 'drupal':
+        cache_clear_all();
+        break;
+      
+      default:
+    }
+  }
+}
+//Implements hook_node_delete()
+function advanced_cache_logic_node_delete($node) {
+  static $done;
+  if(!$done) {
+    $done = true;
+    switch($cache_backend = variable_get('general_pagecache_backend', false)) {
+      case 'boost':
+        if($use_advanced_logic = variable_get('general_advanced_cache_logic', false)) {
+          //Anropa avancerad expiration logic
+          boost_flush_caches();
+        }
+        else {
+          boost_flush_caches();
+        }
+        break;
+      case 'drupal':
+        cache_clear_all();
+        break;
+
+      default:
+    }
+  }
+}
+/*-----------------------------------------------------*/
+
+/*-----------------------MENU HOOKS------------------------------*/
+//Implements hook_menu_link_insert($link)
+function advanced_cache_logic_menu_link_insert($link) {
+  static $done;
+  if(!$done) {
+    $done = true;
+    switch($cache_backend = variable_get('general_pagecache_backend', false)) {
+      case 'boost':
+        if($use_advanced_logic = variable_get('general_advanced_cache_logic', false)) {
+          //Anropa avancerad expiration logic
+          boost_flush_caches();
+        }
+        else {
+          boost_flush_caches();
+        }
+        break;
+      
+      default:
+    }
+  }
+}
+//Implements hook_menu_link_update($link)
+function advanced_cache_logic_menu_link_update($link) {
+  static $done;
+  if(!$done) {
+    $done = true;
+    switch($cache_backend = variable_get('general_pagecache_backend', false)) {
+      case 'boost':
+        if($use_advanced_logic = variable_get('general_advanced_cache_logic', false)) {
+          //Anropa avancerad expiration logic
+          boost_flush_caches();
+        }
+        else {
+          boost_flush_caches();
+        }
+        break;
+      
+      default:
+    }
+  }
+}
+//Implements hook_menu_link_delete($link)
+function advanced_cache_logic_menu_link_delete($link) {
+  static $done;
+  if(!$done) {
+    $done = true;
+    switch($cache_backend = variable_get('general_pagecache_backend', false)) {
+      case 'boost':
+        if($use_advanced_logic = variable_get('general_advanced_cache_logic', false)) {
+          //Anropa avancerad expiration logic
+          boost_flush_caches();
+        }
+        else {
+          boost_flush_caches();
+        }
+        break;
+      
+      default:
+    }
+  }
+}
+/*-----------------------------------------------------*/

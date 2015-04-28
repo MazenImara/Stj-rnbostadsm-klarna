@@ -1,0 +1,4 @@
+name = Advanced Cache Logic
+description = Core functionality for Advanced Cache Logic
+package = Advanced Cache Logic
+core = 7.x

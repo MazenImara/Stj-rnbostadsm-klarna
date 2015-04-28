@@ -1,0 +1,5 @@
+name = External Links Improvements
+description = Improvements related to external links
+package = Custommoduler
+core = 7.x
+dependencies[] = extlink

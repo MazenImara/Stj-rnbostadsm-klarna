@@ -1,0 +1,49 @@
+<?php
+
+//Implements hook_menu().
+function parallax_scroll_menu() {
+  $items = array(
+    'admin/config/media/parallax-scroll' => array(
+      'title' => 'Parallax Scroll',
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('parallax_scroll_admin_form'),
+      'access arguments' => array('parallax_scroll_admin_form'),
+      'file' => 'parallax_scroll.admin.inc',
+    ),
+    'admin/config/media/parallax-scroll-js' => array(
+      'title' => 'Parallax Scroll JS Callback',
+      'page callback' => 'parallax_scroll_admin_form_js',
+      'access arguments' => array('parallax_scroll_admin_form'),
+      'file' => 'parallax_scroll.admin.inc',
+      'type' => MENU_CALLBACK,
+    ),
+  );
+  return $items;
+}
+
+//Implements hook_menu_alter().
+function parallax_scroll_menu_alter(&$items) {
+
+}
+//Implements hook_theme_registry_alter().
+function parallax_scroll_theme_registry_alter(&$theme_registry) {
+
+}
+//Implements hook_init().
+function parallax_scroll_init() {
+  module_load_include('inc', 'parallax_scroll', 'parallax_scroll');
+  parallax_scroll_render();
+}
+//Implements hook_permission().
+function parallax_scroll_permission() {
+  $permissions = array(
+    'parallax_scroll_admin_form' => array(
+      'title' => 'Access admin form for parallax scroll',
+    ),
+  );
+  return $permissions;
+}
+//Implements hook_form_alter().
+function parallax_scroll_form_alter(&$form, $form_state, $form_id) {
+
+}

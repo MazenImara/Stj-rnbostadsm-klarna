@@ -1,0 +1,5 @@
+name = Cookie Control Improvements
+description = Cookie Control Improvements
+package = Custommoduler
+core = 7.x
+dependencies[] = cookie_html

@@ -1,0 +1,22 @@
+/* This file will hold styles that are loaded using the same media query as the narrow grid. */
+/* If you are using the default media queries provided by Omega, these styles will also
+ *  apply to the normal and widescreen layouts. You may override these styles in the normal 
+ *  and widescreen CSS files as appropriate. */
+ 
+
+#node-panel-1 .panel-panel.grid-8 {padding:15px 0 20px;}
+ h1, h2, h3 {  padding: 2px 0 15px 0;}
+ body.front #zone-content-wrapper {
+
+  background: transparent url(../images/patternbg-narrow.png) top left repeat-x;
+
+  min-height: 300px;
+
+}
+.region-footer-first-inner{padding:0;}
+#block-superfish-1 ul.sf-menu li a,
+#block-superfish-1 ul.sf-menu li a:visited,
+#block-superfish-1 ul.sf-menu ul li a,
+#block-superfish-1 ul.sf-menu ul li a:visited {
+	font-size: 16px;
+	padding: 14px 20px}

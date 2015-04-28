@@ -1,0 +1,16 @@
+<?php
+
+//Implements hook_wysiwyg_plugin().
+function ckeditor_image_resize_wysiwyg_plugin($editor, $version) {
+  $plugins = array();
+
+  if($editor === 'ckeditor') {
+    $plugins['ckeditor_image_resize'] = array(
+      'extensions' => array('ckeditor_image_resize' => t('CKEditor Image Resize')),
+      'path' => drupal_get_path('module', 'ckeditor_image_resize') . '/plugin',
+      'file' => 'plugin.js',
+      'load' => TRUE,
+    );
+  }
+  return $plugins;
+}

@@ -1,0 +1,166 @@
+<?php
+
+/**
+ * @file
+ * Adds fields integration with nivoslider
+ */
+
+//Implements hook_theme().
+function linkimagefield_nivoslider_theme() {
+  return array(
+    'nivoslider_container' => array(
+      'variables' => array('items' => array(), 'settings' => array()),
+      'file' => 'linkimagefield_nivoslider.theme.inc',
+    ),
+    'nivoslider_wrapper' => array(
+      'render element' => 'element',
+      'file' => 'linkimagefield_nivoslider.theme.inc',
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ *
+ * Adds the linkimagefield_nivoslider format option within the manage display form of
+ * of an image field.
+ */
+function linkimagefield_nivoslider_field_formatter_info() {
+  return array(
+    'linkimagefield_nivoslider' => array(
+      'label' => t('Nivo Slider'),
+      'field types' => array('linkimagefield'),
+      'settings' => array(
+        'nivoslider_skin' => '_none',
+        'image_style' => '_none',
+        'nivoslider_transition' => 'random',
+        'nivoslider_pausetime' => '10000',
+        'nivoslider_display_controls' => true,
+        'nivoslider_display_pagination' => false,
+        'nivoslider_use_swipe' => true,
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_settings_form().
+ *
+ * Provides display settings form within the manage display page of
+ * an image field with formatter linkimagefield_nivoslider.
+ */
+function linkimagefield_nivoslider_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+
+  $form = array();
+  $image_styles = image_styles();
+  $style_options = array('_none' => t('- None -'));
+  foreach ($image_styles as $name => $style) {
+    $style_options[$name] = $name;
+  }
+  $form['nivoslider_skin'] = array(
+    '#type' => 'select',
+    '#title' => t('Skin'),
+    '#options' => array(
+      '_none' => t('- None -'),
+      'default' => t('Default'),
+      'smooth_tv' => t('Smooth TV'),
+      'square_tv' => t('Square TV'),
+      'dark' => t('Dark'),
+      'light' => t('Light'),
+      'light_subs' => t('Light with subs'),
+      'db_lc' => t('Dark buttons, light captions'),
+      'bar' => t('Bar'),
+    ),
+    '#default_value' => $settings['nivoslider_skin'],
+  );
+  $form['image_style'] = array(
+    '#type' => 'select',
+    '#title' => t('Image style'),
+    '#options' => $style_options,
+    '#default_value' => $settings['image_style'],
+  );
+  $form['nivoslider_transition'] = array(
+    '#type' => 'select',
+    '#title' => t('Transition effect'),
+    '#options' => array(
+      'sliceDown' => 'sliceDown',
+      'sliceDownLeft' => 'sliceDownLeft',
+      'sliceUp' => 'sliceUp',
+      'sliceUpLeft' => 'sliceUpLeft',
+      'sliceUpDown' => 'sliceUpDown',
+      'sliceUpDownLeft' => 'sliceUpDownLeft',
+      'fold' => 'fold',
+      'fade' => 'fade',
+      'random' => 'random',
+      'slideInRight' => 'slideInRight',
+      'slideInLeft' => 'slideInLeft',
+      'boxRandom' => 'boxRandom',
+      'boxRain' => 'boxRain',
+      'boxRainReverse' => 'boxRainReverse',
+      'boxRainGrow' => 'boxRainGrow',
+      'boxRainGrowReverse' => 'boxRainGrowReverse',
+    ),
+    '#default_value' => $settings['nivoslider_transition'],
+  );
+  $form['nivoslider_pausetime'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Slide duration (ms)'),
+    '#default_value' => $settings['nivoslider_pausetime'],
+  );
+  $form['nivoslider_display_controls'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Display controls'),
+    '#default_value' => $settings['nivoslider_display_controls'],
+  );
+  $form['nivoslider_display_pagination'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Display pagination'),
+    '#default_value' => $settings['nivoslider_display_pagination'],
+  );
+  $form['nivoslider_use_swipe'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Use swipe for mobile devices'),
+    '#default_value' => $settings['nivoslider_use_swipe'],
+  );
+
+  return $form;
+}
+/**
+ * Implements hook_field_formatter_settings_summary().
+ *
+ * Displays the summary of the set options of a linkimagefield_nivoslider formatted image field
+ */
+function linkimagefield_nivoslider_field_formatter_settings_summary($field, $instance, $view_mode) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+  $summary = array(
+    t('Skin').': '.$settings['nivoslider_skin'],
+    t('Image style').': '.$settings['image_style'],
+    t('Transition effect').': '.$settings['nivoslider_transition'],
+    t('Slide duration').': '.$settings['nivoslider_pausetime'].'ms',
+    t('Display controls').': '.($settings['nivoslider_display_controls'] ? t('Yes') : t('No')),
+    t('Display pagination').': '.($settings['nivoslider_display_pagination'] ? t('Yes') : t('No')),
+    t('Use swipe for mobile devices').': '.($settings['nivoslider_use_swipe'] ? t('Yes') : t('No')),
+  );
+
+  return implode('<br />', $summary);
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ *
+ * Prepares a renderable array of images and adds the neccessary JS and CSS
+ */
+function linkimagefield_nivoslider_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+  if (count($items) > 0) {
+    $element[] = array(
+      '#theme' => 'nivoslider_container',
+      '#items' => $items,
+      '#settings' => $display['settings'],
+    );
+  }
+  return $element;
+}

@@ -1,0 +1,70 @@
+/* This file will hold styles that are loaded using the same media query as the narrow grid. */
+/* If you are using the default media queries provided by Omega, these styles will also
+ *  apply to the normal and widescreen layouts. You may override these styles in the normal 
+ *  and widescreen CSS files as appropriate. */
+ body .container-24 {
+  width: 720px;
+}
+body .container-24 .grid-24 {
+  width: 720px;
+}
+body .container-24 .grid-8 {
+  width: 220px;
+}
+h1 {
+  font-size: 2.0em;
+}
+h2 {
+  font-size: 1.6em;
+}
+h3 {
+  font-size: 1.5em;
+}
+/*--------------Header--------------*/
+
+#block-superfish-1 .language-switcher {margin-left:10px; float:right;max-width:40px;}
+#block-superfish-1 .language-switcher ul{margin-top:-15px}
+#block-logo-block-logo img{width:auto; max-width:200px;}
+ #block-logo-block-logo{ padding: 10px 5px 0;}
+/*--------------Huvudmeny--------------*/
+#block-superfish-1 {width: 490px;}
+#block-superfish-1 ul.menu {float:none;}
+
+#block-superfish-1 ul.menu a, 
+
+#block-superfish-1 ul.menu a:visited {font-size:14px; padding:12px 9px;}
+#block-superfish-1 ul.sf-menu ul {
+
+  top: 43px;
+
+}
+
+/*--------------startsida--------------*/
+body.front .block-webform{width:260px;}
+
+body.front .block-webform .block-inner {width:270px;}
+.panel-content{width:362px;}
+
+.panel-pane .field-name-field-sidhuvud img {max-width:210px;}
+
+/*--------------blog--------------*/
+
+body.sidtyp-bloggsida .view-enterprise-blog .views-row {
+	
+width:240px; margin:0 5px;}
+  body.sidtyp-bloggsida .view-enterprise-blog .views-row .node {
+  padding: 10px 20px 10px 20px;
+}
+/*--------------Nyheter--------------*/
+body.sidtyp-nyhetssida .view-nyheter .views-row {
+
+  margin-left: 5px;
+
+  margin-right: 5px;
+
+  width: 350px; 
+
+
+}
+
+.field-name-field-sidhuvud { width:720px;  margin: -30px 0 15px -40px;}

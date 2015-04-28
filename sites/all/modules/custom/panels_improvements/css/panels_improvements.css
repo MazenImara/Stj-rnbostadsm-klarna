@@ -1,0 +1,6 @@
+.panels-categories-box {
+  display: none;
+}
+.ipe-display-categories .panels-categories-box {
+  display: block;
+}

@@ -1,0 +1,33 @@
+<?php
+function gpg_mgmt_process($string_src, $public_key_path, $output_file = false, $output_path = '', $output_filename = '') {
+/*
+  Funktion för att kryptera data med gpg. Returnerar gpg-krypterad data. Kräver att programmet gpg och PHP-modulen gnupg är installerad på servern.
+  $string_src - Sträng med den data som ska krypteras. Det finns inte stöd för arrays utan de måste göras om till än sträng.
+  $public_key_path - Sträng. gpg använder publik nyckel för att kryptera data och privat nyckel för att avkryptera data. Den här variabeln anger den fullständiga interna sökvägen till den publika nyckeln inklusive filnamnet.
+  $output_file - Boolean som anger om en fil med den krypterade informationen ska skapas.
+  $output_path - Fullständig intern sökväg till den mapp som filen ska läggas i
+  $output_filename - Välj vilket filnamn exklusive filändelse den skapade filen ska ha.
+*/
+  if(!class_exists('gnupg')) {
+    drupal_set_message(t('Please install the PHP gnupg module: http://www.php.net/manual/en/book.gnupg.php'), 'error');
+    return false;
+  }
+  if($string_src) {
+    $gpg = new gnupg();
+    $public_data = file_get_contents($public_key_path);
+    $public_key = $gpg->import($public_data);
+    $fingerprint = $public_key['fingerprint'];
+    $gpg->addencryptkey($fingerprint);
+    $encrypted_data = $gpg->encrypt($string_src);
+    if($output_file && $output_path && $output_filename) {
+      $encrypted_file = fopen($output_path.'/'.$output_filename.'.gpg', 'w');
+      if($encrypted_file) {
+        fwrite($encrypted_file, $encrypted_data);
+        fclose($encrypted_file);
+        drupal_set_message(t('Created encrypted file successfully'));
+      }
+    }
+    return $encrypted_data;
+  }
+  return false;
+}

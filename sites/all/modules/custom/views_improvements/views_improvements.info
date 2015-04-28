@@ -1,0 +1,5 @@
+name        = Views Improvements
+description = Views Improvements
+core        = 7.x
+package     = Storleden
+files[] = views/views_improvements_handler_filter_fields_compare.inc

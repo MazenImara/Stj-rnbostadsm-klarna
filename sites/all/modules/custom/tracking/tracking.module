@@ -1,0 +1,75 @@
+<?php
+/**
+ * Implements hook_module_implements_alter().
+ */
+function tracking_module_implements_alter(&$implementations, $hook) {
+  if ($hook === 'page_build' || $hook === 'preprocess_page') {
+    // Move my_module_theme_registry_alter() to the end of the list. module_implements()
+    // iterates through $implementations with a foreach loop which PHP iterates
+    // in the order that the items were added, so to move an item to the end of
+    // the array, we remove it and then add it.
+    if(isset($implementations['tracking'])) {
+      $group = $implementations['tracking'];
+      unset($implementations['tracking']);
+      $implementations['tracking'] = $group;
+    }
+  }
+}
+//Implements hook_page_build().
+function tracking_page_build(&$page) {
+  $vendors = array();
+  if(variable_get('tracking_basic', false)) {
+    $vendors['google_analytics'] = array(
+      'id' => variable_get('googleanalytics_account', ''),
+    );
+  }
+  if(variable_get('tracking_advanced', false)) {
+    $vendors['clicktale'] = array(
+      'id' => variable_get('clicktale_project_id', ''),
+    );
+    $vendors['visual_website_optimizer'] = array(
+      'id' => variable_get('vwo_id', ''),    
+    );
+  }
+  if($vendors) {
+    module_load_include('inc', 'tracking', 'tracking');
+    $constraints = array(
+      'roles' => 'tracking_check_roles',
+      'paths' => 'tracking_check_paths',
+    );
+    $passed = true;
+    foreach($constraints as $var => $callback) {
+      if(function_exists($callback)) {
+        if(!$callback()) {
+          $passed = false;
+          break;
+        }
+      }
+    } 
+    if($passed) { //Lägg in koden
+      if(empty($page['page_top'])) $page['page_top'] = array();
+      if(empty($page['page_bottom'])) $page['page_bottom'] = array();
+      foreach($vendors as $name => $vendor) {
+        if($vendor['id']) {
+          if(module_load_include('inc', 'tracking', "vendors/{$name}")) {
+            $code = call_user_func ("tracking_{$name}_get_code", $vendor);
+            if($code) {
+              foreach($code as $region => $snippets) {
+                if($region === 'page_bottom') {
+                  foreach($snippets as $snippet) {
+                    array_push($page[$region], array('#markup' => $snippet));
+                  }
+                }
+                else {
+                  foreach($snippets as $snippet) {
+                    array_unshift($page[$region], array('#markup' => $snippet));
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

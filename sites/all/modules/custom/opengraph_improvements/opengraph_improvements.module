@@ -1,0 +1,8 @@
+<?php
+//Implements hook_form_FORMID_alter().
+function opengraph_improvements_form_system_site_information_settings_alter(&$form, $form_state) {
+  $form['#submit'][] = 'opengraph_improvements_site_information_settings_submit';
+}
+function opengraph_improvements_site_information_settings_submit($form, &$form_state) {
+  variable_set('opengraph_meta_site_name', $form_state['values']['site_name']);
+}

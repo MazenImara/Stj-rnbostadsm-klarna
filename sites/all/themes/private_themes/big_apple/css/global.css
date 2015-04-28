@@ -1,0 +1,608 @@
+/* This file will hold styles for the mobile version of your website (mobile first). */
+/* This also can include ANY global CSS that applies site-wide. Unless overwritten by a more specific style rule, CSS declarations in global.css will apply site-wide. */
+body {
+  background: none repeat scroll 0 0 #FAFAFA;
+  color: #444444;
+  font: 13px/19px Georgia,Times;
+  margin: 0;
+  padding: 0;
+}
+h1, h2 {
+    color: #333333;
+    font-family: 'Krona One',sans-serif;
+    line-height: 120%;
+    margin: 2px 0 15px;
+    padding: 0;
+    font-weight: normal;
+}
+h1 {
+	font-size: 1.8em;
+}
+h2 {
+  font-size: 1.6em;
+}
+h3, h4, h5, h6 {
+  padding: 10px 0;
+  color: #333;
+  text-transform: uppercase;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+}
+h3 {
+  font-size: 1.4em;
+}
+h4 {
+  font-size: 1.2em;
+}
+h5 {
+  font-size: 1.0em;
+}
+h6 {
+  font-size: 1.0em;
+  font-style: italic;
+}
+p, ul, ol, .smart-trim {
+  line-height: 180%;
+  margin-top: 0;
+}
+a, a:visited {
+  text-decoration: none;
+  color: #0d5381;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+iframe {
+  max-width: 100%;
+}
+.node .field-name-body img,
+.node .field-name-field-extra-textfalt img {
+	max-width: 100%;
+	height: auto;
+}
+#admin-menu-wrapper {
+  max-width: 1200px;
+  margin: auto;
+}
+/* #Buttons
+================================================== */
+
+.webform-client-form .button,
+.webform-client-form button,
+.webform-client-form input[type="submit"],
+.webform-client-form input[type="reset"],
+.webform-client-form input[type="button"] {
+		background: #0E66A0; /* Old browsers */
+		background: #0E66A0 -moz-linear-gradient(top, rgba(255,255,255,.2) 0%, rgba(0,0,0,.2) 100%); /* FF3.6+ */
+		background: #0E66A0 -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,.2)), color-stop(100%,rgba(0,0,0,.2))); /* Chrome,Safari4+ */
+		background: #0E66A0 -webkit-linear-gradient(top, rgba(255,255,255,.2) 0%,rgba(0,0,0,.2) 100%); /* Chrome10+,Safari5.1+ */
+		background: #0E66A0 -o-linear-gradient(top, rgba(255,255,255,.2) 0%,rgba(0,0,0,.2) 100%); /* Opera11.10+ */
+		background: #0E66A0 -ms-linear-gradient(top, rgba(255,255,255,.2) 0%,rgba(0,0,0,.2) 100%); /* IE10+ */
+		background: #0E66A0 linear-gradient(top, rgba(255,255,255,.2) 0%,rgba(0,0,0,.2) 100%); /* W3C */
+	  border: 1px solid #aaa;
+	  border-top: 1px solid #ccc;
+	  border-left: 1px solid #ccc;
+	  -moz-border-radius: 3px;
+	  -webkit-border-radius: 3px;
+	  border-radius: 3px;
+	  color: #FFF;
+	  display: inline-block;
+	  font-size: 10px;
+	  font-weight: bold;
+	  text-decoration: none;
+	  cursor: pointer;
+	  margin-bottom: 20px;
+	  line-height: normal;
+	  padding: 7px 9px;
+	  font-family: 'Open Sans', sans-serif;
+	  float:right;
+	  margin-right:25px;}
+
+.webform-client-form .button:hover,
+.webform-client-form button:hover,
+.webform-client-form input[type="submit"]:hover,
+.webform-client-form input[type="reset"]:hover,
+.webform-client-form input[type="button"]:hover {
+		color: #FFF;
+		background: #0E66A0; /* Old browsers */
+		background: #0E66A0 -moz-linear-gradient(top, rgba(255,255,255,.3) 0%, rgba(0,0,0,.3) 100%); /* FF3.6+ */
+		background: #0E66A0-webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,.3)), color-stop(100%,rgba(0,0,0,.3))); /* Chrome,Safari4+ */
+		background: #0E66A0 -webkit-linear-gradient(top, rgba(255,255,255,.3) 0%,rgba(0,0,0,.3) 100%); /* Chrome10+,Safari5.1+ */
+		background: #0E66A0 -o-linear-gradient(top, rgba(255,255,255,.3) 0%,rgba(0,0,0,.3) 100%); /* Opera11.10+ */
+		background: #0E66A0 -ms-linear-gradient(top, rgba(255,255,255,.3) 0%,rgba(0,0,0,.3) 100%); /* IE10+ */
+		background: #0E66A0 linear-gradient(top, rgba(255,255,255,.3) 0%,rgba(0,0,0,.3) 100%); /* W3C */
+	  border: 1px solid #888;
+	  border-top: 1px solid #aaa;
+	  border-left: 1px solid #aaa; }
+
+.webform-client-form .button:active,
+.webform-client-form button:active,
+.webform-client-form input[type="submit"]:active,
+.webform-client-form input[type="reset"]:active,
+.webform-client-form input[type="button"]:active {
+		border: 1px solid #666;
+		background: #0E66A0; /* Old browsers */
+		background: #0E66A0 -moz-linear-gradient(top, rgba(255,255,255,.35) 0%, rgba(10,10,10,.4) 100%); /* FF3.6+ */
+		background: #0E66A0 -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,.35)), color-stop(100%,rgba(10,10,10,.4))); /* Chrome,Safari4+ */
+		background: #0E66A0-webkit-linear-gradient(top, rgba(255,255,255,.35) 0%,rgba(10,10,10,.4) 100%); /* Chrome10+,Safari5.1+ */
+		background: #0E66A0 -o-linear-gradient(top, rgba(255,255,255,.35) 0%,rgba(10,10,10,.4) 100%); /* Opera11.10+ */
+		background: #0E66A0 -ms-linear-gradient(top, rgba(255,255,255,.35) 0%,rgba(10,10,10,.4) 100%); /* IE10+ */
+		background: #0E66A0 linear-gradient(top, rgba(255,255,255,.35) 0%,rgba(10,10,10,.4) 100%); /* W3C */ }
+
+.webform-client-form .button.full-width,
+.webform-client-form button.full-width,
+.webform-client-form input[type="submit"].full-width,
+.webform-client-form input[type="reset"].full-width,
+.webform-client-form input[type="button"].full-width {
+		width: 100%;
+		padding-left: 0 !important;
+		padding-right: 0 !important;
+		text-align: center; }
+
+	/* Fix for odd Mozilla border & padding issues */
+.webform-client-form button::-moz-focus-inner,
+.webform-client-form input::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+	}
+
+
+
+/* #Forms
+================================================== */
+
+.webform-client-form fieldset {
+		margin-bottom: 5px; 
+	}
+.webform-client-form input[type="text"],
+.webform-client-form input[type="password"],
+.webform-client-form input[type="email"],
+.webform-client-form textarea,
+.webform-client-form select {
+		border: 1px solid #CCC;
+		padding: 6px 4px;
+		outline: none;
+		-moz-border-radius: 2px;
+		-webkit-border-radius: 2px;
+		border-radius: 2px;
+		font: 11px "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+		color: #777;
+		margin: 0;
+		width: 100%;
+		max-width: 100%;
+		display: block;
+		margin-bottom: 10px;
+		background: #F3F3F3; 
+	}
+.webform-client-form input[type="text"],
+.webform-client-form input[type="password"],
+.webform-client-form input[type="email"] {
+		height: 28px;
+	}
+.webform-client-form select {
+		padding: 0; }
+.webform-client-form input[type="text"]:focus,
+.webform-client-form input[type="password"]:focus,
+.webform-client-form input[type="email"]:focus,
+.webform-client-form textarea:focus {
+		border: 1px solid #aaa;
+ 		/* color: #444; */
+ 		-moz-box-shadow: 0 0 3px rgba(0,0,0,.7);
+		-webkit-box-shadow: 0 0 3px rgba(0,0,0,.7);
+		box-shadow:  0 0 3px rgba(0,0,0,.7); }
+.webform-client-form textarea {
+		min-height: 60px; }
+.webform-client-form label,
+.webform-client-form legend,
+.webform-client-form .node-webform > .header > .node-title {
+		display: block;
+		font-size: 11px;
+		font-family: 'Open Sans', sans-serif;
+		padding: 0 0 2px;
+		color:#0E66A0;
+		font-weight: normal;
+	}
+.webform-client-form .node-webform > .header > .node-title {
+	 	font-size:1.6em;padding-bottom: 10px;font-family: 'Krona One', sans-serif; 
+	}
+.webform-client-form select {
+		width: 190px; }
+.webform-client-form input[type="checkbox"] {
+		display: inline; }
+.webform-client-form label span,
+.webform-client-form legend span {
+		font-weight: normal;
+		font-size: 13px;
+		color: #444; }
+
+body .container-24 {
+  width: 300px;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+body .container-24 .grid-24 {
+  max-width: 100%;
+  margin: 0;
+}
+body .container-24 .grid-18 {
+  margin: 0;
+}
+#zone-menu {
+	margin-bottom: 3px;
+}
+#zone-header {
+  border-width: 1px 1px 0 1px;
+  border-style: solid solid none solid;
+  border-color: #d3d3d3;
+}
+#zone-content {
+  border: 1px solid #d3d3d3;
+}
+.field-name-field-text,
+.field-name-body,
+.field-name-field-extra-textfalt .field-item {
+	padding: 10px 0 35px;
+}
+/*---------Logo----------*/
+#block-logo-block-logo {
+  text-align: center;
+  width: 100%;
+  padding-top: 10px;
+}
+/*------------Adressruta-------------*/
+#block-nodeblock-179 .field-name-body {
+  padding: 0;
+}
+#block-nodeblock-179 .field-name-body .field-item {
+	text-align: center;
+}
+#block-nodeblock-179 p {
+  color: #0E66A0;
+  font-family: 'Open Sans',sans-serif;
+  font-size: 12px;
+  text-transform: uppercase; 
+	display: inline;
+}
+#block-nodeblock-179 p:after {
+	content: ",";
+}
+#block-nodeblock-179 p:last-child:after {
+	content: none;
+}
+/*-------------Huvudmeny------------*/
+#block-superfish-2 {
+
+}
+/*---Nivå 1---*/
+#block-superfish-2 ul.menu {
+  background: #222;
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#333), to(#000));
+  background: -webkit-linear-gradient(top, #333, #000);
+  background: -moz-linear-gradient(top, #333, #000);
+  background: -ms-linear-gradient(top, #333, #000);
+  background: -o-linear-gradient(top, #333, #000);
+  float: left;
+  line-height: normal;
+  list-style: none outside none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+#block-superfish-2 ul.menu li a,
+#block-superfish-2 ul.menu li a:visited {
+  display: block;
+  padding: 14px 12px;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 700;
+  color: #CCC;
+  border: none;
+  font-family: 'Open Sans', sans-serif;
+  letter-spacing: 1px;
+}
+#block-superfish-2 ul.menu li a:hover {
+	text-decoration: none;
+	background: #0E66A0;
+}
+#block-superfish-2 ul.menu li a.active {
+  display: block;
+  background: #0E66A0;
+}
+/*----------Nivå 2----------*/
+#block-superfish-2 ul.menu ul {
+  background: #0E66A0;
+  top: 100%;
+}
+#block-superfish-2 ul.menu ul a,
+#block-superfish-2 ul.menu ul a:visited {
+  font-size: 11px;
+  padding: 10px 17px;
+  line-height: normal;
+}
+/*----------Språkbytare------------*/
+#block-locale-language {
+  float: right; 
+  padding: 0 0 5px;
+}
+#block-locale-language ul.language-switcher-locale-url li {
+  float: left;
+  padding-left: 5px;
+}
+/*----------Vanlig sida----------*/
+.node-page.view-mode-full > .header,
+.node-page.view-mode-full > .content {
+  padding: 0 40px;
+}
+.node-page.view-mode-full > .header {
+	padding-top: 41px;
+}
+/*----------Bildspel------------*/
+#block-nodeblock-213 {
+  padding: 10px 10px 9px;
+  border-bottom: 1px solid #D3D3D3;
+}
+#block-nodeblock-213 .nivoSlider {
+  height: 134px;
+}
+#block-nodeblock-213 .nivoSlider img {
+	height: 134px !important;
+}
+#block-nodeblock-213 .nivoSlider .nivo-caption {
+	position: relative;
+	height: 52px;
+}
+#block-nodeblock-213 .nivoSlider .nivo-directionNav {
+	position: absolute;
+	top: 50px;
+	width: 100%;
+}
+/*----------Senaste videon--------*/
+#block-nodeblock-214 {
+  padding: 14px 9px 10px;
+  display: block;
+}
+#block-nodeblock-214 .field-name-body {
+	padding: 0;
+}
+.browser-safari #block-nodeblock-214 iframe {
+	width: 100%;
+}
+/*--------Puffar-----------*/
+body .panel-panel .field-name-body {
+	padding: 0;
+}
+body .container-24 .panel-display.omega-grid {
+	margin-left: 0;
+	margin-right: 0;
+}
+body .panel-panel .panel-pane {
+	min-height: 0;
+}
+body .container-24 .panel-panel.grid-8 {
+  margin: 0;
+  padding: 10px;
+}
+body.responsive-layout-mobile .container-24 .panel-panel.grid-8 {
+  border-bottom: 1px solid #D3D3D3;
+}
+body .container-24 .panel-panel.grid-8 .field-name-field-sidhuvud {
+	display: none;
+}
+body .container-24 .panel-panel.grid-8.top .field-name-field-sidhuvud {
+	display: block;
+	padding-bottom: 7px;
+}
+body.responsive-layout-mobile .container-24 .panel-panel.grid-8.top .field-name-field-sidhuvud img {
+	width: 100%;
+}
+body .container-24 .panel-panel.grid-24 .field-name-field-sidhuvud {
+  display: none;
+}
+.main-content {
+  padding: 40px 40px 20px;
+	border-bottom: 1px solid #d3d3d3;
+}
+.main-content .field-name-field-text {
+	padding-bottom: 10px;
+}
+.main-content .field-name-field-text p {
+	text-align: justify;
+}
+body .container-24 .panel-panel.middle {
+	border-bottom: 1px solid #d3d3d3;
+  padding: 10px;
+}
+body .container-24 .panel-panel.middle h2,
+body .container-24 .panel-panel.bottom h2 {
+	color: #333333;
+  font-family: 'Open Sans',sans-serif;
+  font-weight: 600;
+  padding: 10px 0 12px;
+  text-transform: uppercase;
+  font-size: 1.4em;
+  margin: 0;
+}
+body .container-24 .panel-panel.grid-6 {
+	float: left;
+  width: 129px;
+	height: 370px;
+	overflow: hidden;
+  margin: 0;
+  padding: 10px;
+  border-bottom: 1px solid #d3d3d3;
+  border-right: 1px solid #d3d3d3;
+}
+body.responsive-layout-mobile .container-24 .panel-panel.grid-6.bottom-2,
+body.responsive-layout-mobile .container-24 .panel-panel.grid-6.bottom-4 {
+	border-right: 0;
+}
+body .container-24 .panel-panel.grid-6 .field-name-field-sidhuvud {
+  display: none;
+}
+/*------------Sidebar-------------*/
+#region-sidebar-second {
+	display: none;
+}
+/*-------------Kontaktsida-------------*/
+body.responsive-layout-mobile.node-type-webform #zone-content {
+	border-bottom: 0;
+}
+.node-type-webform .node-webform.view-mode-full {
+	padding: 10px 10px 0;
+}
+body.node-type-webform .node-webform.view-mode-full .webform-client-form {
+  margin: 0 -10px;
+  padding: 30px 30px 0;
+  background: none repeat scroll 0 0 #222222;
+}
+body.node-type-webform .node-webform.view-mode-full .webform-client-form input[type="text"],
+body.node-type-webform .node-webform.view-mode-full .webform-client-form input[type="password"],
+body.node-type-webform .node-webform.view-mode-full .webform-client-form input[type="email"],
+body.node-type-webform .node-webform.view-mode-full .webform-client-form textarea, 
+body.node-type-webform .node-webform.view-mode-full .webform-client-form select {
+  background: none repeat scroll 0 0 #111111;
+  border: 1px solid #000000;
+}
+body.responsive-layout-mobile.node-type-webform .node-webform.view-mode-full .webform-client-form .form-actions {
+	display: inline-block;
+	width: 100%;
+	margin-top: 0;
+}
+body.responsive-layout-mobile .button,
+body.responsive-layout-mobile button,
+body.responsive-layout-mobile input[type="submit"],
+body.responsive-layout-mobile input[type="reset"],
+body.responsive-layout-mobile input[type="button"] {
+	margin-right: 0;
+}
+/*-------------Bildgalleri----------------*/
+body.sidtyp-galleri .node-page.view-mode-full > .header,
+body.sidtyp-galleri .node-page.view-mode-full > .content {
+  padding: 0;
+}
+body.sidtyp-galleri .node-page.view-mode-full > .header {
+  padding: 10px 10px 20px;
+}
+body.sidtyp-galleri .node-page.view-mode-full .view-bildgalleri {
+  margin-left: -1px;
+  border-top: 1px dotted #d3d3d3;
+}
+body.sidtyp-galleri .node-page.view-mode-full .view-bildgalleri .views-row {
+  border-left: 1px dotted #d3d3d3;
+  border-bottom: 1px dotted #d3d3d3;
+  width: 121px;
+  height: 170px;
+  float: left;
+  padding: 15px 14px;
+}
+body.sidtyp-galleri .node-page.view-mode-full .view-bildgalleri .views-row-last {
+  border-right: 1px dotted #d3d3d3;
+}
+body.sidtyp-galleri .node-page.view-mode-full .view-bildgalleri .views-row .gallery-bildtext {
+  text-align: center;
+  font-size: 12px;
+  padding-top: 8px;
+  line-height: 21px;
+}
+#sb-info, #sb-info-inner {
+  height: 56px;
+  line-height: 20px;
+  background-color: #ffffff;
+  -moz-border-radius: 0 0 10px 10px;
+  border-radius: 0 0 10px 10px;
+}
+#sb-title {
+  display: none;
+}
+#sb-caption {
+  clear: both;
+  color: #797A7A;
+  font-family: 'PT Sans Narrow',sans-serif;
+  font-size: 15px;
+  height: auto;
+  line-height: 12px;
+  padding: 0 10px;
+}
+#sb-nav-close {
+  background-image: url("../images/close.png");
+}
+#sb-nav-next {
+  background-image: url("../images/next.png");
+}
+#sb-nav-play {
+  background-image: url("../images/play.png");
+}
+#sb-nav-pause {
+  background-image: url("../images/pause.png");
+}
+#sb-nav-previous {
+  background-image: url("../images/previous.png");
+}
+/*------------Nyheter-------------*/
+body.sidtyp-nyhetssida .node-page.view-mode-full .view-nyheter .views-row {
+  padding: 39px 0 10px;
+}
+body.responsive-layout-mobile.sidtyp-nyhetssida .node-page.view-mode-full .view-nyheter .views-row .field-name-field-sidhuvud {
+	padding-bottom: 20px;
+}
+body.responsive-layout-mobile.sidtyp-nyhetssida .node-page.view-mode-full .view-nyheter .views-row .field-name-field-sidhuvud img {
+	width: 100%;
+	height: auto;
+}
+body.sidtyp-nyhetssida .node-page.view-mode-full .view-nyheter .views-row .field-name-body {
+  padding-top: 20px;
+  padding-bottom: 20px;
+/*  border-bottom: 1px dotted #BCE4FF; */
+}
+body.sidtyp-nyhetssida .node-page.view-mode-full .view-nyheter .views-row .field-name-body .smart-trim {
+  text-align: justify;
+}
+body.sidtyp-nyhetssida .node-page.view-mode-full .view-nyheter .views-row .field-name-field-submitted {
+  padding: 30px 0;
+  border-bottom: 1px dotted #BCE4FF;
+}
+body.sidtyp-nyhetssida .node-page.view-mode-full .view-nyheter .views-row .field-name-field-submitted .field-item {
+  color: #0E66A0;
+  font-family: 'Open Sans',sans-serif;
+  font-size: 11px;
+  font-style: italic;
+  font-weight: 300;
+  text-align: left;
+}
+body.sidtyp-nyhetssida .node-page.view-mode-full .view-nyheter div.feed-icon {
+  padding: 20px 0;
+}
+.node-nyhet.view-mode-full {
+  border-right: 1px solid #d3d3d3;
+}
+.node-nyhet.view-mode-full > .header,
+.node-nyhet.view-mode-full > .content {
+  padding: 0 40px;
+}
+.node-nyhet.view-mode-full > .header {
+  padding-top: 41px;
+}
+.node-nyhet.view-mode-full > .content p {
+  text-align: justify;
+}
+/*------------------SIDFOT-------------------*/
+#block-block-1 {
+	background: none repeat scroll 0 0 #0E66A0;
+  clear: both;
+}
+#footer-copyright {
+  color: #222222;
+  font-size: 10px;
+  letter-spacing: 1px;
+  margin: 0;
+  padding: 15px 0 14px;
+  text-align: center;
+  text-transform: uppercase;
+}
+#footer-copyright a,
+#footer-copyright a:visited {
+	color: #cccccc;
+}

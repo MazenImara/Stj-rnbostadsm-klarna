@@ -1,0 +1,238 @@
+/* This file will hold styles for all layouts using the alpha grid (i.e. not the mobile layout). */
+
+/*----------Allmänt---------*/
+h1 {
+  font-size: 2.2em;
+}
+h2 {
+  font-family: 'Krona One',sans-serif;
+  font-weight: normal;
+}
+#zone-header {
+	overflow: hidden;
+}
+#region-content {
+	margin: 0;
+}
+#region-sidebar-second {
+  border-left: 1px solid #d3d3d3;
+	margin: 0 0 0 -1px;
+	display: block;
+}
+body .container-24 .grid-24 {
+  width: 300px;
+}
+/*-----------Logo-----------*/
+#block-logo-block-logo {
+	padding-left: 0;
+	padding-top: 0;
+	text-align: left;
+	width: auto;
+}
+/*------------Adressruta-------------*/
+#block-nodeblock-179 {
+  float: right;
+  padding: 20px 0 15px;
+}
+#block-nodeblock-179 .field-name-body {
+	padding: 0;
+}
+#block-nodeblock-179 .field-name-body .field-item {
+	text-align: left;
+}
+#block-nodeblock-179 p {
+  display: block;
+}
+#block-nodeblock-179 p:after {
+	content: none;
+}
+/*-------------Huvudmeny------------*/
+#block-superfish-2 ul.menu li a,
+#block-superfish-2 ul.menu li a:visited {
+  padding: 13px 17px;
+  font-size: 14px;
+}
+/*----------Nivå 2----------*/
+#block-superfish-2 ul.menu ul {
+  height: 40px;
+  top: 45px;
+}
+.browser-firefox #block-superfish-2 ul.menu ul {
+  top: 46px;
+}
+#block-superfish-2 ul.menu ul a, 
+#block-superfish-2 ul.menu ul a:visited {
+  font-size: 11px;
+  padding: 10px 17px;
+}
+/*----------Språkbytare------------*/
+#block-locale-language {
+  padding: 60px 20px 0 0;
+}
+/*----------Bildspel------------*/
+#block-nodeblock-213 {
+	border-bottom: 0;
+  border-right: 1px solid #D3D3D3;
+  float: left;
+}
+#block-nodeblock-213 .nivoSlider {
+  margin-bottom: 0;
+}
+#block-nodeblock-213 .nivoSlider .nivo-directionNav {
+	position: static;
+}
+/*----------Senaste videon------------*/
+#block-nodeblock-214 {
+  display: inline-block;
+}
+#block-nodeblock-214 h2 {
+	margin: 0;
+}
+#block-nodeblock-214 .field-name-body p {
+  line-height: 0;
+}
+/*----------Puffar-----------*/
+body .container-24 .panel-panel.grid-8.top {
+	border-right: 1px solid #d3d3d3;
+	overflow: hidden;
+}
+body .container-24 .panel-panel.top .more-link,
+body .container-24 .panel-panel.middle .more-link {
+	display: block;
+	text-align: left;
+}
+.main-content {
+  float: left;
+  padding: 40px 40px 20px;
+  border-top: 1px solid #d3d3d3;
+  border-right: 1px solid #d3d3d3;
+	border-bottom: 1px solid #d3d3d3;
+}
+.main-content .field-name-field-text {
+	margin-bottom: 25px;
+	height: 179px;
+	overflow: hidden;
+}
+.browser-firefox .main-content .field-name-field-text {
+	height: 180px;
+}
+body .container-24 .panel-panel.middle {
+  border-top: 1px solid #d3d3d3;
+  border-right: 1px solid #d3d3d3;
+}
+body .container-24 .panel-panel.grid-6 .field-name-body {
+	overflow: hidden;
+}
+/*-------------Vanlig sida------------*/
+.node-page.view-mode-full {
+  border-right: 1px solid #d3d3d3;;
+}
+.node-page.view-mode-full > .content p {
+  text-align: justify;
+}
+/*------------Bildgalleri-------------*/
+body.sidtyp-galleri .node-page.view-mode-full .view-bildgalleri .views-row {
+  width: 120px;
+}
+/*----------------Nyheter---------------*/
+body.sidtyp-nyhetssida .node-page.view-mode-full .view-nyheter .feed-icon {
+  float: right;
+}
+/*-------------Kontaktsida-------------*/
+body.node-type-webform .node-webform.view-mode-full {
+  border-right: 1px solid #d3d3d3;;
+  padding: 0;
+}
+body.node-type-webform .node-webform.view-mode-full > .header,
+body.node-type-webform .node-webform.view-mode-full > .content {
+  padding: 0 40px;
+}
+body.node-type-webform h1 {
+	margin-bottom: 15px;
+}
+body.node-type-webform .node-webform.view-mode-full > .content p {
+  text-align: justify;
+}
+body.node-type-webform .node-webform.view-mode-full > .content .field-name-body {
+  padding-bottom: 61px;
+}
+body.node-type-webform .node-webform.view-mode-full .webform-client-form {
+  margin: 0 -40px;
+  padding: 30px 50px 40px 30px;
+  width: 100%;
+  display: inline-block;
+}
+body.node-type-webform .node-webform.view-mode-full .webform-client-form #edit-actions input[type="submit"] {
+  margin: 0;
+}
+/*--------------Sidebar--------------*/
+#block-views-nyheter-block-2 {
+	padding-bottom: 10px;
+	border-bottom: 1px solid #d3d3d3;
+}
+#block-views-nyheter-block-2 .block-title {
+	background: none repeat scroll 0 0 #F3F3F3;
+	color: #333333;
+  font-family: 'Open Sans',sans-serif;
+  font-weight: 600;
+  padding: 9px 7px;
+  text-transform: uppercase;
+  font-size: 1.4em;
+  margin: 0;
+}
+#block-views-nyheter-block-2 .view {
+	padding-top: 10px;
+}
+#block-views-nyheter-block-2 .views-row {
+	padding: 0 10px;
+}
+#block-views-nyheter-block-2 .views-row .node {
+	padding: 5px;
+	border-bottom: 1px dotted #D3D3D3;
+}
+#block-views-nyheter-block-2 .views-row .field-name-body {
+	padding: 0;
+}
+#block-views-nyheter-block-2 .views-row .field-name-body .smart-trim {
+	line-height: 200%;
+}
+#block-views-nyheter-block-2 .views-row .more-link {
+	display: block;
+	text-align: left;
+}
+#block-block-5 {
+	padding-bottom: 10px;
+	border-bottom: 1px solid #d3d3d3;
+}
+#block-block-5 .block-title {
+	background: none repeat scroll 0 0 #F3F3F3;
+	color: #333333;
+  font-family: 'Open Sans',sans-serif;
+  font-weight: 600;
+  padding: 9px 7px;
+  text-transform: uppercase;
+  font-size: 1.4em;
+  margin: 0;
+}
+#block-block-5 .social-links {
+	padding: 5px 10px 6px;
+}
+#block-block-5 .social-links a {
+	display: block;
+	padding: 12px 5px 8px;
+	border-bottom: 1px dotted #D3D3D3;
+	font-size: 12px;
+	color: #0d5381;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+}
+#block-webform-client-block-63 {
+	padding: 17px 10px 15px;
+}
+#node-webform-63 > .header > .node-title {
+	margin: 0;
+	padding: 0;
+}
+#webform-client-form-63 {
+	margin-top: -5px;
+}

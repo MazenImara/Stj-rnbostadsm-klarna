@@ -1,0 +1,47 @@
+<?php
+//Implements hook_menu_node_insert().
+function menu_node_improvements_menu_node_insert($link, $node) {
+  //Inaktivera cache.
+  cache_clear_all('menu_node_improvements', 'cache', true);
+}
+//Implements hook_menu_node_update().
+function menu_node_improvements_menu_node_update($link, $node) {
+  //Inaktivera cache.
+  cache_clear_all('menu_node_improvements', 'cache', true);
+}
+//Implements hook_menu_node_delete().
+function menu_node_improvements_menu_node_delete($link, $node) {
+  //Inaktivera cache.
+  cache_clear_all('menu_node_improvements', 'cache', true);
+}
+/**
+ * Get all nodes assigned to a specific menu.
+ *
+ * @param $menu_name
+ *   The machine name of the menu, e.g. 'navigation'.
+ * @param $load
+ *   Boolean flag that indicates whether to load the node object or not.
+ *   NOTE: This can be resource intensive!
+ * @return
+ *   A simple array of node ids.
+ */
+function menu_node_improvements_get_nodes_by_menu($menu_name, $load = FALSE) {
+  $mlids = array();
+  if ($cache = cache_get('menu_node_improvements:'.$menu_name)) {
+    $mlids = $cache->data;
+  }
+  else {
+    $result = db_query("SELECT mn.nid, mn.mlid FROM {menu_node} mn INNER JOIN {menu_links} ml ON mn.mlid = ml.mlid WHERE ml.menu_name = :menu_name", array(':menu_name' => $menu_name));
+    foreach ($result as $data) {
+      $mlids[$data->mlid] = $data->nid;
+    }
+    cache_set('menu_node_improvements:'.$menu_name, $mlids, 'cache');
+  }
+  if($load){
+    $return = node_load_multiple($mlids);
+  }
+  else {
+    $return = $mlids;
+  }
+  return $return;
+}

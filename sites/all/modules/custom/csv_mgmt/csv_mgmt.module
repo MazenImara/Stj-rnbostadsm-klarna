@@ -1,0 +1,37 @@
+<?php
+function csv_mgmt_processdata($data, $output_file = false, $output_path = '', $output_filename = '') {
+/*
+  Funktion för att generera csv från intern data. Returnerar csv-formatterad data.
+  $data - array med all data som ska in i csv-tabellen, inkl header. Om man har en tabell så kan man få datat så här:
+  $data = array_merge(array($header), $rows);
+  $output_file - boolean som avgör om en fil ska skapas från den formatterade csv-datan.
+  $output_path - Fullständig intern sökväg till den mapp som filen ska läggas i
+  $output_filename - Välj vilket filnamn exklusive filändelse den skapade filen ska ha.
+*/
+  if($data) {
+    $csv_data = _csv_mgmt_generate_csv($data);
+    if($output_path && $output_filename) {
+      $csv_file = fopen($output_path.'/'.$output_filename.'.csv', 'w');
+      if($csv_file) {
+        fwrite($csv_file, $csv_data);
+        fclose($csv_file);
+        if(php_sapi_name() !== 'cli') drupal_set_message(t('Created csv file successfully'));
+      }
+    }
+    return $csv_data;
+  }
+  return false;
+}
+function _csv_mgmt_generate_csv($data, $delimiter = ',', $enclosure = '"') {
+   $handle = fopen('php://temp', 'r+');
+   foreach ($data as $line) {
+     fputcsv($handle, $line, $delimiter, $enclosure);
+   }
+   rewind($handle);
+   $contents = '';
+   while (!feof($handle)) {
+     $contents .= fread($handle, 8192);
+   }
+   fclose($handle);
+   return $contents;
+}

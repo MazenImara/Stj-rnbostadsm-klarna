@@ -1,0 +1,5 @@
+name = Menu Rules
+description = Provides Rules that are related to menu items
+package = Rules
+core = 7.x
+dependencies[] = rules

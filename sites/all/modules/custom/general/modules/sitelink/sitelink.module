@@ -1,0 +1,70 @@
+<?php
+//Implements hook_menu().
+function sitelink_menu() {
+  $items = array(
+    'admin/config/system/sitelink' => array(
+      'title' => 'Site Link',
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('sitelink_config_form'),
+      'access arguments' => array('sitelink_configure'),
+      'file' => 'sitelink.admin.inc',
+    ),
+  );
+  return $items;
+}
+//Implements hook_permission().
+function sitelink_permission() {
+  $permissions = array(
+    'sitelink_configure' => array(
+      'title' => t('Configure Site Link'),
+    ),
+  );
+  return $permissions;
+}
+function sitelink_render() {
+  $link = '';
+  //1. Ta domänsträngen
+  $host = general_get_host();
+  //2. Summera ascii-värdena för att få fram ett sorts beständigt värde som är hyfsat unikt för varje site
+  $sum = 0;
+  for($i = 0, $imax = strlen($host); $i < $imax; $i++) {
+    $sum += ord($host[$i]);
+  }
+  //3. Hämta listan över ankartexter och parsa
+  $anchor = variable_get('sitelink_anchor', '');
+  if($anchor) {
+    $anchor = preg_split("/[\r\n]+/", $anchor, -1, PREG_SPLIT_NO_EMPTY);
+    $selected_anchor = $sum % count($anchor);
+    $linktext = '';
+    $pretext = '';
+    $posttext = '';
+    $start = strpos($anchor[$selected_anchor], '[');
+    if($start === false) {
+      $linktext = str_replace(array('[', ']'), '', $anchor[$selected_anchor]);
+    }
+    else {
+      $end = strpos($anchor[$selected_anchor], ']', $start + 1);
+      if($end === false) {
+        $linktext = str_replace(array('[', ']'), '', $anchor[$selected_anchor]);
+      }
+      else {
+        if($start > 0) {
+          $pretext = substr($anchor[$selected_anchor], 0, $start);
+        }
+        $linktext = substr($anchor[$selected_anchor], $start + 1, $end - 1 - $start);
+        $posttext = substr($anchor[$selected_anchor], $end + 1);
+      }
+    }
+    //4. Hämta listan över titelattribut och parsa
+    $title = variable_get('sitelink_title', '');
+    if($title) {
+      $title = preg_split("/[\r\n,]+/", $title, -1, PREG_SPLIT_NO_EMPTY);
+      $selected_title = $sum % count($title);
+      $link = $pretext . l($linktext, 'http://storleden.se', array('attributes' => array('title' => $title[$selected_title]))) . $posttext;
+    }
+    else {
+      $link = $pretext . l($linktext, 'http://storleden.se') . $posttext;
+    }
+  }
+  return $link;
+}

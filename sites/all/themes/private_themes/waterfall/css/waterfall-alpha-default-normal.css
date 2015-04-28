@@ -1,0 +1,16 @@
+/* This file will hold styles that are loaded using the same media query as the normal grid. */
+/* If you are using the default media queries provided by Omega, these styles will also
+ *  apply to the widescreen layout unless they are overridden by the widescreen styles. */
+/*----------Logo----------*/
+#block-logo-block-logo {
+  padding: 0 0 0 40px;
+	height: 105px;
+ 	display: table;
+}
+#block-logo-block-logo > .block-inner {
+	display: table-row;
+}
+#block-logo-block-logo > .block-inner > .content {
+	display: table-cell;
+  vertical-align: bottom;
+}

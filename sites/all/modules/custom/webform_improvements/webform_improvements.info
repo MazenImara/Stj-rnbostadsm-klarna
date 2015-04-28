@@ -1,0 +1,5 @@
+name = Webform Improvements
+description = Webform Improvements
+package = Custommoduler
+core = 7.x
+dependencies[] = webform

@@ -1,0 +1,5 @@
+name = Tracking
+description = Integrations with 3rd party tracking software
+package = Custommoduler
+core = 7.x
+dependencies[] = cookiecontrol_improvements

@@ -1,0 +1,160 @@
+<?php
+
+//Implements hook_init()
+function panels_improvements_init() {
+  if(user_access('panels_improvements_ipe_display_categories')) {
+    $js = '
+    (function($) {
+    	$(document).ready(function() {
+      	$("body").addClass("ipe-display-categories");
+    	});
+    })(jQuery);
+    ';
+    drupal_add_js($js, array('type' => 'inline'));
+  }
+  drupal_add_css(drupal_get_path('module', 'panels_improvements').'/css/panels_improvements.css');
+}
+/*Kontrollerar access till tabbarna vid redigering av paneler*/
+//Implements hook_menu_alter()
+function panels_improvements_menu_alter(&$items) {
+	$items['node/%node/panel_layout']['access callback'] = 'panels_improvements_node_edit_layout';
+	$items['node/%node/panel_content']['access callback'] = 'panels_improvements_node_edit_content';
+}
+//Implements hook_permission()
+function panels_improvements_permission() {
+	return array(
+   'panels_improvements_access_tab_layout' => array(
+     'title' => 'Access Panels Layout Tab',
+   ),
+   'panels_improvements_access_tab_content' => array(
+     'title' => 'Access Panels Content Tab',
+   ),
+   'panels_improvements_nodeform_css' => array(
+     'title' => 'Display CSS ID field in node form',
+   ),
+   'panels_improvements_nodeform_renderer' => array(
+     'title' => 'Display renderer options in node form',
+   ),
+   'panels_improvements_ipe_display_categories' => array(
+     'title' => 'Display categories when adding pane in IPE',
+   ),
+   'panels_improvements_display_pane_options' => array(
+    'title' => 'Display advanced options in pane edit forms',
+   ),
+ );
+}
+function panels_improvements_node_edit_layout($node) {
+	if($node->type=='panel') {
+		if(user_access('panels_improvements_access_tab_layout')) return node_access('update',$node);
+	}
+	return false;
+}
+function panels_improvements_node_edit_content($node) {
+	if($node->type=='panel') {
+		if(user_access('panels_improvements_access_tab_content')) return node_access('update',$node);
+	}
+	return false;
+}
+
+//Implements hook_form_alter()
+function panels_improvements_form_alter(&$form, $form_state, $form_id) {
+  switch($form_id) {
+    case 'panel_node_form':
+      if(isset($form['panels_node']['css_id'])) {
+    		if(!user_access('panels_improvements_nodeform_css')) {
+    			$form['panels_node']['css_id']['#access'] = false;
+        }
+      }
+      if(isset($form['panels_node']['pipeline'])) {
+    		if(!user_access('panels_improvements_nodeform_renderer')) {
+    			$form['panels_node']['pipeline']['#access'] = false;
+        }
+      }
+      break;
+
+    case 'ctools_custom_content_type_edit_form':
+      $form['#after_build'][] = 'panels_improvements_panels_custom_content_form_after_build';
+      $elements = array(
+        'substitute',
+        'contexts',
+      );
+      $permission = user_access('panels_improvements_display_pane_options');
+      foreach($elements as $element) {
+        if(isset($form[$element])) {
+          $form[$element]['#access'] = $permission;
+        }
+      }
+      break;
+
+  	case 'ctools_node_content_type_edit_form':
+      if(!empty($form['build_mode']['#options']['promo'])) {
+        if(empty($form_state['conf']['nid'])) {
+          $form['build_mode']['#default_value'] = 'promo';
+        }
+      }
+      $elements = array(
+        'link_node_title',
+        'links',
+        'identifier',
+        'build_mode',
+      );
+      $permission = user_access('panels_improvements_display_pane_options');
+      foreach($elements as $element) {
+        if(isset($form[$element])) {
+          $form[$element]['#access'] = $permission;
+        }
+      }
+      break;
+      
+    case 'views_content_views_content_type_edit_form':
+      $elements = array(
+        'context',
+        'link_to_view',
+        'more_link',
+        'feed_icons',
+        'pager_settings',
+        'panel_args',
+        'args',
+        'url',
+      );
+      $permission = user_access('panels_improvements_display_pane_options');
+      foreach($elements as $element) {
+        if(isset($form[$element])) {
+          $form[$element]['#access'] = $permission;
+        }
+      }
+      break;
+  }
+}
+function panels_improvements_panels_custom_content_form_after_build($form, &$form_state) {
+  foreach(element_children($form) as $key) {
+    $element =& $form[$key];
+    if(isset($element['format'])) {
+      if(isset($element['format']['format'])) {
+        $default_value = 'plain_text';
+        $element['format']['format']['#default_value'] = $default_value;
+        $element['format']['format']['#value'] = $default_value;
+        unset($element['format']['format']['#options']['filtered_html']);
+      }
+      if(!user_access('general_nodeform_display_formatting')) {
+        $element['format']['#theme_wrappers'] = array();
+        if(isset($element['format']['guidelines'])) {
+          $element['format']['guidelines']['#access'] = false;
+        }
+        if(isset($element['format']['help'])) {
+          $element['format']['help']['#access'] = false;
+        }
+        if(isset($element['format']['format'])) {
+          $element['format']['format']['#access'] = false;
+          $element['format']['format']['#options'] = array($default_value => $element['format']['format']['#options'][$default_value]);
+        }
+      }
+    }
+  }
+  return $form;
+}
+//Ser till att page cache rensas som den ska när en panel sparas via IPE
+//Implements hook_panels_display_save().
+function panels_improvements_panels_display_save($display) {
+  cache_clear_all();
+}

@@ -1,0 +1,17 @@
+.bildspel-wrapper {
+  position: relative;
+}
+body ul.bildspel {
+  padding-left: 0;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 0;
+}
+ul.bildspel li {
+  margin: 0;
+  display: none;
+  overflow: hidden;
+}
+ul.bildspel li.active {
+  display: list-item;
+}

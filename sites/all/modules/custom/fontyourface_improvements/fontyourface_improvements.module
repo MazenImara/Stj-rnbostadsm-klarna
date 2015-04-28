@@ -1,0 +1,54 @@
+<?php
+//Implements hook_menu().
+function fontyourface_improvements_menu() {
+  $items = array(
+
+  );
+  return $items;
+}
+//Implements hook_menu_alter().
+function fontyourface_improvements_menu_alter(&$items) {
+  if(!empty($items['admin/appearance/fontyourface'])) {
+    $items['admin/config/fontyourface'] = $items['admin/appearance/fontyourface'];
+    unset($items['admin/appearance/fontyourface']);
+  }
+  if(!empty($items['admin/appearance/fontyourface/apply'])) {
+    $items['admin/config/fontyourface/apply'] = $items['admin/appearance/fontyourface/apply'];
+    unset($items['admin/appearance/fontyourface/apply']);
+  }
+  if(!empty($items['admin/appearance/fontyourface/browse'])) {
+    $items['admin/config/fontyourface/browse'] = $items['admin/appearance/fontyourface/browse'];
+    unset($items['admin/appearance/fontyourface/browse']);
+  }
+  if(!empty($items['admin/appearance/fontyourface/edit/%'])) {
+    $items['admin/config/fontyourface/edit/%'] = $items['admin/appearance/fontyourface/edit/%'];
+    unset($items['admin/appearance/fontyourface/edit/%']);
+  }
+  if(!empty($items['admin/appearance/fontyourface/enable/%'])) {
+    $items['admin/config/fontyourface/enable/%'] = $items['admin/appearance/fontyourface/enable/%'];
+    unset($items['admin/appearance/fontyourface/enable/%']);
+  }
+  if(!empty($items['admin/appearance/fontyourface/disable/%'])) {
+    $items['admin/config/fontyourface/disable/%'] = $items['admin/appearance/fontyourface/disable/%'];
+    unset($items['admin/appearance/fontyourface/disable/%']);
+  }
+}
+//Implements hook_theme_registry_alter().
+function fontyourface_improvements_theme_registry_alter(&$theme_registry) {
+
+}
+//Implements hook_init().
+function fontyourface_improvements_init() {
+
+}
+//Implements hook_permission().
+function fontyourface_improvements_permission() {
+  $permissions = array(
+  
+  );
+  return $permissions;
+}
+//Implements hook_form_alter().
+function fontyourface_improvements_form_alter(&$form, $form_state, $form_id) {
+
+}

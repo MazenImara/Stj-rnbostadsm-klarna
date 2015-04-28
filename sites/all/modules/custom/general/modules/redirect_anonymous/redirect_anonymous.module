@@ -1,0 +1,63 @@
+<?php
+/**
+ * Implements hook_init().
+ */
+function redirect_anonymous_init() {
+  global $base_url;
+  $base = rtrim($base_url, '/');
+	// if 1st argument is not user, and they are not logged in, send them away
+	$open = variable_get('redirect_anonymous_open', false);
+	if(!$open) {
+		if (user_is_anonymous()) {
+			if ( strpos($_SERVER['HTTP_USER_AGENT'], 'Wget')===false ) {
+				$paths = array('user', 'user/login');
+				$paths = array_merge($paths, module_invoke_all('redirect_anonymous_allowed_path'));
+	 			if(!in_array(request_path(), $paths)) {
+	    		drupal_goto($base.'/index.html');
+				}
+			}
+		}
+	}
+  if(variable_get('general_page', 0)) {
+    if(isset($_GET['key']) && $_GET['key'] === variable_get('cron_key')) {}
+    else {
+      drupal_goto($base.'/index.html');
+    }
+  }
+}
+//Implements hook_admin()
+function redirect_anonymous_admin() {
+	$form = array();
+	$form['redirect_anonymous_open'] = array(
+    '#type' => 'checkbox',
+		'#default_value' => variable_get('redirect_anonymous_open', false),
+    '#title' => t('The website is open to the public'),
+	);
+	$form['#submit'][] = 'redirect_anonymous_admin_submit';
+	return system_settings_form($form);
+}
+function redirect_anonymous_admin_submit($form, &$form_state) {
+  cache_clear_all(); //Rensar block- och page cache
+}
+//Implements hook_menu()
+function redirect_anonymous_menu() {
+  $items = array();
+  $items['admin/config/redirect_anonymous'] = array(
+    'title' => 'Open the website',
+    'description' => 'Redirect Anonymous settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('redirect_anonymous_admin'),
+    'access arguments' => array('administer redirect anonymous'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+function redirect_anonymous_permission() {
+	return array(
+    'administer redirect anonymous' => array(
+      'title' => t('Administer Redirect Anonymous'),
+    ),
+  );
+}
+?>

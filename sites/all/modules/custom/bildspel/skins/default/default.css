@@ -1,0 +1,51 @@
+/*--Navigation--*/
+.bildspel-navigation {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  opacity: 0;
+	-webkit-transition: all 200ms ease-in-out;
+  -moz-transition: all 200ms ease-in-out;
+  -o-transition: all 200ms ease-in-out;
+  transition: all 200ms ease-in-out;
+}
+.bildspel-wrapper:hover .bildspel-navigation {
+  opacity: 1;
+}
+.bildspel-navigation span {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  cursor: pointer;
+	background:url(arrows.png) no-repeat;
+}
+
+.bildspel-navigation .previous {
+  left: 15px;
+}
+.bildspel-navigation .next {
+  right: 15px;
+	background-position: -30px 0;
+}
+/*--Pager--*/
+.bildspel-pager-wrapper {
+  text-align: center;
+}
+.bildspel-pager {
+  display: inline-block;
+}
+.bildspel-pager span {
+  width: 16px;
+  height: 16px;
+  background-color: #000;
+  float: left;
+  cursor: pointer;
+  margin: 0 5px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+}
+.bildspel-pager span.active {
+  background-color: #cccccc;
+  cursor: default;
+}

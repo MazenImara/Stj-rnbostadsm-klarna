@@ -1,0 +1,14 @@
+diff --git a/editors/ckeditor/plugin.js b/editors/ckeditor/plugin.js
+index 2dcd53d..543c87d 100644
+--- a/editors/ckeditor/plugin.js
++++ b/editors/ckeditor/plugin.js
+@@ -49,6 +49,9 @@
+     if (params.autoplay) {
+       str += ' autoplay:' + params.autoplay;
+     }
++    else {
++      str += ' autoplay:0';
++    }
+     str += ']';
+ 
+     for (var i = 0, len = ranges.length; i < len; i++) {

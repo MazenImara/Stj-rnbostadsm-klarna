@@ -1,0 +1,22 @@
+<?php
+/**
+ * Implementation of hook_install().
+ */
+function webform_improvements_install() {
+  $recipient_roles = db_query_range(utf8_encode("SELECT rid FROM {role} WHERE name = 'ägare'"), 0, 1)->fetchField();
+  if($recipient_roles) {
+    variable_set('webform_improvements_recipient_roles', array($recipient_roles));
+  }
+  $url = url('admin/config/content/webform', array('absolute' => TRUE));
+  drupal_set_message(t('Webform improvements has been installed. Visit @s to configure and rebuild e-mails', array('@s' => l($url, $url))));
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function webform_improvements_uninstall() {
+  variable_del('webform_improvements_recipient_roles');
+  variable_del('webform_improvements_rebuild');
+  variable_del('webform_improvements_use_site_mail');
+}
+?>

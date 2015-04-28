@@ -1,0 +1,5 @@
+; $Id$
+name = Redirect Anonymous
+description = Redirect anonymous visitors to another page
+package = Custommoduler
+core = 7.x

@@ -1,0 +1,5 @@
+name = Enterprise Blog Improvements
+description = Enterprise Blog Improvements
+package = Custommoduler
+core = 7.x
+dependencies[] = enterprise_blog

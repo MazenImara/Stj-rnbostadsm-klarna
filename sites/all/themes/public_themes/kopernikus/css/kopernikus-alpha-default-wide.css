@@ -1,0 +1,14 @@
+/* This file will hold styles that are loaded using the same media query as the wide grid. */
+#admin-menu-wrapper {
+  width: 1220px;
+  margin: auto;
+}
+body {
+  min-width: 1220px !important;
+}
+body .container-24 {
+  width: 1220px;
+}
+body .container-24 .grid-24 {
+  width: 1220px;
+}

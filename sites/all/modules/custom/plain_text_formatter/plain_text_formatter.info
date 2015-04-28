@@ -1,0 +1,4 @@
+name = Plain Text Formatter
+description = Plain Text Formatter
+package = Custommoduler
+core = 7.x

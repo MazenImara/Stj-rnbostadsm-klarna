@@ -1,0 +1,101 @@
+<?php
+//Implements hook_menu().
+function licens_menu() {
+  $items = array(
+
+  );
+  return $items;
+}
+//Implements hook_menu_alter().
+function licens_menu_alter(&$items) {
+  if(isset($items['admin/config/people'])) {
+    $items['admin/config/people']['access arguments'] = array('licens_user_settings');
+  }
+  if(isset($items['admin/config/people/accounts'])) {
+    $items['admin/config/people/accounts']['access arguments'] = array('licens_user_settings');
+  }
+  //Gömmer teman under blockmenyn
+	foreach (list_themes() as $key => $theme) {
+		if(isset($items['admin/structure/block/list/'.$key])) {
+			$items['admin/structure/block/list/'.$key]['access callback'] = 'licens_block_access';
+		}
+	}
+}
+function licens_block_access($theme) {
+	if(_block_themes_access($theme)) {
+		global $user;
+		if($user->uid == 1) {
+			return true;
+		}
+		$path = explode('/', drupal_get_path('theme', $theme->name));
+    if($path[3] === 'public_themes') {
+			return true;
+    }
+	}
+	return false;
+}
+//Implements hook_theme_registry_alter().
+function licens_theme_registry_alter(&$theme_registry) {
+
+}
+//Implements hook_init().
+function licens_init() {
+
+}
+//Implements hook_permission().
+function licens_permission() {
+  $permissions = array(
+    'licens_user_settings' => array(
+      'title' => t('Access user settings page'),
+    ),
+  );
+  return $permissions;
+}
+//Implements hook_form_alter().
+function licens_form_alter(&$form, $form_state, $form_id) {
+
+}
+//Implements hook_form_FORMID_alter()
+function licens_form_user_admin_account_alter(&$form, $form_state) {
+  //Gömmer storledenkontot
+  if(isset($form['accounts']) && isset($form['accounts']['#options'])) {
+    global $user;
+    if($user->uid != 1) {
+      unset($form['accounts']['#options'][1]);
+    }
+  }
+}
+//Implements hook_form_FORMID_alter()
+function licens_form_general_admin_settings_form_alter(&$form, $form_state) {
+	global $user;
+	if($user->uid != 1) {
+	  //Gömmer teman
+	  if(isset($form['general_admin_theme']) && isset($form['general_admin_theme']['#options'])) {
+			foreach($form['general_admin_theme']['#options'] as $name => $title) {
+        $path = explode('/', drupal_get_path('theme', $name));
+        if($path[3] !== 'public_themes') {
+          unset($form['general_admin_theme']['#options'][$name]);
+        }
+      }
+		}
+	  //Gömmer återförsäljardelen
+	  if(isset($form['reseller'])) {
+			$form['reseller']['#access'] = false;
+		}
+	}
+}
+//Implements hook_form_FORMID_alter()
+function licens_form_block_admin_configure_alter(&$form, $form_state) {
+	global $user;
+	if($user->uid != 1) {
+		//Gömmer teman
+		if(isset($form['regions'])) {
+			foreach(element_children($form['regions']) as $theme) {
+				$path = explode('/', drupal_get_path('theme', $theme));
+		    if($path[3] !== 'public_themes') {
+					unset($form['regions'][$theme]);
+		    }
+			}
+		}
+	}
+}

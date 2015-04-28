@@ -1,0 +1,169 @@
+<?php
+
+/*
+Att göra:
+- Se om jag kan styra display type via taxonomi som man väljer i nodformuläret när man skapar ett nytt bildspel
+- Försök göra en modul som begränsar vilka display types som kan visas för olika nodtyper
+*/
+
+/**
+ * @file
+ * Adds fields integration with caroufredsel
+ */
+
+//Implements hook_theme().
+function linkimagefield_caroufredsel_theme() {
+  return array(
+    'caroufredsel_container' => array(
+      'variables' => array('items' => array(), 'settings' => array()),
+      'file' => 'linkimagefield_caroufredsel.theme.inc',
+    ),
+    'caroufredsel_wrapper' => array(
+      'render element' => 'element',
+      'file' => 'linkimagefield_caroufredsel.theme.inc',
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ *
+ * Adds the linkimagefield_caroufredsel format option within the manage display form of
+ * of an image field.
+ */
+function linkimagefield_caroufredsel_field_formatter_info() {
+  return array(
+    'linkimagefield_caroufredsel' => array(
+      'label' => t('CarouFredSel'),
+      'field types' => array('linkimagefield'),
+      'settings' => array(
+        'caroufredsel_skin' => '_none',
+        'image_style' => '_none',
+        'caroufredsel_scroll' => '',
+        'caroufredsel_items_max' => '4',
+        'caroufredsel_circular' => true,
+        'caroufredsel_display_controls' => true,
+        'caroufredsel_display_pagination' => false,
+        'caroufredsel_use_swipe' => true,
+        'caroufredsel_use_mouse' => true,
+        'caroufredsel_timeoutduration' => '10000',
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_settings_form().
+ *
+ * Provides display settings form within the manage display page of
+ * an image field with formatter linkimagefield_caroufredsel.
+ */
+function linkimagefield_caroufredsel_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+
+  $form = array();
+  $image_styles = image_styles();
+  $style_options = array('_none' => t('- None -'));
+  foreach ($image_styles as $name => $style) {
+    $style_options[$name] = $name;
+  }
+  $form['caroufredsel_skin'] = array(
+    '#type' => 'select',
+    '#title' => t('Skin'),
+    '#options' => array(
+      '_none' => t('- None -'),
+      'grey_yellow' => t('Grey / Yellow'),
+    ),
+    '#default_value' => $settings['caroufredsel_skin'],
+  );
+  $form['image_style'] = array(
+    '#type' => 'select',
+    '#title' => t('Image style'),
+    '#options' => $style_options,
+    '#default_value' => $settings['image_style'],
+  );
+  $form['caroufredsel_scroll'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Scroll number of elements'),
+    '#default_value' => $settings['caroufredsel_scroll'],
+    '#description' => t('Leave empty for automatic calculation'),
+  );
+  $form['caroufredsel_items_max'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Max number of visible items'),
+    '#default_value' => $settings['caroufredsel_items_max'],
+  );
+  $form['caroufredsel_timeoutduration'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Slide duration (ms)'),
+    '#default_value' => $settings['caroufredsel_timeoutduration'],
+  );
+  $form['caroufredsel_circular'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Circular carousel'),
+    '#default_value' => $settings['caroufredsel_circular'],
+  );
+  $form['caroufredsel_display_controls'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Display controls'),
+    '#default_value' => $settings['caroufredsel_display_controls'],
+  );
+  $form['caroufredsel_display_pagination'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Display pagination'),
+    '#default_value' => $settings['caroufredsel_display_pagination'],
+  );
+  $form['caroufredsel_use_swipe'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Use swipe for mobile devices'),
+    '#default_value' => $settings['caroufredsel_use_swipe'],
+  );
+  $form['caroufredsel_use_mouse'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable mouse swiping'),
+    '#default_value' => $settings['caroufredsel_use_mouse'],
+  );
+
+  return $form;
+}
+/**
+ * Implements hook_field_formatter_settings_summary().
+ *
+ * Displays the summary of the set options of a linkimagefield_caroufredsel formatted image field
+ */
+function linkimagefield_caroufredsel_field_formatter_settings_summary($field, $instance, $view_mode) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+  $summary = array(
+    t('Skin').': '.$settings['caroufredsel_skin'],
+    t('Image style').': '.$settings['image_style'],
+    t('Scroll number of elements').': '.($settings['caroufredsel_scroll'] ? $settings['caroufredsel_scroll'] : t('Auto')),
+    t('Max number of visible items').': '.$settings['caroufredsel_items_max'],
+    t('Slide duration').': '.$settings['caroufredsel_timeoutduration'].'ms',
+    t('Circular carousel').': '.($settings['caroufredsel_circular'] ? t('Yes') : t('No')),
+    t('Display controls').': '.($settings['caroufredsel_display_controls'] ? t('Yes') : t('No')),
+    t('Display pagination').': '.($settings['caroufredsel_display_pagination'] ? t('Yes') : t('No')),
+    t('Use swipe for mobile devices').': '.($settings['caroufredsel_use_swipe'] ? t('Yes') : t('No')),
+    t('Enable mouse swiping').': '.($settings['caroufredsel_use_mouse'] ? t('Yes') : t('No')),
+  );
+
+  return implode('<br />', $summary);
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ *
+ * Prepares a renderable array of images and adds the neccessary JS and CSS
+ */
+function linkimagefield_caroufredsel_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+  if (count($items) > 0) {
+    $element[] = array(
+      '#theme' => 'caroufredsel_container',
+      '#items' => $items,
+      '#settings' => $display['settings'],
+    );
+  }
+  return $element;
+}

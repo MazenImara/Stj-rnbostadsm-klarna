@@ -1,0 +1,126 @@
+<?php
+//Implements hook_menu().
+function view_modes_per_theme_menu() {
+  $items = array(
+
+  );
+  return $items;
+}
+//Implements hook_menu_alter().
+function view_modes_per_theme_menu_alter(&$items) {
+  $default_theme = variable_get('theme_default', '');
+  $entity_info = entity_get_info('node');
+  $view_modes = array_keys($entity_info['view modes']);
+  foreach($view_modes as $view_name) {
+    if(substr($view_name, 0, strlen($default_theme)) !== $default_theme) {
+      unset($items['admin/structure/types/manage/%node_type/display/'.$view_name]);
+    }
+  }
+}
+//Implements hook_theme_registry_alter().
+function view_modes_per_theme_theme_registry_alter(&$theme_registry) {
+
+}
+//Implements hook_init().
+function view_modes_per_theme_init() {
+
+}
+//Implements hook_permission().
+function view_modes_per_theme_permission() {
+  $permissions = array(
+  
+  );
+  return $permissions;
+}
+/*----------Ändrar ordningen för hooks--------*/
+/**
+ * Implements hook_module_implements_alter().
+ */
+function view_modes_per_theme_module_implements_alter(&$implementations, $hook) {
+  if ($hook == 'entity_info_alter') {
+    // Move my_module_theme_registry_alter() to the end of the list. module_implements()
+    // iterates through $implementations with a foreach loop which PHP iterates
+    // in the order that the items were added, so to move an item to the end of
+    // the array, we remove it and then add it.
+    if(isset($implementations['view_modes_per_theme'])) {
+      $group = $implementations['view_modes_per_theme'];
+      unset($implementations['view_modes_per_theme']);
+      $implementations['view_modes_per_theme'] = $group;
+    }
+  }
+}
+/*---------------Lägger till displayer för varje tema------------*/
+//Implements hook_entity_info_alter()
+function view_modes_per_theme_entity_info_alter(&$entity_info) {
+  $themes = list_themes();
+  foreach($entity_info['node']['view modes'] as $view_name => $settings) {
+    foreach($themes as $theme_name => $theme) {
+      if($theme->status && $theme_name !== 'kopernikus_admin') {
+        $entity_info['node']['view modes'][$theme_name.'_'.$view_name] = $settings;
+      }
+    }
+  }
+}
+/*-----------Ändrar view mode till temaspecifik------------*/
+//Implements hook_entity_view_mode_alter().
+function view_modes_per_theme_entity_view_mode_alter(&$view_mode, $context) {
+  if ($context['entity_type'] === 'node') {
+    $default_theme = variable_get('theme_default', '');
+    $view_mode = $default_theme.'_'.$view_mode;
+  }
+}
+/*-------------Integration med diverse formulär------------*/
+//Implements hook_form_alter().
+function view_modes_per_theme_form_alter(&$form, $form_state, $form_id) {
+  $element = null;
+  switch($form_id) {
+    /*------Panels-------*/
+    case 'ctools_node_content_type_edit_form':
+      if(isset($form['build_mode'])) {
+        $element =& $form['build_mode'];
+      }
+    break;
+    /*---------Node Block---------*/
+    case 'block_admin_configure':
+      if($form['module']['#'.$form['module']['#type']] === 'nodeblock') {
+        if(isset($form['settings']['nodeblock']['view_mode'])) {
+          $element =& $form['settings']['nodeblock']['view_mode'];
+        }
+      }
+    break;
+    /*--------Visningsalternativ---------*/
+    case 'field_ui_display_overview_form':
+      if(isset($form['modes']['view_modes_custom'])) {
+        $default_theme = variable_get('theme_default', '');
+        foreach($form['modes']['view_modes_custom']['#options'] as $key => $value) {
+          if(substr($key, 0, strlen($default_theme)) !== $default_theme) {
+            unset($form['modes']['view_modes_custom']['#options'][$key]);
+          }
+        }
+      }
+    break;
+    /*-------------Views---------------*/
+    case 'views_ui_edit_display_form':
+      if(isset($form['options']['row_options']['view_mode'])) {
+        $element =& $form['options']['row_options']['view_mode'];
+      }
+    break;
+  }
+  if($element) {
+    $element = view_modes_per_theme_update_form($element);
+  }
+}
+function view_modes_per_theme_update_form($element) {
+  $themes = list_themes();
+  foreach($element['#options'] as $key => $value) {
+    foreach($themes as $name => $theme) {
+      if($theme->status && $name !== 'kopernikus_admin') {
+        if(substr($key, 0, strlen($name)) === $name) {
+          unset($element['#options'][$key]);
+          break;
+        }
+      }
+    }
+  }
+  return $element;
+}

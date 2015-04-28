@@ -1,0 +1,5 @@
+name = Panels Improvements
+description = Panels Improvements
+package = Custommoduler
+dependencies[] = panels
+core = 7.x

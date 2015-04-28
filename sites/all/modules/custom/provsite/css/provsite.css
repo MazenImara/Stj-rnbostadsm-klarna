@@ -1,0 +1,24 @@
+#block-provsite-login {
+  display: inline-block;
+  left: -20px;
+  position: absolute;
+  top: 80px;
+  z-index: 999;
+}
+#block-provsite-login a {
+  position: absolute;
+  top: 0;
+  padding: 20px;
+  font-size: 20px;
+  color: white;
+  background-color: black;
+  border: 2px solid #5b2b00;
+  border-radius: 10px;
+  line-height: 100%;
+  behavior: url(/sites/all/themes/kopernikus/css/pie/PIE.htc); /* Gives IE some support for CSS3 */
+}
+#block-provsite-login a:hover {
+  text-decoration: none;
+  background-color: white;
+  color: black;
+}

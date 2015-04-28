@@ -1,0 +1,13 @@
+name = RSS Permissions
+description = "Adds permission settings to blog, taxonomy, aggregator, and main site's RSS feeds."
+core = 7.x
+version = "7.x-0.1"
+
+files[] = rss_permissions.module
+
+; Information added by drupal.org packaging script on 2011-10-11
+version = "7.x-1.0-beta1"
+core = "7.x"
+project = "rss_permissions"
+datestamp = "1318359408"
+

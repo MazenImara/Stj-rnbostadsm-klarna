@@ -1,0 +1,32 @@
+<?php
+
+/**
+ * Implements hook_block_info().
+ */
+function login_block_block_info() {
+  $number_of_blocks = 2;
+  $blocks = array();
+  for($i = 0, $imax = $number_of_blocks; $i<$imax; $i++) {
+    $blocks[] = array(
+      'info' => t('Login Block !index', array('!index' => $i + 1)),
+    );
+  }
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function login_block_block_view($delta='') {
+  $block = array();
+  $block['content'] = array(
+    '#theme' => 'link',
+    '#text' => t('Login'),
+    '#path' => 'user/login',
+    '#options' => array(
+      'attributes' => array('class' => array('login-link')),
+      'html' => FALSE,
+     ),
+  );
+  return $block;
+}

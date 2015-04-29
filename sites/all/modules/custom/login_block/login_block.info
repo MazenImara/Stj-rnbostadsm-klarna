@@ -1,0 +1,5 @@
+name = Logo Block
+description = Logo Block
+package = Other
+core = 7.x
+dependencies[] = block

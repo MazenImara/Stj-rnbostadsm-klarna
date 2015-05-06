@@ -15,7 +15,7 @@
 			    imce.conf.furl = baseurl + furl;
 			  }
 			  else if ( !absurls && isabs && furl.indexOf(baseurl) == 0) {
-			    imce.conf.furl = furl.substr(furl.indexOf('sites/'));
+			    imce.conf.furl = furl.substr(furl.indexOf('/sites/'));
 			  }
 			  //convert button elements to input elements.
 			  imce.convertButtons(imce.FW);

@@ -1,18 +1,20 @@
 # Ignore configuration files that may contain sensitive information.
-sites/*/*settings*.php
+/sites/*/*settings*.php
 
 # Ignore paths that contain generated content.
+# recursive
 cache/
+# recursive
 files/
-sites/*/files
-sites/*/private
-sites/*/.filecache
+/sites/*/private
+/sites/*/.filecache
 
 # Ignore robots.txt which may differ between environments
-robots.txt
+/robots.txt
 
 # Ignore sitemap.xml in case it's an actual file
-sitemap.xml
+/sitemap.xml
 
 # Ignore .ftpquota file
+# recursive
 .ftpquota

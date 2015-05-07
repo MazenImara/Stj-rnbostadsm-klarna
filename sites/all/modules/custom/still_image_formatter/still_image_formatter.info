@@ -1,0 +1,5 @@
+name = Still Image Formatter
+description = One unified formatter to display still images.
+core = 7.x
+dependencies[] = image
+dependencies[] = imagecache_actions

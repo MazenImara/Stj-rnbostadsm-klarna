@@ -1,0 +1,5 @@
+.still-image-formatter-item {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+}

@@ -1,0 +1,84 @@
+<?php
+
+//Implements hook_theme().
+function still_image_formatter_theme($existing, $type, $theme, $path) {
+  return array(
+    'still_image_formatter' => array(
+      'variables' => array(
+        'item' => array(),
+        'fixed_height' => false,
+        'breakpoints' => array(),
+        'image_style' => '',
+        'caption' => '',
+        'image_link' => '',
+      ),
+      'file' => 'still_image_formatter.theme.inc',
+    ),
+    'still_image_formatter_fixed_height_image' => array(
+      'variables' => array(
+        'item' => array(),
+        'breakpoints' => array(),
+        'image_style' => '',
+      ),
+      'file' => 'still_image_formatter.theme.inc',
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function still_image_formatter_field_formatter_info() {
+  return array(
+    'still_image_formatter' => array(
+      'label' => t('Still Image Formatter'),
+      'field types' => array('image', 'linkimagefield'),
+      'settings' => array(
+        'force_render' => false,
+        'reverse_order' => false,
+        'fixed_height' => false,
+        'deltas' => '',
+        'picture_mapping' => '',
+        'image_style' => '',
+        'caption_type' => '',
+        'caption_property' => '',
+        'caption_custom' => '',
+        'link_type' => '',
+        'link_property' => '',
+        'link_custom' => '',
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_settings_form().
+ */
+function still_image_formatter_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  module_load_include('inc', 'still_image_formatter', 'still_image_formatter.admin');
+  return still_image_formatter_settings_form($field, $instance, $view_mode, $form, $form_state);
+}
+
+/**
+ * Implements hook_field_formatter_settings_summary().
+ */
+function still_image_formatter_field_formatter_settings_summary($field, $instance, $view_mode) {
+  module_load_include('inc', 'still_image_formatter', 'still_image_formatter.admin');
+  return still_image_formatter_settings_summary($field, $instance, $view_mode);
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function still_image_formatter_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  module_load_include('inc', 'still_image_formatter', 'still_image_formatter.pages');
+  return still_image_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display);
+}
+
+function still_image_formatter_validate_url_form_element($element, &$form_state, $form) {
+  if(!empty($element['#value'])) {
+    if(!drupal_valid_path($element['#value'])) {
+      form_set_error($element['#name'], t('Please enter a valid url or internal path'));
+    }
+  }
+}

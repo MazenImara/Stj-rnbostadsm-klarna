@@ -25,3 +25,11 @@ body .container-24 .grid-24 {
 .container-24 .grid-24 {  
   background-color: #f7f7f7;
 }
+
+/* ------- Sociala länkar ------ */
+.social-links-facebook {
+  display: block;
+  width: 24px;
+  height: 24px;
+  background: transparent url(../images/facebook.png) no-repeat center center;
+}

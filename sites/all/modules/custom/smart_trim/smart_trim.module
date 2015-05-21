@@ -37,60 +37,64 @@ function smart_trim_field_formatter_view($entity_type, $entity, $field, $instanc
         // The default behaviour is to use the main body field, but the summary
         // option allows users to use the summary field IFF it is not empty.
         $output = '';
+        $extension = '';
+        $trim = true;
         if (!empty($settings['summary_handler']) && $settings['summary_handler'] != 'ignore' && !empty($item['summary'])) {
           $output = _text_sanitize($instance, $langcode, $item, 'summary');
+          $trim = false;
         }
         else {
           $output = _text_sanitize($instance, $langcode, $item, 'value');
         }
-        $char_delta = drupal_strlen(trim($settings['trim_suffix']));
+        if($trim) {
+          $char_delta = drupal_strlen(trim($settings['trim_suffix']));
 
-        // Process additional options (currently only HTML on/off)
-        if (!empty($settings['trim_options'])) {
-          if (!empty($settings['trim_options']['text'])) {
-            // Strip tags
-            $output = strip_tags(str_replace('<', ' <', $output), '<p>');
-            
-            // Strip out line breaks
-            $output = preg_replace('/\n|\r|\t/m', ' ', $output);
-            
-            // Strip out non-breaking spaces
-            $output = str_replace('&nbsp;', ' ', $output);
-            $output = str_replace("\xc2\xa0", ' ', $output);
-            
-            // Strip out extra spaces
-            $output = trim(preg_replace('/\s\s+/', ' ', $output));
+          // Process additional options (currently only HTML on/off)
+          if (!empty($settings['trim_options'])) {
+            if (!empty($settings['trim_options']['text'])) {
+              // Strip tags
+              $output = strip_tags(str_replace('<', ' <', $output), '<p>');
+              
+              // Strip out line breaks
+              $output = preg_replace('/\n|\r|\t/m', ' ', $output);
+              
+              // Strip out non-breaking spaces
+              $output = str_replace('&nbsp;', ' ', $output);
+              $output = str_replace("\xc2\xa0", ' ', $output);
+              
+              // Strip out extra spaces
+              $output = trim(preg_replace('/\s\s+/', ' ', $output));
+            }
           }
-        }
 
-        // Make the trim, provided we're not showing a full summary
-        $shortened = FALSE;
-        if ($settings['summary_handler'] != 'full' || empty($item['summary'])) {
-          if ($settings['trim_type'] == 'words') {
-            $words = preg_split('/\s/', $output, NULL, PREG_SPLIT_NO_EMPTY); //use \s or use PREG_CLASS_UNICODE_WORD_BOUNDARY?
-            $output2 = implode(" ", array_slice($words, 0,  $settings['trim_length']));
-            $output2 = _filter_htmlcorrector($output2);
+          // Make the trim, provided we're not showing a full summary
+          $shortened = FALSE;
+          if ($settings['summary_handler'] != 'full' || empty($item['summary'])) {
+            if ($settings['trim_type'] == 'words') {
+              $words = preg_split('/\s/', $output, NULL, PREG_SPLIT_NO_EMPTY); //use \s or use PREG_CLASS_UNICODE_WORD_BOUNDARY?
+              $output2 = implode(" ", array_slice($words, 0,  $settings['trim_length']));
+              $output2 = _filter_htmlcorrector($output2);
+            }
+            else {
+              //See http://api.drupal.org/api/drupal/modules%21field%21modules%21text%21text.module/function/text_summary/7
+              //text_summary is smart about looking for paragraphs, sentences, etc, not strictly just length. Uses truncate_utf8 as well
+              $output2 = text_summary($output, $instance['settings']['text_processing'] ? $item['format'] : NULL, $settings['trim_length']);
+            }
+            
+            if (drupal_strlen($output) != drupal_strlen($output2)) {
+              $shortened = TRUE;
+            }
+            $output = $output2;
           }
-          else {
-            //See http://api.drupal.org/api/drupal/modules%21field%21modules%21text%21text.module/function/text_summary/7
-            //text_summary is smart about looking for paragraphs, sentences, etc, not strictly just length. Uses truncate_utf8 as well
-            $output2 = text_summary($output, $instance['settings']['text_processing'] ? $item['format'] : NULL, $settings['trim_length']);
-          }
-          
-          if (drupal_strlen($output) != drupal_strlen($output2)) {
-            $shortened = TRUE;
-          }
-          $output = $output2;
-        }
 
-        // Only include the extension if the text was truncated
-        $extension = '';
-        if ($shortened) {
-          $extension = $settings['trim_suffix'];
-        }
-        // Don't duplicate a period at the end of the text and beginning of extension
-        if (substr($output, -1, 1) == '.' && substr($extension, 0, 1) == '.') {
-          $extension = substr($extension, 1);
+          // Only include the extension if the text was truncated
+          if ($shortened) {
+            $extension = $settings['trim_suffix'];
+          }
+          // Don't duplicate a period at the end of the text and beginning of extension
+          if (substr($output, -1, 1) == '.' && substr($extension, 0, 1) == '.') {
+            $extension = substr($extension, 1);
+          }
         }
 
         // Add the link, if there is one!

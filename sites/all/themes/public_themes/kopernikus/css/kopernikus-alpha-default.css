@@ -32,12 +32,12 @@ img.right {
 }
 /*----------------------------------*/
 /*-------------Paneler----------*/
-.panel-pane {
+.grid-8 .panel-pane {
   min-height: 371px;
 }
-.browser-firefox .panel-pane,
-.browser-opera .panel-pane,
-.browser-ie .panel-pane  {
+.browser-firefox .grid-8 .panel-pane,
+.browser-opera .grid-8 .panel-pane,
+.browser-ie .grid-8 .panel-pane  {
   min-height: 381px;
 }
 .panel-pane .field-name-field-sidhuvud img {

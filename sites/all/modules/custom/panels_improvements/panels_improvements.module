@@ -38,6 +38,9 @@ function panels_improvements_permission() {
    'panels_improvements_ipe_display_categories' => array(
      'title' => 'Display categories when adding pane in IPE',
    ),
+   'panels_improvements_ipe_display_advanced_buttons' => array(
+    'title' => 'Display advanced IPE buttons',
+   ),
    'panels_improvements_display_pane_options' => array(
     'title' => 'Display advanced options in pane edit forms',
    ),
@@ -105,6 +108,9 @@ function panels_improvements_form_alter(&$form, $form_state, $form_id) {
         }
       }
       break;
+    case 'panels_ipe_edit_control_form':
+      $form['#after_build'][] = 'panels_improvements_panels_ipe_edit_control_form_after_build';
+      break;
       
     case 'views_content_views_content_type_edit_form':
       $elements = array(
@@ -150,6 +156,15 @@ function panels_improvements_panels_custom_content_form_after_build($form, &$for
         }
       }
     }
+  }
+  return $form;
+}
+function panels_improvements_panels_ipe_edit_control_form_after_build($form, &$form_state) {
+  if(!empty($form['buttons']['revert_default'])) {
+    $form['buttons']['revert_default']['#access'] = user_access('panels_improvements_ipe_display_advanced_buttons');
+  }
+  if(!empty($form['revision_information'])) {
+    $form['revision_information']['#access'] = user_access('panels_improvements_ipe_display_advanced_buttons');
   }
   return $form;
 }

@@ -317,11 +317,21 @@ function panels_panel_context_render($handler, $base_contexts, $args, $test = TR
   // Remove and add body element classes
   $panel_body_css = &drupal_static('panel_body_css');
 
-  if (isset($handler->conf['body_classes_to_remove']) && !isset($panel_body_css['body_classes_to_remove'])) {
-    $panel_body_css['body_classes_to_remove'] = $handler->conf['body_classes_to_remove'];
+  if (isset($handler->conf['body_classes_to_remove'])) {
+    if (!isset($panel_body_css['body_classes_to_remove'])) {
+      $panel_body_css['body_classes_to_remove'] = $handler->conf['body_classes_to_remove'];
+    }
+    else{
+      $panel_body_css['body_classes_to_remove'] .= ' ' . $handler->conf['body_classes_to_remove'];
+    }
   }
-  if (isset($handler->conf['body_classes_to_add']) && !isset($panel_body_css['body_classes_to_add'])) {
-    $panel_body_css['body_classes_to_add'] = $handler->conf['body_classes_to_add'];
+  if (isset($handler->conf['body_classes_to_add'])) {
+    if (!isset($panel_body_css['body_classes_to_add'])) {
+      $panel_body_css['body_classes_to_add'] = $handler->conf['body_classes_to_add'];
+    }
+    else {
+      $panel_body_css['body_classes_to_add'] .= ' '. $handler->conf['body_classes_to_add'];
+    }
   }
 
   $info = array(
@@ -393,7 +403,10 @@ function panels_panel_context_export(&$handler, $indent) {
       unset($handler->conf[$item]);
     }
   }
-  $display->did = 'new';
+  $display = (object) array(
+    'did' => 'new',
+    'uuid' => ctools_uuid_generate(),
+  );
   $handler->conf['display'] = $display;
 }
 
@@ -760,7 +773,7 @@ function panels_panel_context_edit_settings($form, &$form_state) {
   $form['conf']['body_classes_to_remove'] = array(
     '#type' => 'textfield',
     '#size' => 128,
-    '#default_value' => $conf['body_classes_to_remove'],
+    '#default_value' => empty($conf['body_classes_to_remove']) ? '' : $conf['body_classes_to_remove'],
     '#title' => t('Remove body CSS classes'),
     '#description' => t('The CSS classes to remove from the body element of this page. Separated by a space. For example: no-sidebars one-sidebar sidebar-first sidebar-second two-sidebars.'),
   );
@@ -768,7 +781,7 @@ function panels_panel_context_edit_settings($form, &$form_state) {
   $form['conf']['body_classes_to_add'] = array(
     '#type' => 'textfield',
     '#size' => 128,
-    '#default_value' => $conf['body_classes_to_add'],
+    '#default_value' => empty($conf['body_classes_to_add']) ? '' : $conf['body_classes_to_add'],
     '#title' => t('Add body CSS classes'),
     '#description' => t('The CSS classes to add to the body element of this page. Separated by a space. For example: no-sidebars one-sidebar sidebar-first sidebar-second two-sidebars.'),
   );
@@ -900,12 +913,25 @@ function panels_panel_context_get_addressable($task, $subtask_name, $handler, $a
   $display->cache_key = panels_panel_context_cache_key($task->name, $handler->name, $arguments);
 
   $renderer = panels_get_renderer($handler->conf['pipeline'], $display);
-  if ($type == 'content') {
-    $renderer->prepare();
+  $renderer->prepare();
 
+  if ($address) {
     $pid = array_shift($address);
     if (!empty($renderer->prepared['panes'][$pid])) {
-      return $renderer->render_pane($renderer->prepared['panes'][$pid]);
+      if ($type == 'content') {
+        return $renderer->render_pane($renderer->prepared['panes'][$pid]);
+      }
+      elseif ($type == 'pane') {
+        return $renderer->prepared['panes'][$pid];
+      }
+    }
+  }
+  else {
+    if ($type == 'content') {
+      return $renderer->render();
+    }
+    elseif ($type == 'renderer') {
+      return $renderer;
     }
   }
 }

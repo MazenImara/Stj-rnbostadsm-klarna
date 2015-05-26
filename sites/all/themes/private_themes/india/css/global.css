@@ -138,20 +138,23 @@ body.html textarea:focus {
   font-size: 16px;
 
 }
-
-#node-panel-1 .panel-panel.grid-8{}
-
-.panel-display {
-
-  background: transparent url(../images/patternbg-mobile.png) top left repeat;padding:20px 0;
-
-
-
+.panel-panel {
+  background: transparent url(../images/patternbg-mobile.png) top left repeat;
+  margin: 0;
 } 
+.panel-panel:first-child {
+  padding-top: 20px;
+} 
+.panel-panel:last-child {
+  background: transparent;
+  padding-top: 20px;
+} 
+.panel-panel > .inside {
+  padding: 0 10px;
+}
 
-#node-panel-1 a,
-
-#node-panel-1 a:visited {
+.node-panel a,
+.node-panel a:visited {
 
   color: #FBC90A;
 
@@ -170,7 +173,7 @@ body.html textarea:focus {
   font-weight: normal;
 
 }
-#node-panel-1 .panel-panel.grid-8 .pane-content {
+.panel-panel.grid-8 .pane-content {
 
   font-size: 13px;
 
@@ -463,3 +466,7 @@ background: transparent url("../images/twitter-bird2.png")top center no-repeat;h
     border: 0;
     padding: 0;
 	}
+.panels-ipe-control input[type="submit"] {
+  text-shadow: none;
+  float: none;
+}

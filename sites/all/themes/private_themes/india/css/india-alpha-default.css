@@ -288,7 +288,7 @@ body.front #zone-header-wrapper {
 
 /*-----------Startsida----------*/
 
-.browser-firefox .panel-pane, .browser-opera .panel-pane, .browser-ie .panel-pane {
+.browser-firefox .grid-8 .panel-pane, .browser-opera .grid-8 .panel-pane, .browser-ie .grid-8 .panel-pane {
 
     min-height: 0;
 
@@ -328,7 +328,7 @@ body.front .header {
 
 }
 
-#node-panel-1 .panel-display {
+.panel-display {
 
   display: inline-block;
 
@@ -337,21 +337,24 @@ body.front .header {
 }
 .panel-display {background:none;}
 
-.panel-pane {
+.grid-8 .panel-pane {
 
   min-height: 0;
 
 }
+.grid-8 .panel-pane .node-nyhet {
+  padding: 0;
+}
 
-#node-panel-1 .panel-panel.grid-8 {
+.panel-panel.grid-8 {
 
   padding: 25px 0 20px 0;
 
-  min-height: 205px;
+  min-height: 240px;
 
 }
 
-#node-panel-1 .panel-panel.grid-8 h2 {
+.panel-panel.grid-8 h2 {
 
   font-size: 18px;
 
@@ -365,7 +368,7 @@ body.front .header {
 
 }
 
-#node-panel-1 .panel-panel.grid-8 .pane-content {
+.panel-panel.grid-8 .pane-content {
 
   font-size: 13px;
 
@@ -373,23 +376,23 @@ body.front .header {
 
 }
 
-#node-panel-1 .panel-panel.grid-8 .pane-content p,
+.panel-panel.grid-8 .pane-content p,
 
-#node-panel-1 .panel-panel.grid-8 .pane-content .smart-trim {
+.panel-panel.grid-8 .pane-content .smart-trim {
 
   padding: 0 20px 0 0;
 
 }
 
-#node-panel-1 .panels-ipe-editing .panels-ipe-portlet-content {
+.panels-ipe-editing .panels-ipe-portlet-content {
 
   background: #222222;
 
 }
 
-#node-panel-1 a,
+.panel-panel a,
 
-#node-panel-1 a:visited {
+.panel-panel a:visited {
 
   color: #FBC90A;
 
@@ -409,7 +412,7 @@ body.front .header {
 
 }
 
-#node-panel-1 .node-links a:hover {
+.panel-panel .node-links a:hover {
 
   text-decoration: none;
 
@@ -421,7 +424,7 @@ body.front .header {
 
 }
 
-#node-panel-1 .field-name-field-text {
+.panel-panel .field-name-field-text {
 
   text-align: justify;
 

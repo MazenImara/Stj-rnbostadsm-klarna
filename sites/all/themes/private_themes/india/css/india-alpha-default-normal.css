@@ -3,3 +3,8 @@
  *  apply to the widescreen layout unless they are overridden by the widescreen styles. */
  
  h1, h2, h3 {  padding: 2px 0 15px 0;}
+
+body .panel-panel.grid-8 {
+  width: 305px;
+  min-height: 190px;
+}

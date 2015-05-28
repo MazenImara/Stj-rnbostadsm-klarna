@@ -145,6 +145,11 @@ body.front .node-panel {
 .panel-pane .field-name-field-sidhuvud img {
   width: auto;
 }
+.panel-pane .field-name-field-sidhuvud {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+}
 .panel-pane .field-name-field-sidhuvud,
 .panel-pane .field-name-field-linkimages {
   padding: 10px 0 18px;

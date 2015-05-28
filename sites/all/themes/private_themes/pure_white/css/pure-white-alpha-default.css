@@ -1,546 +1,277 @@
 /* This file will hold styles for all layouts using the alpha grid (i.e. not the mobile layout). */
-
 body .container-24 {
-
   width: 980px;
-
 }
-
 body .container-24 .grid-24 {
-
   width: 980px;
-
   margin: 0;
-
 }
-
 body .container-24 .grid-8 {
-
   width: 306px;
-
 }
-
 #node-panel-1 .panel-display {
-
   display: inline-block;
-
 }
-
 #block-logo-block-logo {
-
   display: inline;
-
   float: left;
-
   height: 90px;
-
   max-width: 270px;
-
   padding: 10px 10px 0;
-
 
 }
 #block-logo-block-logo img{width:auto;}
 .feed-icon {
-
   float: right;
-
 }
-
-
 
 /*--------------Huvudmeny--------------*/
-
 #block-superfish-1 {
-
 	height: 50px;
-
 	width: 690px;
-
   float: right;
-
 }
-
-
 
 #block-superfish-1 ul.menu {
-
 	margin: 0;
-
 	padding: 20px 0 0 0;
-
 	list-style: none;
-
 	line-height: normal;
-
 	float: right;
-
 }
-
-
 
 #block-superfish-1 ul.menu li {
-
 	float: left;
-
 }
-
-
 
 #block-superfish-1 ul.menu a, 
-
 #block-superfish-1 ul.menu a:visited {
-
 	display: block;
-
-	padding:14px 14px;
-
+	padding:14px 14px 0;
 	text-decoration: none;
-
 	text-transform: uppercase;
-
 	letter-spacing:1px;
-
 	font-size: 18px;
-
 	font-weight: 300;
-
 	color: #222;
-
 	border: none;
-
 	font-family: 'Oswald', sans-serif;
-
 }
-
-
 
 #block-superfish-1 ul.menu li a.active {
-
 	color: #5d839c;
-
 	display: block;
-
 }
 
-
-
 #block-superfish-1 ul.menu a:hover {
-
 	text-decoration: none;
-
 	color: #5d839c;	
-
 	display: block;	
-
 }
 /*---Nivå 2--*/
 #zone-menu-wrapper {padding:0px;}
-
 #block-superfish-1 ul.sf-menu ul {
-
   top: 50px;
-
 }
-
 #block-superfish-1 ul.sf-menu ul li, #block-superfish-1 ul.sf-menu ul li ul li  {
 background: none repeat scroll 0 0 #ccc;
 border:1px solid #EDEDED;
-
 }
 #block-superfish-1 ul.sf-menu ul ul {
-
   top: 45px;
-
 }
 #block-superfish-1 ul.sf-menu ul li a { padding: 10px 14px; }
-
 #block-superfish-1 ul.sf-menu ul li ul li{left:-50%;}
 #block-superfish-1 ul.sf-menu ul li ul li a{padding: 10px 14px;}
-
 /*---------Language switcher------------*/
 #block-superfish-1 .language-switcher {padding: 26px 0 0 0;}
-
 #block-superfish-1 .language-switcher ul {
-
 	margin-top: -15px;
-
 	display: inline-block!important;
-
 	visibility: visible!important;
-
 	width: auto;
-
 	height: auto;
-
 	position: relative;
-
 	padding: 8px 8px 6px 8px;
-
 }
-
 #block-superfish-1 .language-switcher ul li {
-
   float: left;
-
 	margin-right: 10px;
-
 	width: auto;
 	padding:0 0 5px 0;
-
 	/*height: auto;*/
-
 }
-
 #block-superfish-1 .language-switcher ul li.last {
-
 	margin-right: 0;
-
 }
-
 #block-superfish-1 .language-switcher ul li a {
-
 	margin: 0;
-
 	padding: 0;
-
 	height: auto!important;
-
 	line-height: auto;
-
 }
-
 /*-------------Vanlig sida----------*/
-
 #block-system-main {
-
   padding: 30px 40px 10px;
-
 }
-
 .node.view-mode-full > .field-name-field-sidhuvud img {
-
 margin-bottom:0;
  
-
 }
-
 #block-system-main .node .content p {
-
   text-align: justify;
-
   padding: 10px 0px 10px 0px;
-
 }
 .view-id-personal.view-display-id-block .views-row{float:left; }
-
 /*----------------------------------*/
-
 /*------------Startsida-----------*/
-
 body.front #block-system-main {
-
   padding: 0;
-
 }
-
 #node-panel-1 {
-
   padding-top: 30px;
-
 }
-
 .panel-display {
-
   padding-bottom: 45px;
-
 }
-
 .panel-pane {
-
   min-height: 0;
-
 }
-
 .browser-firefox .panel-pane, .browser-opera .panel-pane, .browser-ie .panel-pane {
-
   min-height: 0;
-
 }
-
 .panel-pane .field-name-field-sidhuvud,
-
 .panel-pane .field-name-field-linkimages {
-
   padding: 10px 0 18px;
-
 }
-
 .panel-pane .field-name-field-sidhuvud img {
-
   width: auto;
-
 }
 .panel-pane .field-name-field-sidhuvud{margin:0;}
 .panel-pane h2 {
-
   line-height: 25px;
-
   padding-top: 5px;
-
   font-size: 18px;
-
   color: #5d839c;
-
   text-transform: uppercase;
-
   font-weight: 300;
-
   font-family: 'Oswald', sans-serif;
-
   letter-spacing: 1px;
-
 }
-
 .panel-pane .pane-title {
-
   padding: 5px 20px 0;
-
 }
-
 .panel-pane .pane-content {
-
   padding: 0 20px;
-
 }
-
 .panel-pane .pane-content .node-bildspel {
-
   margin: 0 -7px;
-
 }
-
 .panel-pane .pane-content .node-bildspel .nivoSlider {
-
   margin-bottom: 0;
-
 }
-
 .panel-pane .pane-content p,
-
 .panel-pane .pane-content .smart-trim {
-
   font-size: 13px;
-
 }
-
-.panel-content {
-
-  padding: 28px 30px 10px 40px;
-
-  width: 572px;
-
-  float: left;
-
-}
-
-.panel-content .field-name-field-text {
-
-  margin-bottom: 25px;
-
-  padding-top: 10px;
-
-  text-align: justify;
-
-}
-
-.panel-content .field-name-field-text p {
-
-  padding: 0 0 10px;
-
-}
-
-body.front .block-webform {
-
-  width: 306px;
-
-  display: inline;
-
+body.front .panel-panel.bottom-1 {
   float: right;
-
-  margin-left: 10px;
-
-  margin-right: 12px;
-
-
-
 }
-
-
+body.front .block-webform{
+  margin: 0;
+}
+body.front .panel-panel.bottom-2 > .inside {
+  padding: 0 0 10px 10px;
+}
+body.front .panel-panel.bottom-2 .panel-separator {
+  padding-bottom: 35px;
+}
+.pane-content .field-name-field-text {
+  margin-bottom: 25px;
+  text-align: justify;
+}
 /* #Buttons
-
-
 
 ================================================== */
 
-
-
 	.button,
-
 	button,
-
 	input[type="submit"],
-
 	input[type="reset"],
-
 	input[type="button"] {
-
 		background: #eee; /* Old browsers */
-
 		background: #eee -moz-linear-gradient(top, rgba(255,255,255,.2) 0%, rgba(0,0,0,.2) 100%); /* FF3.6+ */
-
 		background: #eee -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,.2)), color-stop(100%,rgba(0,0,0,.2))); /* Chrome,Safari4+ */
-
 		background: #eee -webkit-linear-gradient(top, rgba(255,255,255,.2) 0%,rgba(0,0,0,.2) 100%); /* Chrome10+,Safari5.1+ */
-
 		background: #eee -o-linear-gradient(top, rgba(255,255,255,.2) 0%,rgba(0,0,0,.2) 100%); /* Opera11.10+ */
-
 		background: #eee -ms-linear-gradient(top, rgba(255,255,255,.2) 0%,rgba(0,0,0,.2) 100%); /* IE10+ */
-
 		background: #eee linear-gradient(top, rgba(255,255,255,.2) 0%,rgba(0,0,0,.2) 100%); /* W3C */
-
 	  border: 1px solid #aaa;
-
 	  border-top: 1px solid #ccc;
-
 	  border-left: 1px solid #ccc;
-
 	  -moz-border-radius: 3px;
-
 	  -webkit-border-radius: 3px;
-
 	  border-radius: 3px;
-
 	  color: #7a8991;
-
 	  display: inline-block;
-
 	  font-size: 10px;
-
 	  font-weight: bold;
-
 	  text-decoration: none;
-
 	  text-shadow: 0 1px rgba(255, 255, 255, .75);
-
 	  cursor: pointer;
-
 	  margin-bottom: 20px;
-
 	  line-height: normal;
-
 	  padding: 7px 9px;
-
 	  font-family: 'Oswald', sans-serif; 
-
 	  float:right;
-
 	  margin-right:25px;}
 
-
-
 	.button:hover,
-
 	button:hover,
-
 	input[type="submit"]:hover,
-
 	input[type="reset"]:hover,
-
 	input[type="button"]:hover {
-
 		color: #222;
-
 		background: #ddd; /* Old browsers */
-
 		background: #ddd -moz-linear-gradient(top, rgba(255,255,255,.3) 0%, rgba(0,0,0,.3) 100%); /* FF3.6+ */
-
 		background: #ddd -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,.3)), color-stop(100%,rgba(0,0,0,.3))); /* Chrome,Safari4+ */
-
 		background: #ddd -webkit-linear-gradient(top, rgba(255,255,255,.3) 0%,rgba(0,0,0,.3) 100%); /* Chrome10+,Safari5.1+ */
-
 		background: #ddd -o-linear-gradient(top, rgba(255,255,255,.3) 0%,rgba(0,0,0,.3) 100%); /* Opera11.10+ */
-
 		background: #ddd -ms-linear-gradient(top, rgba(255,255,255,.3) 0%,rgba(0,0,0,.3) 100%); /* IE10+ */
-
 		background: #ddd linear-gradient(top, rgba(255,255,255,.3) 0%,rgba(0,0,0,.3) 100%); /* W3C */
-
 	  border: 1px solid #888;
-
 	  border-top: 1px solid #aaa;
-
 	  border-left: 1px solid #aaa; }
 
-
-
 	.button:active,
-
 	button:active,
-
 	input[type="submit"]:active,
-
 	input[type="reset"]:active,
-
 	input[type="button"]:active {
-
 		border: 1px solid #666;
-
 		background: #ccc; /* Old browsers */
-
 		background: #ccc -moz-linear-gradient(top, rgba(255,255,255,.35) 0%, rgba(10,10,10,.4) 100%); /* FF3.6+ */
-
 		background: #ccc -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,.35)), color-stop(100%,rgba(10,10,10,.4))); /* Chrome,Safari4+ */
-
 		background: #ccc -webkit-linear-gradient(top, rgba(255,255,255,.35) 0%,rgba(10,10,10,.4) 100%); /* Chrome10+,Safari5.1+ */
-
 		background: #ccc -o-linear-gradient(top, rgba(255,255,255,.35) 0%,rgba(10,10,10,.4) 100%); /* Opera11.10+ */
-
 		background: #ccc -ms-linear-gradient(top, rgba(255,255,255,.35) 0%,rgba(10,10,10,.4) 100%); /* IE10+ */
-
 		background: #ccc linear-gradient(top, rgba(255,255,255,.35) 0%,rgba(10,10,10,.4) 100%); /* W3C */ }
 
-
-
 	.button.full-width,
-
 	button.full-width,
-
 	input[type="submit"].full-width,
-
 	input[type="reset"].full-width,
-
 	input[type="button"].full-width {
-
 		width: 100%;
-
 		padding-left: 0 !important;
-
 		padding-right: 0 !important;
-
 		text-align: center; }
 
-
-
 	/* Fix for odd Mozilla border & padding issues */
-
 	button::-moz-focus-inner,
-
 	input::-moz-focus-inner {
-
     border: 0;
-
     padding: 0;
-
 	}
 /*------------------BLOG----------------*/
 #region-sidebar-second{
@@ -551,7 +282,6 @@ body.front .block-webform {
 	}
 #region-sidebar-second a{color: #7a8991;}	
 #region-sidebar-second h2.block-title{padding-top:40px; color: #7a8991;}
-
 body.sidtyp-bloggsida .view-enterprise-blog .views-row {
   float: left;
   display: inline;
@@ -561,85 +291,46 @@ body.sidtyp-bloggsida .view-enterprise-blog .views-row {
   padding: 10px 30px 10px 30px;
 }
 /*------------------NYHETER----------------*/
-
 body.sidtyp-nyhetssida #block-system-main {
-
   padding: 0;
-
 }
-
 body.sidtyp-nyhetssida h1 {
-
   padding: 30px 30px 0px 30px;
-
 }
-
 body.sidtyp-nyhetssida .view-nyheter .views-row {
-
   padding-bottom:0;
   display: inline;
-
   width: 470px; float: left;
 
-
 }
-
 body.sidtyp-nyhetssida .view-nyheter .views-row .node {
-
   padding: 30px 30px 10px 30px;
-
 }
-
 body.sidtyp-nyhetssida .view-nyheter .views-row .node .field-name-body {
-
   margin-bottom: 25px;
-
   padding: 10px 0;
-
   text-align: justify;
-
 }
-
-
 
 body.sidtyp-nyhetssida .view-nyheter div.feed-icon {
-
   padding-right: 30px;
-
 }
-
 /*-----------------KONTAKT---------------------*/
-
 .node-type-webform #block-system-main {
-
   padding-right: 5px;
-
   padding-bottom: 0;
-
 }
-
 .node-type-webform .field-name-body {
-
   float: left;
-
 }
-
 .node-type-webform .webform-client-form {
-
   width: 260px;
-
 	padding: 29px 20px 20px;
-
   display: inline;
-
   float: right;
-
   margin: -47px 12px 0 10px;
-
   background: #ededed;
-
 }
-
 /*-------------------GALLERI----------------------*/
 .view-bildgalleri article {
   display: inline-block;

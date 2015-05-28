@@ -40,7 +40,20 @@ h3 {
 }
 
 /*--------------startsida--------------*/
-body.front .block-webform{width:260px;}
+
+body.front .panel-panel.bottom-1 {
+  padding-top: 60px;
+  width: 270px;
+  margin-right: -10px;
+}
+body.front .panel-panel.bottom-2 {
+  padding-top: 75px;
+  width: 415px;
+}
+body.front .block-webform{width:270px;}
+body.front .block-webform > .pane-content {
+  width: 270px;
+}
 
 body.front .block-webform .block-inner {width:270px;}
 .panel-content{width:362px;}

@@ -162,6 +162,7 @@ body.html textarea:focus {
 }
 .panels-ipe-control input[type="submit"] {
   text-shadow: none;
+  float: none;
 }
 /* Meny
 ================================================== */

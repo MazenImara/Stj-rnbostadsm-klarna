@@ -37,4 +37,5 @@ body .container-24 .grid-24 {
 /* Paneler */
 .panels-ipe-control input[type="submit"] {
   text-shadow: none;
+  float: none;
 }

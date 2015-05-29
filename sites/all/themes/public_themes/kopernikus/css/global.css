@@ -343,6 +343,7 @@ div.node-webform-done p {
 }
 .panels-ipe-control input[type="submit"] {
   text-shadow: none;
+  float: none;
 }
 /*--------------Kontaktformulär---------------*/
 .webform-component {

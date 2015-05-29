@@ -131,6 +131,7 @@ background: transparent url("../images/twitter_64.png")top center no-repeat;heig
 /*---------Startsida----------*/
 .panels-ipe-control input[type="submit"] {
   text-shadow: none;
+  float: none;
 }
 body.front .node-panel {
   padding-top: 30px;

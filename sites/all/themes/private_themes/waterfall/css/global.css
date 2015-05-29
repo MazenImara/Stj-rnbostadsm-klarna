@@ -280,6 +280,7 @@ body .panel-pane {
 }
 .panels-ipe-control input[type="submit"] {
   text-shadow: none;
+  float: none;
 }
 /*------------Nyheter------------*/
 body.sidtyp-nyhetssida h1 {

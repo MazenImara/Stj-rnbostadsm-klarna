@@ -170,6 +170,15 @@ function contextual_links_improvements_preprocess_views_view_fields(&$vars) {
     $vars['row']->contextual_links = contextual_links_improvements_render_contextual_links(contextual_links_improvements_make_contextual_links($vars['row']->nid));
   }
 }
+//Implements hook_panels_pane_content_alter().
+function contextual_links_improvements_panels_pane_content_alter($content, $pane, $args, $contexts) {
+  if(isset($content->type) && $content->type === 'entity_field') {
+    $node = $content->content['#object'];
+    $content->content['#contextual_links'] = array(
+      'node' => array('node', array($node->nid)),
+    );
+  }
+}
 //Implements hook_block_view_MODULE_DELTA_alter()
 function contextual_links_improvements_block_view_logo_block_logo_alter(&$data, $block) {
   $data['content']['#contextual_links']['edit-logo'] = array(

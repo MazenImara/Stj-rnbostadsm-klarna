@@ -10,7 +10,7 @@
  * for your subtheme grows. Please read the README.txt in the /preprocess and /process subfolders
  * for more information on this topic.
  */
-//Ser till att alla noder, inklusive panelnoder, får contextual links även om det är deras egen sida.
+//Ser till att alla noder, inklusive panelnoder, fÃ¥r contextual links Ã¤ven om det Ã¤r deras egen sida.
 //Implements theme_node_view_alter()
 function kopernikus_node_view_alter(&$build) {
   $node = $build['#node'];

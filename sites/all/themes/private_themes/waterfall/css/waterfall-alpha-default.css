@@ -1,180 +1,97 @@
 /* This file will hold styles for all layouts using the alpha grid (i.e. not the mobile layout). */
-
 h1 {
-
   font-size: 2.2em;
-
 }
-
 h2 {
-
   font-size: 1.8em;
-
 }
-
 h3 {
-
   font-size: 1.6em;
-
 }
-
 h4, h5, h6 {
-
 	padding: 10px 0;
-
 }
-
 h4 {
-
   font-size: 1.4em;
-
 }
-
 h5 {
-
   font-size: 1.2em;
-
 }
-
 p, ul, ol, .smart-trim {
-
   font-size: 14px;
-
 }
-
 body .container-24 {
-
   width: 980px;
-
   max-width: 980px;
  
-
 }
-
 body .container-24 .grid-24 {
-
   width: 980px;
-
   margin: 0;
-
   max-width: 980px;
   
-
 }
-
 body .container-24 .grid-18 {
-
   width: 760px;
-
   margin: 0;
-
   max-width: 760px;
-
 }
 body .container-24 .grid-8 {
-
   width: 306px;
-
 }
 body .container-24 .grid-6 {
-
   width: 220px;
   margin: 0;
   background:none;
-
 }
 #section-header {
-
   position: relative;
-
   z-index: 2
-
 }
-
 #region-branding {
-
   height: 135px;
   overflow: hidden;
-
 }
-
 #region-branding .region-inner {
-
   overflow: visible;
-
 }
-
 #block-logo-block-logo {
-
   padding: 10px 0 0 80px;
-
   float: left;
-
   text-align: left;
-
   width: auto;
-
 }
-
-
 
 /*--------Tagline-------*/
-
 #block-nodeblock-211 {
-
 	float: left;
-
   padding: 60px 0 0 12px;
   width:200px;
-
 }
-
 #block-nodeblock-211 p {
-
   font-size: 18px;
-
 }
-
 /*-------Adressruta---------*/
-
 #block-nodeblock-179 {
-
   float: right;
-
   padding: 35px 10px 37px 0;
-
   width: 280px;
   background:#1F2122;
-
 }
-
 #block-nodeblock-179 p {
-
   color: #797A7A;
-
   font-family: 'Josefin Slab',serif;
-
   font-size: 14px;
-
   font-style: italic;
-
   font-weight: 600;
-
   text-align: center;
   line-height:150%;
-
 }
-
 #block-nodeblock-179 p strong {
-
   font-size: 16px;
-
   font-weight: 600;
-
 }
-
 /*---------Huvudmeny----------*/
-
 #region-menu {
   background: none repeat scroll 0 0 #1F2122;
   width: 100%;
@@ -211,217 +128,114 @@ body .container-24 .grid-6 {
 }
 /*---Nivå 2--*/
 #zone-menu-wrapper {padding:0px;}
-
 #block-superfish-1 ul.sf-menu ul {
-
   top: 50px;
-
 }
-
 #block-superfish-1 ul.sf-menu ul li {
 background: none repeat scroll 0 0 #1F2122;
 border: 1px solid #555; 
-
-
 
 }
 #block-superfish-1 ul.sf-menu ul li a { padding: 10px 17px; display:block;}
 
 
-
-
 /*---------Language switcher------------*/
-
 #block-superfish-1 .language-switcher {
-
 	display: inline;
-
 	width: auto;
-
 	float: right;
-
 	position: relative;
-
 	top: 0;
-
 }
-
 #block-superfish-1 .language-switcher ul {
-
 	float: none;
-
 }
-
 
 /*----------Bildspel-----------*/
-
 .node-bildspel .field-name-field-linkimages .nivoSlider {
-
   height: 444px;
-
 }
-
 .node-bildspel .field-name-field-linkimages img {
-
 	height: auto !important;
-
 }
-
 .node-bildspel .field-name-field-linkimages .nivo-caption {
-
 	font-size: 15px;
-
 	padding: 10px;
-
 }
-
 /*----------Undersidor---------*/
-
 #block-system-main {
-
   padding: 30px 44px 10px 40px;
-
 }
-
 .node.view-mode-full > .field-name-field-sidhuvud {
-
   margin: -30px 0 30px -40px;
-
 }
-
 #block-system-main .node .field-name-body,
-
 #block-system-main .node .field-name-field-extra-textfalt .field-item {
-
   padding: 10px 0 35px;
-
 }
-
 #block-system-main .node .field-name-body p {
-
   text-align: justify;
-
 }
-
 /*--------Panel------*/
-
 .node-panel h1 {
-
   padding: 30px 44px 15px 40px;
-
 }
-
 .node-panel .field-name-field-text {
-
   padding: 10px 44px 10px 40px;
-
 }
-
 .node-panel .panel-display {
-
   min-height: 357px;
-
-  padding: 30px 0 0;
-
 }
-
 .node-panel .panel-display h2 {
-
   color: #333333;
-
   font-family: 'PT Sans Narrow',sans-serif;
-
   font-size: 18px;
-
   font-weight: 700;
-
   margin: 0;
-
   padding: 15px 0 25px;
-
   text-transform: uppercase;
-
 }
-
 .node-panel .panel-display .field-name-field-sidhuvud {
-
   padding: 10px 0;
-
   margin-left: 0;
-
   margin-right: 0;
-
 }
 .view-id-personal.view-display-id-block .views-row{float:left; padding:0 10px 10px 0;}
 #region-sidebar-second{padding-left:0;}
 /*-------------------Galleri----------------------*/
-
 .view-bildgalleri article {
-
 	float: left;
-
 }
-
 /*-------------Kontakt------------*/
-
 form {
-
 	width: 420px;
-
 }
-
 input[type="text"],
-
 input[type="password"],
-
 input[type="email"],
-
 textarea {
-
 	width: 420px;
-
 }
-
 select {
-
 	width: 220px; 
-
 }
-
 /*-----------Sidfot------------*/
-
 #block-nodeblock-212 .field-name-body,
-
 #block-nodeblock-212 .field-name-field-extra-textfalt .field-item {
-
   width: 306px;
-
   display: inline;
-
   float: left;
-
   padding-left: 10px;
-
   padding-right: 10px;
-
 }
-
 #block-nodeblock-212 .field-name-body h2,
-
 #block-nodeblock-212 .field-name-field-extra-textfalt h2 {
-
   padding: 13px 0 25px;
-
 }
-
 #block-nodeblock-212 .field-name-body p,
-
 #block-nodeblock-212 .field-name-field-extra-textfalt p {
-
   padding: 4px 0 6px;
-
   line-height: 25px;
-
 }
 #block-block-3{float:left; position:relative; right:0; top:0; }
 .social-links{height:40px; width:90px;padding:90px 0 0 95px;}

@@ -231,7 +231,9 @@ body.node-type-panel #block-system-main {
   margin: 0 !important;
   background: none repeat scroll 0 0 #EFEFEC;
   min-height: 340px;
-  padding: 30px 0 0;
+}
+.node-panel .grid-24:first-child {
+  padding-bottom: 30px;
 }
 #block-system-main .node-panel .panel-display .field-name-body {
   padding: 0;

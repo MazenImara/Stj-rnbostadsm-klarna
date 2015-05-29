@@ -6,6 +6,7 @@ function general_init() {
   drupal_add_css(drupal_get_path('module', 'general').'/css/general.css');
   drupal_add_js(drupal_get_path('module', 'general').'/js/general.js', array('scope' => 'footer'));
 }
+
 /**
  * Implements hook_library_alter().
  */
@@ -632,4 +633,46 @@ function general_print_calling_function () {
   }
   if (isset($debugTrace[2])) $func = $debugTrace[2]['function'] ? $debugTrace[2]['function'] : 'n/a';
   drupal_set_message("calling function: file $file, function $func(), line $line");
+}
+
+/**
+ * Sets default visibility of extra fields in all active view modes on entity bundles.
+ *
+ * This will not overwrite visibility that already exists in the variable.
+ *
+ * @param  array $extra_field_names An array of extra fields
+ * @param  string $entity_type       The name of the entity type. Defaults to 'node'.
+ * @param  array $bundles           An array of bundle objects or names.
+ */
+function general_hide_extra_fields($extra_field_names, $entity_type = 'node', $bundles = NULL) {
+  $entity_info = entity_get_info($entity_type);
+  if ($bundles === NULL) {
+    $bundles = array_keys($entity_info['bundles']);
+  }
+
+  foreach ($bundles as $bundle) {
+    if (!is_string($bundle)) {
+      $bundle = $bundle->type;
+    }
+    $settings = field_bundle_settings($entity_type, $bundle);
+
+    $active_modes = array('default');
+    foreach ($settings['view_modes'] as $mode => $mode_settings) {
+      if ($mode_settings['custom_settings']) {
+        $active_modes[] = $mode;
+      }
+    }
+    foreach ($extra_field_names as $field_name) {
+      foreach ($active_modes as $mode) {
+        if (empty($settings['extra_fields']['display'][$field_name][$mode])
+          || !array_key_exists('visible', $settings['extra_fields']['display'][$field_name][$mode])) {
+            $settings['extra_fields']['display'][$field_name][$mode] = array(
+              'visible' => FALSE,
+              'weight' => 0,
+            );
+        }
+      }
+    }
+    field_bundle_settings($entity_type, $bundle, $settings);
+  }
 }

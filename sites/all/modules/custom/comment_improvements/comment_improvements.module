@@ -1,0 +1,105 @@
+<?php
+
+/*-----------Expose comments as extra field-------------*/
+/**
+ * Implements hook_field_extra_fields().
+ */
+function comment_improvements_field_extra_fields() {
+  $extrafields = array();
+  $node_types = node_type_get_types();
+  $allowed_node_types = array();
+  foreach($node_types as $name => $node_type) {
+    if(variable_get("comment_$name", 0)) {
+      $allowed_node_types[] = $name;
+    }
+  }
+  if($allowed_node_types) {
+    $extrafields = array('node' => array());
+    foreach($allowed_node_types as $name) {
+      $extrafields['node'][$name] = array(
+        'display' => array(
+          'comment_improvements_comments' => array(
+            'label' => t('Comments'),
+            'description' => '',
+            'weight' => 0,
+            'visible' => false,
+          ),
+          'comment_improvements_count' => array(
+            'label' => t('Comment count'),
+            'description' => '',
+            'weight' => 0,
+            'visible' => false,
+          ),
+        ),
+      );
+    }
+  }
+  return $extrafields;
+}
+/**
+ * Implements hook_node_view().
+ */
+function comment_improvements_node_view($node, $view_mode, $langcode) {
+  $extrafields = field_extra_fields_get_display('node', $node->type, $view_mode);
+  //Comment count
+  $extrafield_name = 'comment_improvements_count';
+  if (!empty($extrafields[$extrafield_name]['visible'])) {
+    $node->content[$extrafield_name] = array(
+      '#type' => 'container',
+      '#attributes' => array(
+        'class' => array('comment-count'),
+      ),
+      'label' => array(
+        '#type' => 'html_tag',
+        '#tag' => 'div',
+        '#value' => t('Comments') . ':&nbsp;',
+        '#attributes' => array(
+          'class' => array('comment-count-label'),
+        ),
+      ),
+      'count' => array(
+        '#type' => 'html_tag',
+        '#tag' => 'div',
+        '#value' => $node->comment_count,
+        '#attributes' => array(
+          'class' => array('comment-count-text'),
+        ),
+      ),
+    );
+  }
+  //Comments
+  $extrafield_name = 'comment_improvements_comments';
+  if (!empty($extrafields[$extrafield_name]['visible']) && !empty($node->content['comments'])) {
+    $node->content[$extrafield_name] = $node->content['comments'];
+    unset($node->content['comments']);
+  }
+  
+  
+}
+
+//Implements hook_form_FORMID_alter().
+function comment_improvements_form_comment_form_alter(&$form, &$form_state) {
+  if(empty($form['is_anonymous']['#value'])) {
+    if(module_exists('writerprofile')) {
+      global $user;
+      $uid = $user->uid;
+      module_load_include('inc', 'writerprofile', 'writerprofile.helpers');
+      if($profile_name = writerprofile_get_name($uid)) {
+        $form['author']['_author']['#markup'] = l($profile_name, "user/$uid", array('attributes' => array('class' => array('username'), 'title' => t('View user profile.'))));
+      }
+    }
+  }
+}
+
+//Implements hook_comment_view_alter().
+function comment_improvements_comment_view_alter(&$build) {
+  if(!empty($build['#comment']->uid)) {
+    if(module_exists('writerprofile')) {
+      $uid = $build['#comment']->uid;
+      module_load_include('inc', 'writerprofile', 'writerprofile.helpers');
+      if($profile_name = writerprofile_get_name($uid)) {
+        $build['#comment']->name = $profile_name;
+      }
+    }
+  }
+}

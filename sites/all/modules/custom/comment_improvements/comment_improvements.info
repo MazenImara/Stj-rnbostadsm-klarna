@@ -1,0 +1,5 @@
+name = Comment Improvements
+description = Comment Improvements
+package = Custommoduler
+core = 7.x
+dependencies[] = comment

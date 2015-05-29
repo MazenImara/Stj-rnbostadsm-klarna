@@ -98,16 +98,14 @@ body .container-24 .panel-panel.grid-8.top {
 body .container-24 .panel-panel.grid-8.top-right {
   width: 161px;
 }
+body .container-24 .panel-panel.grid-16 {
+  width: 341px;
+}
+body .container-24 .panel-panel.grid-8.middle-right {
+  width: 161px;
+}
 body .container-24 .panel-panel.grid-24 {
   width: 160px;
-}
-.main-content {
-  width: 281px;
-  height: 318px;
-}
-body .container-24 .panel-panel.middle {
-	width: 161px;
-	height: 358px;
 }
 body .container-24 .panel-panel.grid-6 {
   width: 115px;

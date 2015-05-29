@@ -278,6 +278,9 @@ body .panel-pane {
 .node-panel .panel-display a:hover {
   text-decoration: none;
 }
+.panels-ipe-control input[type="submit"] {
+  text-shadow: none;
+}
 /*------------Nyheter------------*/
 body.sidtyp-nyhetssida h1 {
   padding-bottom: 13px;

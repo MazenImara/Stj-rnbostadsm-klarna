@@ -6,7 +6,13 @@ function kopernikus_alpha_preprocess_node(&$vars) {
   if(substr($trimmed_view_mode, 0, strlen($theme_key)) === $theme_key) {
     $trimmed_view_mode = substr($trimmed_view_mode, strlen($theme_key) + 1);
   }
+  else {
+    //Workaround fÃ¶r konstig bugg dÃ¤r view mode ibland inte Ã¤r temaspecifikt.
+    $vars['view_mode'] = "{$theme_key}_{$trimmed_view_mode}";
+    $vars['content'] = node_view($vars['node'], $vars['view_mode']);
+  }
   $vars['trimmed_view_mode'] = $trimmed_view_mode;
+  
   $node = $vars['node'];
   //Hanterar template suggestions
   $vars['theme_hook_suggestions'] = array();
@@ -16,8 +22,8 @@ function kopernikus_alpha_preprocess_node(&$vars) {
   $vars['theme_hook_suggestions'][] = 'node__alias__'.$node_url;
   $vars['theme_hook_suggestions'][] = 'node__nid__'.$node->nid;
 
-  /* Det här verkar inte längre behövas i och med Smart Trim som lägger till en egen länk
-  //Lägger till "Läs mer"-länk för promo display
+  /* Det hÃ¤r verkar inte lÃ¤ngre behÃ¶vas i och med Smart Trim som lÃ¤gger till en egen lÃ¤nk
+  //LÃ¤gger till "LÃ¤s mer"-lÃ¤nk fÃ¶r promo display
   global $theme_key;
   if($vars['view_mode'] === $theme_key . '_promo') {
     if(!isset($vars['content']['links']['node']['#links']['node-readmore'])) {
@@ -36,7 +42,7 @@ function kopernikus_alpha_preprocess_node(&$vars) {
   $vars['classes_array'][] = "view-mode-$trimmed_view_mode";
   $vars['attributes_array']['class'][] = "view-mode-$trimmed_view_mode";
 
-  //Lägger till javascript för bildtext i galleribilder - än så länge gör vi bara det för kopernikustemat eftersom mallteman designas väldigt specifikt.
+  //LÃ¤gger till javascript fÃ¶r bildtext i galleribilder - Ã¤n sÃ¥ lÃ¤nge gÃ¶r vi bara det fÃ¶r kopernikustemat eftersom mallteman designas vÃ¤ldigt specifikt.
   if($theme_key === 'kopernikus') {
     if($node->type === 'galleribild' && $trimmed_view_mode === 'teaser') {
       drupal_add_js(drupal_get_path('theme', 'kopernikus').'/js/galleribildtext_width.js');

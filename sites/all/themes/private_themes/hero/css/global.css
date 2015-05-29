@@ -33,3 +33,8 @@ body .container-24 .grid-24 {
   height: 24px;
   background: transparent url(../images/facebook.png) no-repeat center center;
 }
+
+/* Paneler */
+.panels-ipe-control input[type="submit"] {
+  text-shadow: none;
+}

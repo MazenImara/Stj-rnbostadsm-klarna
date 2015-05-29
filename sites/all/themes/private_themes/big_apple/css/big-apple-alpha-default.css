@@ -96,29 +96,23 @@ body .container-24 .panel-panel.grid-8.top {
 	border-right: 1px solid #d3d3d3;
 	overflow: hidden;
 }
+body .container-24 .panel-panel.middle-left {
+  border-top: 1px solid #d3d3d3;
+  border-right: 1px solid #d3d3d3;
+}
+body .container-24 .panel-panel.middle-right {
+  border-top: 1px solid #d3d3d3;
+}
 body .container-24 .panel-panel.top .more-link,
-body .container-24 .panel-panel.middle .more-link {
+body .container-24 .panel-panel.middle-right .more-link {
 	display: block;
 	text-align: left;
 }
-.main-content {
-  float: left;
-  padding: 40px 40px 20px;
+body .container-24 .panel-panel.bottom-1 {
+  clear: left;
+}
+body .container-24 .panel-panel.grid-6 {
   border-top: 1px solid #d3d3d3;
-  border-right: 1px solid #d3d3d3;
-	border-bottom: 1px solid #d3d3d3;
-}
-.main-content .field-name-field-text {
-	margin-bottom: 25px;
-	height: 179px;
-	overflow: hidden;
-}
-.browser-firefox .main-content .field-name-field-text {
-	height: 180px;
-}
-body .container-24 .panel-panel.middle {
-  border-top: 1px solid #d3d3d3;
-  border-right: 1px solid #d3d3d3;
 }
 body .container-24 .panel-panel.grid-6 .field-name-body {
 	overflow: hidden;

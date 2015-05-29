@@ -67,16 +67,11 @@ body .container-24 .panel-panel.grid-8.top {
 body .container-24 .panel-panel.grid-8.top-right {
   width: 236px;
 }
-body .container-24 .panel-panel.grid-24 {
-  width: 235px;
+body .container-24 .panel-panel.grid-16 {
+  width: 491px;
 }
-.main-content {
-  width: 431px;
-  height: 318px;
-}
-body .container-24 .panel-panel.middle {
-	width: 236px;
-	height: 358px;
+body .container-24 .panel-panel.grid-8.middle-right {
+  width: 236px;
 }
 body .container-24 .panel-panel.grid-6 {
   width: 171px;
@@ -99,9 +94,6 @@ body.sidtyp-galleri .node-page.view-mode-full .view-bildgalleri .views-row {
 body.node-type-webform .node-webform.view-mode-full > .header {
   padding-top: 41px;
 }
-form {
-	width: 189px;
- }
 body.node-type-webform .node-webform.view-mode-full .webform-client-form input[type="text"],
 body.node-type-webform .node-webform.view-mode-full .webform-client-form input[type="password"],
 body.node-type-webform .node-webform.view-mode-full .webform-client-form input[type="email"],

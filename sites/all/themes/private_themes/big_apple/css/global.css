@@ -371,6 +371,9 @@ body .container-24 .grid-18 {
 	width: 100%;
 }
 /*--------Puffar-----------*/
+.panels-ipe-control input[type="submit"] {
+  text-shadow: none;
+}
 body .panel-panel .field-name-body {
 	padding: 0;
 }
@@ -381,11 +384,12 @@ body .container-24 .panel-display.omega-grid {
 body .panel-panel .panel-pane {
 	min-height: 0;
 }
-body .container-24 .panel-panel.grid-8 {
+body .container-24 .panel-panel {
   margin: 0;
   padding: 10px;
 }
-body.responsive-layout-mobile .container-24 .panel-panel.grid-8 {
+body.responsive-layout-mobile .container-24 .panel-panel.grid-8,
+body.responsive-layout-mobile .container-24 .panel-panel.grid-16 {
   border-bottom: 1px solid #D3D3D3;
 }
 body .container-24 .panel-panel.grid-8 .field-name-field-sidhuvud {
@@ -401,21 +405,19 @@ body.responsive-layout-mobile .container-24 .panel-panel.grid-8.top .field-name-
 body .container-24 .panel-panel.grid-24 .field-name-field-sidhuvud {
   display: none;
 }
-.main-content {
-  padding: 40px 40px 20px;
-	border-bottom: 1px solid #d3d3d3;
+body .container-24 .pane-node-title-field {
+  padding: 30px 30px 0;
 }
-.main-content .field-name-field-text {
-	padding-bottom: 10px;
+body .container-24 .pane-node-field-text {
+  padding: 0 30px;
 }
-.main-content .field-name-field-text p {
+body .container-24 .pane-node-field-text p {
 	text-align: justify;
 }
-body .container-24 .panel-panel.middle {
-	border-bottom: 1px solid #d3d3d3;
-  padding: 10px;
+body .container-24 .panel-panel h2 {
+  word-break: break-all;
 }
-body .container-24 .panel-panel.middle h2,
+body .container-24 .panel-panel.middle-right h2,
 body .container-24 .panel-panel.bottom h2 {
 	color: #333333;
   font-family: 'Open Sans',sans-serif;

@@ -234,9 +234,9 @@ function general_form_node_type_form_alter(&$form, $form_state) {
       }
     }
   }
-  //Ändrar standardinställningen för kommentarer till STÄNGD
+  //Ändrar standardinställningen för kommentarer till DOLD
   if(isset($form['comment'])) {
-    $form['comment']['comment']['#default_value'] = variable_get('comment_' . $form['#node_type']->type,COMMENT_NODE_CLOSED);
+    $form['comment']['comment']['#default_value'] = variable_get('comment_' . $form['#node_type']->type, COMMENT_NODE_HIDDEN);
   }
 }
 //Implements hook_form_FORMID_alter().

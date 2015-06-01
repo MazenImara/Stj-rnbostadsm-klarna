@@ -73,8 +73,13 @@ function comment_improvements_node_view($node, $view_mode, $langcode) {
     $node->content[$extrafield_name] = $node->content['comments'];
     unset($node->content['comments']);
   }
-  
-  
+  //Comment form (The core form doesn't work because of theme-specific view modes)
+  if ($node->comment != COMMENT_NODE_HIDDEN) {
+    global $theme_key;
+    if ($node->comment && $view_mode === "{$theme_key}_full" && node_is_page($node) && empty($node->in_preview)) {
+      $node->content['comments'] = comment_node_page_additions($node);
+    }
+  }
 }
 
 //Implements hook_form_FORMID_alter().

@@ -4,7 +4,7 @@
  * Implements hook_block_info().
  */
 function login_block_block_info() {
-  $number_of_blocks = 2;
+  $number_of_blocks = 3;
   $blocks = array();
   for($i = 0, $imax = $number_of_blocks; $i<$imax; $i++) {
     $blocks[] = array(

@@ -150,19 +150,23 @@ function theme_still_image_formatter_fixed_height_image($variables) {
       $image_url = file_create_url($image_path); 
       $image_url = preg_replace('#' . $base_url . '#', '', $image_url);
       if($layout === 'all') {
-        $layout_condition = '';
+        $layout_conditions = array('');
       }
       else {
-        $layout_condition = "body.layout-$layout ";
+        $layout_conditions = array(
+          "body.layout-$layout ",
+          "body.responsive-layout-$layout ",
+        );
       }
-      $css .= <<<TEXT
+      foreach($layout_conditions as $layout_condition) {
+        $css .= <<<TEXT
 {$layout_condition}#$id {
-background-image: url('$image_url');
-width: {$image_data['width']}px;
-height: {$image_data['height']}px;
+  background-image: url('$image_url');
+  width: {$image_data['width']}px;
+  height: {$image_data['height']}px;
 }
-
 TEXT;
+      }
     }
   }
 

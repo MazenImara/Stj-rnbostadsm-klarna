@@ -14,24 +14,133 @@ body .container-24 {
   margin-left: auto;
   margin-right: auto;
   max-width: 100%;
-  width: 300px;
 }
 
 body .container-24 .grid-24 {
   margin: 0;
   max-width: 100%;
 }
+
 .container-24,
 .container-24 .grid-24 {  
   background-color: #f7f7f7;
 }
-
-/* ------- Sociala länkar ------ */
-.social-links-facebook {
+body .container-24 .grid-24 > .region-inner {
+  min-width: 304px;
+  margin: auto;
+}
+/* Lila header */
+#zone-user,
+#zone-user > .region {
+  width: 100%;
+  margin: 0;
+}
+#region-user-first {
+  background: #db6cff;
+}
+#region-user-first a {
+  color: #fff;
+  text-decoration: none;
+}
+#region-user-first a:hover {
+  text-decoration: underline;
+}
+#block-superfish-3 {
+  display: none;
+}
+#block-language-switcher-select-block-0 {
+  display: none;
+}
+#block-login-block-0 {
+  padding: 14px 20px;
+  text-align: right;
+}
+#block-login-block-0 a {
+  font-family: 'Lato', sans-serif;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+/* Vit header */
+#region-user-second {
+  background: #fff;
+  padding: 36px 0 14px;
+  display: inline-block;
+  width: 100%;
+}
+/* Huvudmeny (jump menu) */
+#block-superfish-1 {
+  padding: 0 37px 0 17px;
+  float: left;
+}
+#superfish-1-select {
+  background: transparent url(../images/menu_icon.png);
+  width: 30px;
+  height: 23px;
+  border: 0;
+  text-indent: -9999px;
+  box-shadow: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+/* Logo */
+#block-logo-block-logo {
+  width: 120px;
+  float: left;
+}
+#block-logo-block-logo img {
   display: block;
+  margin: auto;
+  max-width: 120px;
+  max-height: 23px;
+}
+#block-login-block-1 {
+  display: none;
+}
+/* ------- Sociala länkar ------ */
+#block-block-3 {
+  float: right;
+}
+.social-links .social-link-wrapper {
+  display: inline-block;
+  padding: 0 8px;
+}
+.social-links .social-links-facebook-wrapper {
+  position: relative;
+  padding-right: 10px;
+}
+.social-links .social-links-facebook-wrapper .social-links-divider {
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: inline-block;
+  width: 2px;
+  height: 24px;
+background: -moz-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(255,255,255,0) 17%, rgba(160,160,160,0.28) 22%, rgba(160,160,160,0.5) 26%, rgba(160,160,160,0.5) 74%, rgba(160,160,160,0.38) 78%, rgba(255,255,255,0) 83%, rgba(255,255,255,0) 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0)), color-stop(17%,rgba(255,255,255,0)), color-stop(22%,rgba(160,160,160,0.28)), color-stop(26%,rgba(160,160,160,0.5)), color-stop(74%,rgba(160,160,160,0.5)), color-stop(78%,rgba(160,160,160,0.38)), color-stop(83%,rgba(255,255,255,0)), color-stop(100%,rgba(255,255,255,0)));
+background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,0) 17%,rgba(160,160,160,0.28) 22%,rgba(160,160,160,0.5) 26%,rgba(160,160,160,0.5) 74%,rgba(160,160,160,0.38) 78%,rgba(255,255,255,0) 83%,rgba(255,255,255,0) 100%);
+background: -o-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,0) 17%,rgba(160,160,160,0.28) 22%,rgba(160,160,160,0.5) 26%,rgba(160,160,160,0.5) 74%,rgba(160,160,160,0.38) 78%,rgba(255,255,255,0) 83%,rgba(255,255,255,0) 100%);
+background: -ms-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,0) 17%,rgba(160,160,160,0.28) 22%,rgba(160,160,160,0.5) 26%,rgba(160,160,160,0.5) 74%,rgba(160,160,160,0.38) 78%,rgba(255,255,255,0) 83%,rgba(255,255,255,0) 100%);
+background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%,rgba(255,255,255,0) 17%,rgba(160,160,160,0.28) 22%,rgba(160,160,160,0.5) 26%,rgba(160,160,160,0.5) 74%,rgba(160,160,160,0.38) 78%,rgba(255,255,255,0) 83%,rgba(255,255,255,0) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#00ffffff',GradientType=0 );
+
+}
+.social-links a {
+  display: inline-block;
   width: 24px;
   height: 24px;
+}
+.social-links-facebook {
   background: transparent url(../images/facebook.png) no-repeat center center;
+}
+.social-links-twitter {
+  background: transparent url(../images/twitter.png) no-repeat center center;
+}
+/* Bildspel herobild*/
+#views_slideshow_cycle_teaser_section_bildspel-block {
+  width: 100% !important;
+}
+#views_slideshow_cycle_teaser_section_bildspel-block .views_slideshow_cycle_slide {
+  width: 100% !important;
 }
 
 /* Paneler */

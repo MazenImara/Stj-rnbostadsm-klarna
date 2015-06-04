@@ -238,7 +238,7 @@
           // Creating the <select> element and assigning an ID and class name.
           selectList = $('<select class="' + classes + '" id="' + menuID + '-select"/>')
           // Attaching the title and the items to the <select> element.
-          .html('<option>' + options.title + '</option>' + newMenu)
+          .html('<optgroup label="' + options.title + '">' + newMenu + '</optgroup>')
           // Attaching an event then.
           .change(function(){
             window.location = selectList.val();

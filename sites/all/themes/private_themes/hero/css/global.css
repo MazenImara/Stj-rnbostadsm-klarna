@@ -136,13 +136,24 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
   background: transparent url(../images/twitter.png) no-repeat center center;
 }
 /* Bildspel herobild*/
+#block-views-bildspel-block {
+  height: 340px;
+}
 #views_slideshow_cycle_teaser_section_bildspel-block {
   width: 100% !important;
 }
 #views_slideshow_cycle_teaser_section_bildspel-block .views_slideshow_cycle_slide {
   width: 100% !important;
 }
-
+#zone-branding .page-title {
+  position: absolute;
+  color: #000;
+  text-transform: uppercase;
+  z-index: 3;
+  top: 150px;
+  width: 100%;
+  text-align: center;
+}
 /* Paneler */
 .panels-ipe-control input[type="submit"] {
   text-shadow: none;

@@ -1,0 +1,37 @@
+<?php
+
+//Implements hook_theme().
+function language_switcher_select_block_theme($existing, $type, $theme, $path) {
+  return array(
+    'language_switcher_select_block' => array(
+      'variables' => array(
+        'links' => array(),
+      ),
+      'file' => 'language_switcher_select_block.theme.inc',
+    ),
+  );
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function language_switcher_select_block_block_info() {
+  $number_of_blocks = 2;
+  $blocks = array();
+  for($i = 0, $imax = $number_of_blocks; $i<$imax; $i++) {
+    $blocks[] = array(
+      'info' => t('Language Switcher Select Block !index', array('!index' => $i + 1)),
+    );
+  }
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function language_switcher_select_block_block_view($delta='') {
+  module_load_include('inc', 'language_switcher_select_block', 'language_switcher_select_block.block');
+  $block = array();
+  $block['content'] = language_switcher_select_block_content();
+  return $block;
+}

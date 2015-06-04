@@ -1,0 +1,4 @@
+name = Language Switcher Select Block
+description = Language Switcher Select Block
+package = Custommoduler
+core = 7.x

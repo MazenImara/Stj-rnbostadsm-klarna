@@ -90,12 +90,18 @@ function panels_improvements_form_alter(&$form, $form_state, $form_id) {
       break;
 
   	case 'ctools_node_content_type_edit_form':
-      if(!empty($form['build_mode']['#options']['promo'])) {
-        if(empty($form_state['conf']['nid'])) {
+      //Sätt defaultvärden
+      if(empty($form_state['conf']['nid'])) {
+        if(!empty($form['override_title'])) {
+          $form['override_title']['#default_value'] = true;
+        }
+        if(!empty($form['build_mode']['#options']['promo'])) {
           $form['build_mode']['#default_value'] = 'promo';
         }
       }
+      //Begränsa access till vissa element
       $elements = array(
+        'override_title',
         'link_node_title',
         'links',
         'identifier',
@@ -168,7 +174,7 @@ function panels_improvements_panels_ipe_edit_control_form_after_build($form, &$f
   }
   return $form;
 }
-//Ser till att page cache rensas som den ska n�r en panel sparas via IPE
+//Ser till att page cache rensas som den ska när en panel sparas via IPE
 //Implements hook_panels_display_save().
 function panels_improvements_panels_display_save($display) {
   cache_clear_all();

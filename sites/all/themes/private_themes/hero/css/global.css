@@ -26,7 +26,6 @@ body .container-24 .grid-24 {
   background-color: #f7f7f7;
 }
 body .container-24 .grid-24 > .region-inner {
-  min-width: 304px;
   margin: auto;
 }
 /* Lila header */
@@ -147,7 +146,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
 }
 #zone-branding .page-title {
   position: absolute;
-  bottom: 150px;
+  bottom: 170px;
   width: 100%;
   text-align: center;
   color: #000;
@@ -160,7 +159,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
 }
 #views_slideshow_cycle_teaser_section_bildspel-block .field-name-body {
   position: absolute;
-  top: 200px;
+  top: 180px;
   width: 100%;
 }
 #views_slideshow_cycle_teaser_section_bildspel-block .field-name-body p {
@@ -178,11 +177,20 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
   display: inline-block;
   color: #000;
   font-family: 'Lato', sans-serif;
-  font-size: 16px;
+  font-size: 12px;
   font-weight: 900;
-  padding: 10px 20px;
-  margin: 0 10px;
+  padding: 3px 20px;
+  margin: 0 15px;
   text-decoration: none;
+}
+#views_slideshow_cycle_teaser_section_bildspel-block .field-name-body a:hover {
+  text-decoration: underline;
+}
+#views_slideshow_cycle_teaser_section_bildspel-block .field-name-body a.white-bg {
+  background: #fff;
+-webkit-border-radius: 3px;
+-moz-border-radius: 3px;
+border-radius: 3px;
 }
 #block-views-bildspel-block .slideshow-nav {
   position: absolute;

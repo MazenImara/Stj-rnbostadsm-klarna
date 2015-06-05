@@ -144,23 +144,27 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
 #views_slideshow_cycle_teaser_section_bildspel-block .views_slideshow_cycle_slide {
   width: 100% !important;
 }
-#zone-branding .page-title {
+#zone-branding .field-name-title-field {
   position: absolute;
   bottom: 170px;
   width: 100%;
   text-align: center;
+  z-index: 3;
+}
+#zone-branding .page-title {
   color: #000;
   font-family: 'Raleway', sans-serif;
   font-size: 27px;
   font-weight: 600;
   text-transform: uppercase;
   line-height: 100%;
-  z-index: 3;
+  padding: 0 10px;
 }
 #views_slideshow_cycle_teaser_section_bildspel-block .field-name-body {
   position: absolute;
   top: 180px;
   width: 100%;
+  text-align: center;
 }
 #views_slideshow_cycle_teaser_section_bildspel-block .field-name-body p {
   font-family: 'Raleway', sans-serif;
@@ -169,9 +173,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
   text-transform: uppercase;
   color: #000;
   line-height: 140%;
-  width: 100%;
-  text-align: center;
-  padding-bottom: 20px;
+  padding: 0 10px 20px;
 }
 #views_slideshow_cycle_teaser_section_bildspel-block .field-name-body a {
   display: inline-block;
@@ -218,4 +220,38 @@ border-radius: 5px;
 .panels-ipe-control input[type="submit"] {
   text-shadow: none;
   float: none;
+}
+.panel-panel.header {
+  padding-bottom: 23px;
+}
+.panel-panel .node-subinnehall {
+  padding: 0 10px 30px;
+}
+.panel-panel .node-subinnehall .field-name-field-sidhuvud {
+  padding-bottom: 25px;
+}
+.panel-panel .node-subinnehall  .field-name-field-sidhuvud img {
+  display: block;
+  margin: auto;
+}
+.panel-panel .node-subinnehall  .field-name-title-field {
+  text-align: center;
+  padding-bottom: 15px;
+}
+.panel-panel .node-subinnehall  .field-name-title-field .node-title {
+  font-family: 'Lato', sans-serif;
+  font-size: 16px;
+  font-weight: 900;
+  color: #a0a0a0;
+  text-transform: uppercase;
+}
+.panel-panel .node-subinnehall  .field-name-body {
+  text-align: center;
+}
+.panel-panel .node-subinnehall  .field-name-body p {
+  font-family: 'Lato', sans-serif;
+  font-size: 16px;
+  color: #5e5e5e;
+  line-height: 150%;
+  padding-bottom: 15px;
 }

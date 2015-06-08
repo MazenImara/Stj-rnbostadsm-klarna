@@ -194,14 +194,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
 -moz-border-radius: 3px;
 border-radius: 3px;
 }
-#block-views-bildspel-block .slideshow-nav {
+#block-views-bildspel-block #slideshow-0-nav {
   position: absolute;
   bottom: 8px;
   z-index: 3;
   width: 100%;
   text-align: center;
 }
-#block-views-bildspel-block .slideshow-nav a {
+#block-views-bildspel-block #slideshow-0-nav a {
   text-indent: -9999px;
   display: inline-block;
   width: 11px;
@@ -212,7 +212,7 @@ border-radius: 3px;
 -moz-border-radius: 5px;
 border-radius: 5px;
 }
-#block-views-bildspel-block .slideshow-nav a.activeSlide {
+#block-views-bildspel-block #slideshow-0-nav a.activeSlide {
   background: #fff;
 }
 
@@ -255,3 +255,27 @@ border-radius: 5px;
   line-height: 150%;
   padding-bottom: 15px;
 }
+.panel-panel .field-name-field-sidhuvud {
+  text-align: center;
+}
+.panel-panel .still-image-formatter-item .caption-wrapper {
+  top: 50%;
+  bottom: auto;
+  margin-top: -15px;
+}
+.panel-panel .still-image-formatter-item .caption-wrapper .caption-bg {
+  background: transparent;
+}
+.panel-panel .still-image-formatter-item .caption-wrapper .caption-text {
+  font-family: 'Raleway', sans-serif;
+  font-size: 30px;
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 100%;
+  color: #fff;
+  word-break: break-all;
+}
+.panel-panel .node-page {
+  padding: 0 0 30px;
+}
+

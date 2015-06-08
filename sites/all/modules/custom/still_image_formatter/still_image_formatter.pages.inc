@@ -2,7 +2,13 @@
 
 function still_image_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $settings = $display['settings'];
-  $entity_title = $entity->title;
+  $wrapper = entity_metadata_wrapper($entity_type, $entity);
+  if(!empty($wrapper->title_field->value())) {
+    $entity_title = $wrapper->title_field->value();
+  }
+  else {
+    $entity_title = $entity->title;
+  }
   $entity_uri = '';
   if($entity_type === 'commerce_product') {
     //Använd produktdisplayen i stället

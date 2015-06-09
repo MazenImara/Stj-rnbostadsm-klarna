@@ -15,8 +15,10 @@ function theme_language_switcher_select_block($variables) {
     );
     $settings = array();
     foreach($links as $langcode => $link) {
-      $content['#options'][$langcode] = $link['language']->native;
-      $settings[$langcode] = url($link['href'], array('language' => $link['language']));
+      if($link) {
+        $content['#options'][$langcode] = $link['language']->native;
+        $settings[$langcode] = url($link['href'], array('language' => $link['language']));
+      }
     }
     $content['#attached'] = array(
       'js' => array(

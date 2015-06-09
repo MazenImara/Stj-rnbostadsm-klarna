@@ -1,4 +1,9 @@
 <article<?php print $attributes; ?>>
+  <?php if($trimmed_view_mode === 'teaser'): ?>
+    <?php if(!empty($user_picture)): ?>
+      <?php print $user_picture; ?>
+    <?php endif; ?>
+  <?php endif; ?>
   <?php print render($title_prefix); ?>
   <?php print render($title_suffix); ?>
   

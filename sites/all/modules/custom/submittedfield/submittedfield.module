@@ -70,10 +70,23 @@ function submittedfield_field_widget_form(&$form, &$form_state, $field, $instanc
  */
 function submittedfield_field_presave($entity_type, $entity, $field, $instance, $langcode, &$items) {
   if($entity_type === 'node') {
+    $account = user_load($entity->uid);
+    $wrapper = entity_metadata_wrapper('user', $account);
+    $name = '';
+    if(!empty($wrapper->field_enterprise_blog_firstname->value())) {
+      $name .= $wrapper->field_enterprise_blog_firstname->value();
+    }
+    if(!empty($wrapper->field_enterprise_blog_lastname->value())) {
+      $name .= ' ' . $wrapper->field_enterprise_blog_lastname->value();
+    }
+    $name = trim($name);
+    if(!$name) {
+      $name = $entity->name;
+    }
     $items = array(
       array(
         'created' => $entity->created,
-        'name' => $entity->name,
+        'name' => $name,
       ),
     );
   }

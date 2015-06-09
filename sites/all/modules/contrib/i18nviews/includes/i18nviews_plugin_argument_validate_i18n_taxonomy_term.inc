@@ -65,7 +65,7 @@ class i18nviews_plugin_argument_validate_i18n_taxonomy_term extends views_plugin
         }
 
         if ($type == 'i18n_tid' || $type == 'i18n_tids') {
-          return $this->{"validate_argument_$type"}($argument);
+          return $this->{"validate_argument_$type"}($argument, $vocabularies);
         }
 
         $query = db_select('taxonomy_term_data', 'td');
@@ -98,7 +98,7 @@ class i18nviews_plugin_argument_validate_i18n_taxonomy_term extends views_plugin
   /**
    * Validate taxonomy terms - case i18n_tid
    */
-  function validate_argument_i18n_tid($argument) {
+  function validate_argument_i18n_tid($argument, $vocabularies) {
     if (!is_numeric($argument)) {
       return FALSE;
     }
@@ -121,7 +121,7 @@ class i18nviews_plugin_argument_validate_i18n_taxonomy_term extends views_plugin
   /**
    * Validate taxonomy term - case i18n_tids
    */
-   function validate_argument_i18n_tids($argument) {
+   function validate_argument_i18n_tids($argument, $vocabularies) {
      // An empty argument is not a term so doesn't pass.
      if (empty($argument)) {
        return FALSE;

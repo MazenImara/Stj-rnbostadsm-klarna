@@ -9,7 +9,7 @@ class i18nviews_handler_field_term_node_tid extends views_handler_field_term_nod
     $nids = array();
     foreach ($values as $result) {
       if (!empty($result->{$this->aliases['nid']})) {
-        $nids[] = $this->get_value($result);
+        $nids[] = $result->{$this->aliases['nid']};
       }
     }
 

@@ -281,6 +281,7 @@ border-radius: 5px;
 /* Nyhetsflöde på startsidan */
 .region-postscript-first-inner {
   position: relative;
+  padding-bottom: 30px;
 }
 .region-postscript-first-inner #block-views-nyheter-block-3 {
   position: absolute !important;
@@ -310,6 +311,7 @@ border-radius: 5px;
   font-family: 'Raleway', sans-serif;
   font-weight: 700;
   font-size: 18px;
+  font-weight: 400;
   color: #fff;
   text-transform: uppercase;
   padding-bottom: 15px;
@@ -320,6 +322,7 @@ border-radius: 5px;
 .region-postscript-first-inner #block-views-nyheter-block-3 .views_slideshow_slide .node .field-name-body p {
   font-family: 'Raleway', sans-serif;
   font-size: 14px;
+  font-weight: 400;
   color: #fff;
   line-height: 130%;
 }
@@ -365,4 +368,143 @@ border-radius: 5px;
 }
 .region-postscript-first-inner #block-views-nyheter-block-3 #news-slideshow-0-nav a.activeSlide {
   background: #fff;
+}
+/* Sidfot */
+#zone-footer-wrapper,
+#zone-footer,
+#region-footer-first {
+  background: #202936;
+}
+#region-footer-first {
+  padding: 50px 15px 25px;
+}
+#region-footer-first .node-subinnehall {
+  padding: 0 8px 25px;
+  text-align: left;
+}
+#region-footer-first .node-subinnehall .node-title {
+  font-family: 'Raleway', sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  color: #fff;
+  text-transform: uppercase;
+  line-height: 100%;
+  padding-bottom: 20px;
+}
+#region-footer-first .node-subinnehall .field-name-body p {
+  font-family: 'Raleway', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #fff;
+  line-height: 130%;
+}
+#region-footer-first #block-views-enterprise-blog-block-2 {
+  padding: 0 8px 25px;
+  text-align: left;
+}
+#region-footer-first #block-views-enterprise-blog-block-2 .block-title {
+  font-family: 'Raleway', sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  color: #fff;
+  text-transform: uppercase;
+  line-height: 100%;
+  padding-bottom: 20px;
+}
+#region-footer-first #block-views-enterprise-blog-block-2  .views-row {
+  padding-bottom: 20px;
+}
+#region-footer-first #block-views-enterprise-blog-block-2  .views-row .views-field-title a {
+  font-family: 'Raleway', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #fff;
+  line-height: 130%;
+  padding-left: 46px;
+  text-decoration: none;
+  display: inline-block;
+}
+#region-footer-first #block-views-enterprise-blog-block-2  .views-row .views-field-title a:hover {
+  text-decoration: underline;
+}
+#region-footer-first #block-views-enterprise-blog-block-2  .views-row .views-field-title .enterprise_blog a {
+  background: transparent url(../images/blogpost.png) no-repeat left center;
+  min-height: 26px;
+}
+#region-footer-first #block-views-enterprise-blog-block-2  .views-row .views-field-title .nyhet a {
+  background: transparent url(../images/newsitem.png) no-repeat left center;
+  min-height: 22px;
+}
+#region-footer-first #node-subinnehall-231 {
+  padding: 0 43px 25px;
+}
+#region-footer-first #node-subinnehall-231 .field-name-body {
+  padding-bottom: 25px;
+}
+#region-footer-first #node-subinnehall-231 .field-name-field-extra-textfalt p {
+  font-family: 'Raleway', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #fff;
+  line-height: 130%;
+}
+#region-footer-first #node-subinnehall-231 .field-name-field-extra-textfalt p a {
+  color: #fff;
+  text-decoration: none;
+}
+#region-footer-first #node-subinnehall-231 .field-name-field-extra-textfalt p a:hover {
+  text-decoration: underline;
+}
+#region-footer-first #block-superfish-4 ul.menu li {
+  border-right: 1px solid #999da3;
+  padding: 0 7px;
+}
+#region-footer-first #block-superfish-4 ul.menu li#menu-13972-4 a {
+  padding-left: 16px;
+  background: transparent url(../images/map_icon.png) no-repeat left center;
+}
+#region-footer-first #block-superfish-4 ul.menu li a {
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  color: #fff;
+  text-decoration: none;
+}
+#region-footer-first #block-superfish-4 ul.menu li a:hover {
+  text-decoration: underline;
+}
+#region-footer-first #block-language-switcher-select-block-1 {
+  display: inline-block;
+  padding-right: 4px;
+  border-right: 1px solid #999da3;
+}
+#region-footer-first #block-language-switcher-select-block-1 .language-switcher-select {
+  border: 0;
+  background: transparent url(../images/white_arrow_down.png) no-repeat right center;
+  box-shadow: none;
+  padding: 0 8px 0 4px;
+  height: auto;
+  line-height: 10px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  color: #fff;
+  vertical-align: top;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+#region-footer-first #block-login-block-2 {
+  display: inline-block;
+  padding: 0 7px;
+}
+#region-footer-first #block-login-block-2 .login-link {
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  color: #fff;
+  text-decoration: none;
+  line-height: 100%;
+}
+#region-footer-first #block-login-block-2 .login-link:hover {
+  text-decoration: underline;
 }

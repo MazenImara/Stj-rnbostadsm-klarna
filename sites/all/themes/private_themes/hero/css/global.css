@@ -296,6 +296,9 @@ body .block .block-inner .panel-display {
 .region-postscript-first-inner #block-views-nyheter-block-3 .view-content {
   padding: 0 20px;
 }
+.region-postscript-first-inner #block-views-nyheter-block-3 .views-slideshow-cycle-main-frame {
+  margin: auto;
+}
 .region-postscript-first-inner #block-views-nyheter-block-3 .views_slideshow_slide .node > .user-picture-container {
   float: left;
   padding-right: 14px;

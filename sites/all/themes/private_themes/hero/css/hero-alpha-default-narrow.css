@@ -3,11 +3,50 @@
  *  apply to the normal and widescreen layouts. You may override these styles in the normal 
  *  and widescreen CSS files as appropriate. */
 body {
-  min-width: 660px !important;
+  min-width: 720px !important;
 }
 body .container-24 {
-  width: 660px;
+  width: 720px;
 }
 body .container-24 .grid-24 {
-  width: 660px;
+  width: 720px;
+}
+/* Lila header */
+#zone-user > .region > .region-inner {
+  width: 720px;
+}
+/* Paneler */
+body .block .block-inner .node-panel {
+  width: 680px;
+  margin: auto;
+}
+body .block .block-inner .panel-display {
+  margin: 0 -10px;
+}
+.panel-panel.header {
+  padding-bottom: 44px;
+}
+body .container-24 .top {
+  width: 100%;
+}
+body .container-24 .grid-8 .panel-pane {
+  min-height: 0;
+}
+body .container-24 .top .panel-pane {
+  padding: 0 30px;
+}
+body .container-24 .bottom {
+  margin: 0 6px;
+}
+.panel-panel .still-image-formatter-item .caption-wrapper .caption-text {
+  font-size: 22px;
+}
+.panel-panel .node-page {
+  padding-bottom: 73px;
+}
+/* Nyhetsflöde på startsidan */
+.region-postscript-first-inner #block-views-nyheter-block-3 > .block-inner {
+  width: 720px;
+  margin: auto;
+  position: relative;
 }

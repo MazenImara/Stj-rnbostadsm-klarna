@@ -1,1 +1,98 @@
 /* This file will hold styles for all layouts using the alpha grid (i.e. not the mobile layout). */
+
+/* Lila header */
+#region-user-first #block-superfish-3 {
+  display: block;
+  padding: 7px 20px;
+  float: right;
+}
+#region-user-first #block-superfish-3  ul.menu li a,
+#region-footer-first #block-superfish-4 ul.menu li a {
+  font-size: 16px;
+}
+#region-user-first #block-superfish-3 ul.menu li .language-switcher-select {
+  margin-top: -5px;
+  font-size: 16px;
+}
+#region-footer-first #block-superfish-4 ul.menu li .language-switcher-select {
+  font-size: 16px;
+}
+#block-login-block-0 {
+  display: none;
+}
+
+/* Vit header */
+#region-user-second {
+  padding: 40px 0 32px;
+}
+#block-superfish-1 {
+  padding: 0 130px 0 48px;
+}
+#superfish-1-select {
+  background-image: url(../images/menu_icon_narrow.png);
+  width: 48px;
+  height: 38px;
+}
+/* Logo */
+#block-logo-block-logo {
+  width: 240px;
+}
+#block-logo-block-logo img {
+  max-width: 240px;
+  max-height: 38px;
+}
+/* Sociala länkar */
+#block-block-3 {
+  padding-top: 7px;
+}
+/* Login block */
+#block-login-block-1 {
+  display: block;
+  float: right;
+  padding: 7px 25px 0 7px;
+}
+#block-login-block-1 .login-link {
+  line-height: 24px;
+  font-family: 'Lato', sans-serif;
+  text-transform: uppercase;
+  font-size: 12px;
+  color: #a0a0a0;
+  text-decoration: none;
+}
+#block-login-block-1 .login-link:hover {
+  text-decoration: underline;
+}
+/* Bildspel herobild */
+#zone-branding,
+#zone-branding > .region {
+  width: 100%;
+}
+#block-views-bildspel-block {
+  height: 575px;
+}
+#zone-branding .field-name-title-field {
+  bottom: 315px;
+}
+#zone-branding .page-title {
+  font-size: 53px;
+  padding: 0 70px;
+}
+#views_slideshow_cycle_teaser_section_bildspel-block .field-name-body {
+  top: 290px;
+}
+#views_slideshow_cycle_teaser_section_bildspel-block .field-name-body p {
+  font-size: 27px;
+  padding: 0 100px 90px;
+}
+#views_slideshow_cycle_teaser_section_bildspel-block .field-name-body a {
+  font-size: 18px;
+  padding: 3px 40px;
+}
+#block-views-bildspel-block #slideshow-0-nav {
+  bottom: 25px;
+}
+/* Nyhetsflöde på startsidan */
+#zone-postscript,
+#zone-postscript > .region {
+  width: 100%;
+}

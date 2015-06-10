@@ -221,6 +221,9 @@ border-radius: 5px;
   text-shadow: none;
   float: none;
 }
+body .block .block-inner .panel-display {
+  margin: 0;
+}
 .panel-panel.header {
   padding-bottom: 23px;
 }
@@ -455,15 +458,20 @@ border-radius: 5px;
 #region-footer-first #node-subinnehall-231 .field-name-field-extra-textfalt p a:hover {
   text-decoration: underline;
 }
+#region-footer-first #block-superfish-4 ul.menu {
+  text-align: center;
+}
 #region-footer-first #block-superfish-4 ul.menu li {
-  border-right: 1px solid #999da3;
-  padding: 0 7px;
+  float: none;
+  display: inline-block;
+  padding: 4px 0 4px 7px;
 }
 #region-footer-first #block-superfish-4 ul.menu li#menu-13972-4 a {
   padding-left: 16px;
   background: transparent url(../images/map_icon.png) no-repeat left center;
 }
 #region-footer-first #block-superfish-4 ul.menu li a {
+  display: inline-block;
   font-family: 'Lato', sans-serif;
   font-weight: 400;
   font-size: 14px;
@@ -473,18 +481,13 @@ border-radius: 5px;
 #region-footer-first #block-superfish-4 ul.menu li a:hover {
   text-decoration: underline;
 }
-#region-footer-first #block-language-switcher-select-block-1 {
-  display: inline-block;
-  padding-right: 4px;
-  border-right: 1px solid #999da3;
-}
-#region-footer-first #block-language-switcher-select-block-1 .language-switcher-select {
+#region-footer-first #block-superfish-4 ul.menu li .language-switcher-select {
   border: 0;
   background: transparent url(../images/white_arrow_down.png) no-repeat right center;
   box-shadow: none;
-  padding: 0 8px 0 4px;
+  padding: 0 8px 0 0;
   height: auto;
-  line-height: 10px;
+  line-height: 100%;
   font-family: 'Lato', sans-serif;
   font-weight: 400;
   font-size: 14px;
@@ -493,18 +496,38 @@ border-radius: 5px;
   -webkit-appearance: none;
   -moz-appearance: none;
 }
-#region-footer-first #block-login-block-2 {
+#region-footer-first #block-superfish-4 ul.menu li:after {
   display: inline-block;
-  padding: 0 7px;
+  content: "|";
+  padding-left: 7px;
+  font-family: 'Raleway', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #fff;
+  line-height: 130%;
 }
-#region-footer-first #block-login-block-2 .login-link {
+#region-footer-first #block-superfish-4 ul.menu li:last-child:after {
+  content: normal;
+  padding: 0;
+}
+#zone-footer2-wrapper,
+#zone-footer2,
+#region-footer-second {
+  background-color: #db6cff;
+}
+#footer-copyright {
+  padding: 20px 10px 30px;
+  text-align: center;
+}
+#footer-copyright,
+#footer-copyright a {
   font-family: 'Lato', sans-serif;
   font-weight: 400;
   font-size: 14px;
   color: #fff;
   text-decoration: none;
-  line-height: 100%;
+  line-height: 150%;
 }
-#region-footer-first #block-login-block-2 .login-link:hover {
+#footer-copyright a:hover {
   text-decoration: underline;
 }

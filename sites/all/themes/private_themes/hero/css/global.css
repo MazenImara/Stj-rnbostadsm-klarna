@@ -300,8 +300,20 @@ body .panel-pane .field-name-field-sidhuvud img {
 .region-postscript-first-inner #block-views-nyheter-block-3 .view-content {
   padding: 0 20px;
 }
+#views_slideshow_cycle_teaser_section_nyheter-block_3 {
+  width: 100% !important;
+}
+#views_slideshow_cycle_teaser_section_nyheter-block_3 .views_slideshow_cycle_slide {
+  width: 100% !important;
+}
 .region-postscript-first-inner #block-views-nyheter-block-3 .views-slideshow-cycle-main-frame {
   margin: auto;
+  text-align: center;
+}
+.region-postscript-first-inner #block-views-nyheter-block-3 .views_slideshow_slide .node {
+  display: inline-block;
+  width: auto;
+  text-align: left;
 }
 .region-postscript-first-inner #block-views-nyheter-block-3 .views_slideshow_slide .node > .user-picture-container {
   float: left;
@@ -311,17 +323,18 @@ body .panel-pane .field-name-field-sidhuvud img {
   border-color: #000;
   border-width: 5px 7px;
   border-style: solid;
+  width: 57px;
+  height: auto;
 }
 .region-postscript-first-inner #block-views-nyheter-block-3 .views_slideshow_slide .node > .content {
   float: right;
   display: inline-block;
-  width: 180px;
+  width: 174px;
 }
 .region-postscript-first-inner #block-views-nyheter-block-3 .views_slideshow_slide .node .node-title {
   font-family: 'Raleway', sans-serif;
   font-weight: 700;
   font-size: 18px;
-  font-weight: 400;
   color: #fff;
   text-transform: uppercase;
   padding-bottom: 15px;
@@ -446,7 +459,7 @@ border-radius: 5px;
   min-height: 22px;
 }
 #region-footer-first #node-subinnehall-231 {
-  padding: 0 43px 25px;
+  padding: 0 43px 50px;
 }
 #region-footer-first #node-subinnehall-231 .field-name-body {
   padding-bottom: 25px;
@@ -473,6 +486,10 @@ border-radius: 5px;
   float: none;
   display: inline-block;
   padding: 4px 0 4px 7px;
+}
+#region-user-first #block-superfish-3 ul.menu li.first,
+#region-footer-first #block-superfish-4 ul.menu li.first {
+  padding-left: 0;
 }
 #region-user-first #block-superfish-3 ul.menu li#menu-13972-4 a,
 #region-footer-first #block-superfish-4 ul.menu li#menu-13972-4 a {

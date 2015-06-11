@@ -47,6 +47,7 @@ body .container-24 .bottom {
 /* Nyhetsflöde på startsidan */
 .region-postscript-first-inner #block-views-nyheter-block-3 > .block-inner {
   width: 720px;
+  height: inherit;
   margin: auto;
   position: relative;
 }

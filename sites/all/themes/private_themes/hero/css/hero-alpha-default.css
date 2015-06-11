@@ -11,7 +11,7 @@
   font-size: 16px;
 }
 #region-user-first #block-superfish-3 ul.menu li .language-switcher-select {
-  margin-top: -5px;
+  margin-top: -6px;
   font-size: 16px;
 }
 #region-footer-first #block-superfish-4 ul.menu li .language-switcher-select {
@@ -95,4 +95,54 @@
 #zone-postscript,
 #zone-postscript > .region {
   width: 100%;
+}
+.region-postscript-first-inner #block-views-nyheter-block-3 {
+  top: 91px;
+  height: 340px;
+}
+.region-postscript-first-inner #block-views-nyheter-block-3 .views_slideshow_slide .node > .user-picture-container {
+  padding-right: 50px;
+}
+.region-postscript-first-inner #block-views-nyheter-block-3 .views_slideshow_slide .node .user-picture {
+  width: auto;
+  border-width: 8px 11px;
+}
+.region-postscript-first-inner #block-views-nyheter-block-3 .views_slideshow_slide .node > .content {
+  width: 440px;
+}
+.region-postscript-first-inner #block-views-nyheter-block-3 .views_slideshow_slide .node .node-title {
+  font-size: 30px;
+  padding-bottom: 25px;
+}
+.region-postscript-first-inner #block-views-nyheter-block-3 .views_slideshow_slide .node .field-name-body p {
+  font-size: 18px;
+  line-height: 150%;
+}
+.region-postscript-first-inner #block-views-nyheter-block-3 .views_slideshow_slide .node .field-name-field-submitted {
+  display: inline-block;
+  float: left;
+}
+.region-postscript-first-inner #block-views-nyheter-block-3 .views_slideshow_slide .node .field-name-field-submitted .field-item {
+  font-size: 18px;
+}
+.region-postscript-first-inner #block-views-nyheter-block-3 .views_slideshow_slide .node .read-more {
+  font-size: 18px;
+}
+/* Sidfot */
+#region-footer-first #block-views-enterprise-blog-block-2 .views-row .views-field-title a {
+  margin-left: -46px;
+}
+#region-footer-first #node-subinnehall-231 {
+  padding-left: 0;
+}
+#region-footer-first #block-superfish-4 {
+  text-align: center;
+  padding-bottom: 10px;
+}
+#region-footer-first #block-superfish-4 ul.menu {
+  display: inline-block;
+  border-bottom: 1px solid #cccccc;
+}
+#region-footer-first #block-superfish-4 ul.menu li .language-switcher-select {
+  margin-top: -1px;
 }

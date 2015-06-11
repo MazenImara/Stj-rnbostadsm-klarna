@@ -51,3 +51,25 @@ body .container-24 .bottom {
   margin: auto;
   position: relative;
 }
+/* Sidfot */
+#region-footer-first #block-nodeblock-230,
+#region-footer-first #block-views-enterprise-blog-block-2,
+#region-footer-first #node-subinnehall-231 {
+  padding-left: 80px;
+  padding-right: 30px;
+}
+#region-footer-first #block-nodeblock-230 {
+  padding-bottom: 30px;
+}
+#region-footer-first .node-subinnehall .node-title {
+  padding-bottom: 30px;
+}
+#region-footer-first #block-views-enterprise-blog-block-2 {
+  padding-bottom: 40px;
+}
+#region-footer-first #block-views-enterprise-blog-block-2 .block-title {
+  padding-bottom: 30px;
+}
+#region-footer-first #block-views-enterprise-blog-block-2 .views-row {
+  padding-bottom: 30px;
+}

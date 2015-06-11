@@ -129,6 +129,9 @@
   font-size: 18px;
 }
 /* Sidfot */
+.region-postscript-first-inner {
+  padding-bottom: 50px;
+}
 #region-footer-first #block-views-enterprise-blog-block-2 .views-row .views-field-title a {
   margin-left: -46px;
 }

@@ -29,7 +29,7 @@
       
       if($block.length > 0) {
         old_height = $block.height();
-        total_height += $block.offset().top;
+        total_height += parseInt($block.offset().top, 10);
       }
       
       var height_diff = new_height - old_height;

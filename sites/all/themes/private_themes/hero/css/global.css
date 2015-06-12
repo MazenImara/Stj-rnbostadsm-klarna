@@ -319,10 +319,10 @@ body .panel-pane .field-name-field-sidhuvud img {
 }
 .region-postscript-first-inner #block-views-nyheter-block-3 {
   position: absolute !important;
-  top: 60px;
+  top: 40px;
   left: 0;
   width: 100%;
-  height: 264px;
+  height: 284px;
 }
 .region-postscript-first-inner #block-views-nyheter-block-3 .view-content {
   padding: 0 20px;
@@ -364,7 +364,8 @@ body .panel-pane .field-name-field-sidhuvud img {
   font-size: 18px;
   color: #fff;
   text-transform: uppercase;
-  padding-bottom: 15px;
+  padding-bottom: 10px;
+  line-height: 100%;
 }
 .region-postscript-first-inner #block-views-nyheter-block-3 .views_slideshow_slide .node .field-name-body {
   padding-bottom: 15px;

@@ -70,6 +70,10 @@ body .container-24 .bottom {
   margin: auto;
   position: relative;
 }
+.region-postscript-first-inner #block-views-nyheter-block-3 {
+  top: 91px;
+  height: 340px;
+}
 /* Sidfot */
 #region-footer-first #block-nodeblock-230,
 #region-footer-first #block-views-enterprise-blog-block-2,

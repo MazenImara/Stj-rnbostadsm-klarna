@@ -98,11 +98,6 @@ body .container-24 .grid-24 {
   margin-top: -20px;
 }
 #block-views-bildspel-block .views-slideshow-controls-bottom .views-slideshow-controls-text > span {
-  display: block;
-  width: 42px;
-  height: 41px;
-  background: transparent url(../images/header_slideshow_arrows.png) no-repeat left top;
-  cursor: pointer;
   position: absolute;
 }
 #block-views-bildspel-block .views-slideshow-controls-bottom .views-slideshow-controls-text .views-slideshow-controls-text-pause {
@@ -112,8 +107,17 @@ body .container-24 .grid-24 {
   left: 64px;
 }
 #block-views-bildspel-block .views-slideshow-controls-bottom .views-slideshow-controls-text .views-slideshow-controls-text-next {
-  background-position: right top;
   right: 64px;
+}
+#block-views-bildspel-block .views-slideshow-controls-bottom .views-slideshow-controls-text > span a{
+  display: block;
+  width: 42px;
+  height: 41px;
+  background: transparent url(../images/header_slideshow_arrows.png) no-repeat left top;
+  cursor: pointer;
+}
+#block-views-bildspel-block .views-slideshow-controls-bottom .views-slideshow-controls-text .views-slideshow-controls-text-next a {
+  background-position: right top;
 }
 /* Paneler */
 body .block .block-inner .node-panel {
@@ -140,4 +144,88 @@ body .container-24 .bottom {
 }
 .panel-panel .still-image-formatter-item .caption-wrapper .caption-text {
   font-size: 30px;
+}
+/* Nyhetsflöde på startsidan */
+.region-postscript-first-inner #block-views-nyheter-block-3 {
+  top: 71px;
+  height: 322px;
+}
+.region-postscript-first-inner #block-views-nyheter-block-3 > .block-inner {
+  width: 1046px;
+}
+.region-postscript-first-inner #block-views-nyheter-block-3 .view-content > div {
+  position: relative;
+}
+.region-postscript-first-inner #block-views-nyheter-block-3 .views_slideshow_slide .node > .user-picture-container {
+  padding-right: 20px;
+}
+.region-postscript-first-inner #block-views-nyheter-block-3 .views_slideshow_slide .node > .content {
+  width: 630px;
+}
+.region-postscript-first-inner #block-views-nyheter-block-3 .views_slideshow_slide .node .field-name-body {
+  padding-bottom: 30px;
+}
+.region-postscript-first-inner #block-views-nyheter-block-3 .views_slideshow_slide .node .field-name-body p {
+  line-height: 200%;
+}
+.region-postscript-first-inner #block-views-nyheter-block-3 .views-slideshow-controls-bottom {
+  display: block;
+  position: absolute;
+  top: 110px;
+  width: 100%;
+  z-index: 3;
+}
+.region-postscript-first-inner #block-views-nyheter-block-3 .views-slideshow-controls-bottom .views-slideshow-controls-text {
+
+}
+.region-postscript-first-inner #block-views-nyheter-block-3 .views-slideshow-controls-bottom .views-slideshow-controls-text > span {
+  position: absolute;
+}
+.region-postscript-first-inner #block-views-nyheter-block-3 .views-slideshow-controls-bottom .views-slideshow-controls-text .views-slideshow-controls-text-pause {
+  display: none;
+}
+.region-postscript-first-inner #block-views-nyheter-block-3 .views-slideshow-controls-bottom .views-slideshow-controls-text .views-slideshow-controls-text-previous {
+  left: -70px;
+}
+.region-postscript-first-inner #block-views-nyheter-block-3 .views-slideshow-controls-bottom .views-slideshow-controls-text .views-slideshow-controls-text-next {
+  right: -70px;
+}
+.region-postscript-first-inner #block-views-nyheter-block-3 .views-slideshow-controls-bottom .views-slideshow-controls-text > span a {
+  display: block;
+  width: 32px;
+  height: 32px;
+  background: transparent url(../images/news_slideshow_arrows.png) no-repeat left top;
+  cursor: pointer;
+}
+.region-postscript-first-inner #block-views-nyheter-block-3 .views-slideshow-controls-bottom .views-slideshow-controls-text .views-slideshow-controls-text-next a {
+  background-position: right top;
+}
+.region-postscript-first-inner #block-views-nyheter-block-3 #news-slideshow-0-nav {
+  display: none;
+}
+/* Sidfot */
+.region-postscript-first-inner {
+  padding-bottom: 80px;
+}
+#region-footer-first > .region-inner {
+  padding-top: 100px;
+}
+#region-footer-first #block-nodeblock-230, 
+#region-footer-first #block-views-enterprise-blog-block-2, 
+#region-footer-first #node-subinnehall-231 {
+  padding: 0 20px;
+  float: left;
+}
+#region-footer-first #block-nodeblock-230 {
+  width: 280px;
+}
+#region-footer-first #block-views-enterprise-blog-block-2 .views-row .views-field-title a {
+  margin-left: 0;
+}
+#region-footer-first #block-views-enterprise-blog-block-2 {
+  width: 330px;
+  padding: 0 100px 0 30px;
+}
+#region-footer-first #block-superfish-4 {
+  padding-top: 40px;
 }

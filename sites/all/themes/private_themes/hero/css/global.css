@@ -164,6 +164,9 @@ body.responsive-layout-mobile .social-links .social-links-twitter-wrapper .socia
   line-height: 100%;
   padding: 0 8%;
 }
+#views_slideshow_cycle_teaser_section_bildspel-block .field-name-field-bild img {
+  background-size: cover;
+}
 #views_slideshow_cycle_teaser_section_bildspel-block .field-name-body {
   position: absolute;
   top: 180px;

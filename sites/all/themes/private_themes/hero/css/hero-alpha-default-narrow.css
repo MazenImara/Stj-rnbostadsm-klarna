@@ -3,17 +3,17 @@
  *  apply to the normal and widescreen layouts. You may override these styles in the normal 
  *  and widescreen CSS files as appropriate. */
 body {
-  min-width: 720px !important;
+  min-width: 700px !important;
 }
 body .container-24 {
-  width: 720px;
+  width: 700px;
 }
 body .container-24 .grid-24 {
-  width: 720px;
+  width: 700px;
 }
 /* Lila header */
 #zone-user > .region > .region-inner {
-  width: 720px;
+  width: 700px;
 }
 /* Paneler */
 body .block .block-inner .node-panel {
@@ -46,7 +46,7 @@ body .container-24 .bottom {
 }
 /* Nyhetsflöde på startsidan */
 .region-postscript-first-inner #block-views-nyheter-block-3 > .block-inner {
-  width: 720px;
+  width: 700px;
   height: inherit;
   margin: auto;
   position: relative;

@@ -25,9 +25,6 @@
 #region-user-second {
   padding: 40px 0 32px;
 }
-#block-superfish-1 {
-  padding: 0 130px 0 48px;
-}
 #superfish-1-select {
   background-image: url(../images/menu_icon_narrow.png);
   width: 48px;
@@ -35,10 +32,10 @@
 }
 /* Logo */
 #block-logo-block-logo {
-  width: 240px;
+  width: 180px;
 }
 #block-logo-block-logo img {
-  max-width: 240px;
+  max-width: 180px;
   max-height: 38px;
 }
 /* Sociala länkar */
@@ -67,22 +64,11 @@
 #zone-branding > .region {
   width: 100%;
 }
-#block-views-bildspel-block {
-  height: 575px;
-}
-#zone-branding .field-name-title-field {
-  bottom: 315px;
-}
 #zone-branding .page-title {
-  font-size: 53px;
   padding: 0 70px;
 }
-#views_slideshow_cycle_teaser_section_bildspel-block .field-name-body {
-  top: 290px;
-}
 #views_slideshow_cycle_teaser_section_bildspel-block .field-name-body p {
-  font-size: 27px;
-  padding: 0 100px 90px;
+  line-height: 120%;
 }
 #views_slideshow_cycle_teaser_section_bildspel-block .field-name-body a {
   font-size: 18px;

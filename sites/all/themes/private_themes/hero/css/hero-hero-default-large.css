@@ -1,0 +1,143 @@
+/* This file will hold styles that are loaded using the same media query as the wide grid. */
+body {
+  min-width: 1046px !important;
+}
+body .container-24 {
+  width: 1046px;
+}
+body .container-24 .grid-24 {
+  width: 1046px;
+}
+/* Lila header */
+#zone-user > .region > .region-inner {
+  width: 1046px;
+}
+/* Vit header */
+#block-logo-block-logo img {
+  margin: 0;
+}
+#block-superfish-1 {
+  display: inline-block;
+  float: none;
+  padding: 5px 0 0;
+}
+#block-superfish-1 ul li a{
+  font-family: 'Lato', sans-serif;
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  padding: 7px 8px;
+  color: #fff;
+}
+#block-superfish-1 ul li a:hover {
+  text-decoration: underline;
+}
+/* Nivå 1 */
+#block-superfish-1 ul.menu > li > a {
+  color: #a0a0a0;
+  padding-bottom: 16px;
+}
+#block-superfish-1 ul.menu > li.menuparent > a {
+  padding-right: 22px;
+  background: transparent url(../images/gray_arrow_down.png) no-repeat right 11px;
+}
+/* Nivå 2 */
+#block-superfish-1 ul.menu > li.menuparent > ul {
+  top: 100%;
+  background: #a0a0a0;
+  padding: 10px 0;
+}
+#block-superfish-1 ul.menu > li.menuparent > ul > li > a {
+
+}
+#block-superfish-1 ul.menu > li.menuparent > ul > li.menuparent > a {
+  padding-right: 12px;
+  background: transparent url(../images/white_arrow_right.png) no-repeat 95% center;
+}
+/* Nivå 3 */
+#block-superfish-1 ul.menu > li.menuparent > ul > li.menuparent > ul {
+  background: #a0a0a0;
+}
+#block-superfish-1 ul.menu > li.menuparent > ul > li.menuparent > ul > li > a {
+
+}
+/* Bildspel herobild */
+#block-views-bildspel-block {
+  height: 652px;
+}
+#zone-branding .field-name-title-field {
+  bottom: 358px;
+}
+#zone-branding .field-name-title-field > .field-items {
+  width: 850px;
+  margin: auto;
+}
+#zone-branding .page-title {
+  font-size: 60px;
+}
+#views_slideshow_cycle_teaser_section_bildspel-block .field-name-body {
+  top: 318px;
+}
+#views_slideshow_cycle_teaser_section_bildspel-block .field-name-body > .field-items {
+  width: 850px;
+  margin: auto;
+}
+#views_slideshow_cycle_teaser_section_bildspel-block .field-name-body p {
+  font-size: 30px;
+  padding-bottom: 60px;
+}
+#block-views-bildspel-block .views-slideshow-controls-bottom {
+  display: block;
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  z-index: 3;
+}
+#block-views-bildspel-block .views-slideshow-controls-bottom .views-slideshow-controls-text {
+  margin-top: -20px;
+}
+#block-views-bildspel-block .views-slideshow-controls-bottom .views-slideshow-controls-text > span {
+  display: block;
+  width: 42px;
+  height: 41px;
+  background: transparent url(../images/header_slideshow_arrows.png) no-repeat left top;
+  cursor: pointer;
+  position: absolute;
+}
+#block-views-bildspel-block .views-slideshow-controls-bottom .views-slideshow-controls-text .views-slideshow-controls-text-pause {
+  display: none;
+}
+#block-views-bildspel-block .views-slideshow-controls-bottom .views-slideshow-controls-text .views-slideshow-controls-text-previous {
+  left: 64px;
+}
+#block-views-bildspel-block .views-slideshow-controls-bottom .views-slideshow-controls-text .views-slideshow-controls-text-next {
+  background-position: right top;
+  right: 64px;
+}
+/* Paneler */
+body .block .block-inner .node-panel {
+  width: 1046px;
+  margin: auto;
+}
+body .block .block-inner .panel-display {
+  padding-top: 68px;
+}
+body .container-24 .grid-8 {
+  width: 331px;
+}
+body .container-24 .top .panel-pane {
+  padding: 0;
+}
+.panel-panel .node-subinnehall {
+  padding-bottom: 50px;
+}
+body .container-24 .bottom {
+  margin: 0 10px;
+}
+.panel-panel .node-page {
+  padding-bottom: 83px;
+}
+.panel-panel .still-image-formatter-item .caption-wrapper .caption-text {
+  font-size: 30px;
+}

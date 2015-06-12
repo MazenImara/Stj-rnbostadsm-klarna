@@ -15,6 +15,27 @@ body .container-24 .grid-24 {
 #zone-user > .region > .region-inner {
   width: 700px;
 }
+/* Vit header */
+#block-superfish-1 {
+  padding: 0 160px 0 48px;
+}
+/* Bildspel herobild */
+#block-views-bildspel-block {
+  height: 575px;
+}
+#zone-branding .field-name-title-field {
+  bottom: 315px;
+}
+#zone-branding .page-title {
+  font-size: 53px;
+}
+#views_slideshow_cycle_teaser_section_bildspel-block .field-name-body {
+  top: 280px;
+}
+#views_slideshow_cycle_teaser_section_bildspel-block .field-name-body p {
+  font-size: 27px;
+  padding: 0 100px 90px;
+}
 /* Paneler */
 body .block .block-inner .node-panel {
   width: 680px;
@@ -22,9 +43,7 @@ body .block .block-inner .node-panel {
 }
 body .block .block-inner .panel-display {
   margin: 0 -10px;
-}
-.panel-panel.header {
-  padding-bottom: 44px;
+  padding-top: 44px;
 }
 body .container-24 .top {
   width: 100%;

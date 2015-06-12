@@ -194,6 +194,9 @@ body.responsive-layout-mobile .social-links .social-links-twitter-wrapper .socia
 -moz-border-radius: 3px;
 border-radius: 3px;
 }
+#block-views-bildspel-block .views-slideshow-controls-bottom {
+  display: none;
+}
 #block-views-bildspel-block #slideshow-0-nav {
   position: absolute;
   bottom: 8px;
@@ -249,9 +252,7 @@ border-radius: 5px;
 }
 body .block .block-inner .panel-display {
   margin: 0;
-}
-.panel-panel.header {
-  padding-bottom: 23px;
+  padding-top: 23px;
 }
 .panel-panel .node-subinnehall {
   padding: 0 10px 30px;

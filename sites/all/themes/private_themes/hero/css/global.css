@@ -76,10 +76,14 @@ body .container-24 .grid-24 > .region-inner {
   width: 30px;
   height: 23px;
   border: 0;
+  color: #565656;
   text-indent: -9999px;
   box-shadow: none;
   -webkit-appearance: none;
   -moz-appearance: none;
+}
+#superfish-1-select::-ms-expand {
+  display: none;
 }
 /* Logo */
 #block-logo-block-logo {

@@ -14,8 +14,12 @@
   margin-top: -6px;
   font-size: 16px;
 }
-#region-footer-first #block-superfish-4 ul.menu li .language-switcher-select {
-  font-size: 16px;
+.browser-firefox #region-user-first #block-superfish-3 ul.menu li .language-switcher-select {
+  margin-top: -8px;
+  padding-right: 13px;
+}
+#region-user-first #block-superfish-3 ul.menu li .language-switcher-select::-ms-expand {
+  display: none;
 }
 #block-login-block-0 {
   display: none;
@@ -129,4 +133,12 @@
 }
 #region-footer-first #block-superfish-4 ul.menu li .language-switcher-select {
   margin-top: -1px;
+  font-size: 16px;
+}
+.browser-firefox #region-footer-first #block-superfish-4 ul.menu li .language-switcher-select {
+  margin-top: -3px;
+  padding-right: 13px;
+}
+#region-footer-first #block-superfish-4 ul.menu li .language-switcher-select::-ms-expand {
+  display: none;
 }

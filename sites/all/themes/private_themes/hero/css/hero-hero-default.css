@@ -81,6 +81,20 @@
 #block-views-bildspel-block #slideshow-0-nav {
   bottom: 25px;
 }
+/* Vanliga sidor */
+body.not-front #zone-content,
+body.not-front #zone-content > .region {
+  width: 100%;
+}
+body.not-front #block-system-main .node.view-mode-full > .content > .field {
+  padding: 0;
+}
+body.not-front #block-system-main .node.view-mode-full > .content > .field-name-title-field {
+  position: absolute;
+}
+body.not-front #block-system-main .node.view-mode-full > .content > .field-name-title-field > .field-items {
+  padding: 0;
+}
 /* Nyhetsflöde på startsidan */
 #zone-postscript,
 #zone-postscript > .region {

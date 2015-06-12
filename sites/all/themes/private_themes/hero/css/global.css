@@ -226,16 +226,16 @@ border-radius: 5px;
   background: #fff;
 }
 /* Vanliga sidor */
-#block-system-main .node.view-mode-full {
+body.not-front #block-system-main .node.view-mode-full {
   padding-bottom: 20px;
 }
-#block-system-main .node.view-mode-full > .content > .field {
+body.not-front #block-system-main .node.view-mode-full > .content > .field > .field-items {
   padding: 0 17px;
 }
-#block-system-main .node.view-mode-full > .content > .field-name-field-sidhuvud {
+body.not-front #block-system-main .node.view-mode-full > .content > .field-name-field-sidhuvud > .field-items {
   padding: 0;
 }
-#block-system-main .node.view-mode-full .page-title {
+body.not-front #block-system-main .node.view-mode-full .page-title {
   font-family: 'Raleway', sans-serif;
   font-size: 18px;
   font-weight: 700;
@@ -244,7 +244,7 @@ border-radius: 5px;
   line-height: 140%;
   padding: 10px 0 20px;
 }
-#block-system-main .node.view-mode-full .field-name-body p {
+body.not-front #block-system-main .node.view-mode-full .field-name-body p {
   font-family: 'Lato', sans-serif;
   font-size: 16px;
   font-weight: 400;

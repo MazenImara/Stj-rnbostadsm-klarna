@@ -119,6 +119,26 @@ body .container-24 .grid-24 {
 #block-views-bildspel-block .views-slideshow-controls-bottom .views-slideshow-controls-text .views-slideshow-controls-text-next a {
   background-position: right top;
 }
+/* Vanliga sidor */
+body.not-front #block-system-main .node.view-mode-full > .content > .field {
+  width: 1046px;
+}
+body.not-front #block-system-main .node.view-mode-full > .content > .field-name-field-sidhuvud {
+  margin-bottom: -150px;
+}
+body.not-front #block-system-main .node.view-mode-full > .content > .field-name-title-field {
+  width: 100%;
+}
+body.not-front #block-system-main .node.view-mode-full .field-name-title-field > .field-items {
+  width: 1046px;
+}
+body.not-front #block-system-main .node.view-mode-full .page-title {
+  font-size: 48px;
+  line-height: 120%;
+}
+body.not-front #block-system-main .node.view-mode-full > .content > .field-name-body {
+  padding-top: 200px;
+}
 /* Paneler */
 body .block .block-inner .node-panel {
   width: 1046px;

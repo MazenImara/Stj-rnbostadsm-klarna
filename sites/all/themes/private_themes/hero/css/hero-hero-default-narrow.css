@@ -60,6 +60,36 @@ body.node-type-page #block-system-main .node.view-mode-full .page-title {
 body.node-type-page #block-system-main .node.view-mode-full  > .content > .field-name-body {
   padding-top: 160px;
 }
+/* Formulärsidor */
+body.node-type-webform #block-system-main .node.view-mode-full > .content > .field,
+body.node-type-webform #block-system-main .node.view-mode-full > .content > .group-parent {
+  width: 700px;
+  margin: auto;
+}
+body.node-type-webform #block-system-main .node.view-mode-full > .content > .field-name-field-sidhuvud {
+  width: 100%;
+}
+body.node-type-webform #block-system-main .node.view-mode-full > .content > .field-name-field-extra-textfalt {
+  margin-top: -200px;
+  padding-bottom: 60px;
+}
+body.node-type-webform #block-system-main .node.view-mode-full .field-name-field-extra-textfalt .field-items {
+  padding-left: 370px;
+}
+body.node-type-webform #block-system-main .node.view-mode-full .group-1 {
+  float: left;
+  width: 330px;
+}
+body.node-type-webform #block-system-main .node.view-mode-full .webform-client-form {
+  float: right;
+}
+body.node-type-webform #block-system-main .node.view-mode-full .webform-client-form .webform-component-markup h2 {
+  font-size: 24px;
+  padding-bottom: 20px;
+}
+body.node-type-webform #block-system-main .node.view-mode-full .webform-client-form > div {
+  padding: 13px 16px 40px;
+}
 /* Paneler */
 body .block .block-inner .node-panel {
   width: 680px;

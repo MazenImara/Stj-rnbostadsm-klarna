@@ -139,6 +139,30 @@ body.node-type-page #block-system-main .node.view-mode-full .page-title {
 body.node-type-page #block-system-main .node.view-mode-full > .content > .field-name-body {
   padding-top: 200px;
 }
+/* Formulärsidor */
+body.node-type-webform #block-system-main .node.view-mode-full > .content > .field,
+body.node-type-webform #block-system-main .node.view-mode-full > .content > .group-parent {
+  width: 1046px;
+  margin: auto;
+}
+body.node-type-webform #block-system-main .node.view-mode-full > .content > .field-name-field-sidhuvud {
+  width: 100%;
+}
+body.node-type-webform #block-system-main .node.view-mode-full > .content > .field-name-field-extra-textfalt {
+  margin-top: -200px;
+}
+body.node-type-webform #block-system-main .node.view-mode-full .field-name-field-extra-textfalt .field-items {
+  padding-left: 550px;
+}
+body.node-type-webform #block-system-main .node.view-mode-full .group-parent {
+  padding-top: 40px;
+}
+body.node-type-webform #block-system-main .node.view-mode-full .group-1 {
+  width: 500px;
+}
+body.node-type-webform #block-system-main .node.view-mode-full .webform-client-form {
+  padding-right: 120px;
+}
 /* Paneler */
 body .block .block-inner .node-panel {
   width: 1046px;

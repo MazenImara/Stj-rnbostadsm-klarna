@@ -257,14 +257,15 @@ body.node-type-webform #block-system-main .node.view-mode-full .field-name-field
   position: relative;
   margin-top: -30px;
   width: 100%;
-  text-align: center;
+}
+body.node-type-webform #block-system-main .node.view-mode-full .field-name-field-extra-textfalt > .field-items {
+  padding: 0 16px;
 }
 body.node-type-webform #block-system-main .node.view-mode-full .field-name-field-extra-textfalt .field-item {
   border: 1px solid #b1b1b1;
   border-left: 16px solid #db6cff;
   background: #fff;
   display: inline-block;
-  text-align: left;
   padding: 30px 55px 40px 32px;
 }
 body.node-type-webform #block-system-main .node.view-mode-full .field-name-field-extra-textfalt .field-item h2 {
@@ -281,10 +282,9 @@ body.node-type-webform #block-system-main .node.view-mode-full .field-name-field
   line-height: 120%;
   color: #888888;
 }
-body.node-type-webform #block-system-main .node.view-mode-full .field-name-title-field,
-body.node-type-webform #block-system-main .node.view-mode-full .field-name-body {
+body.node-type-webform #block-system-main .node.view-mode-full .field-name-title-field > .field-items,
+body.node-type-webform #block-system-main .node.view-mode-full .field-name-body > .field-items {
   padding: 0 60px;
-  position: relative;
 }
 body.node-type-webform #block-system-main .node.view-mode-full .page-title {
   font-family: 'Raleway', sans-serif;
@@ -292,6 +292,7 @@ body.node-type-webform #block-system-main .node.view-mode-full .page-title {
   font-weight: 400;
   color: #525252;
   padding: 35px 0;
+  line-height: 100%;
 }
 body.node-type-webform #block-system-main .node.view-mode-full .field-name-body p {
   padding: 10px 0 20px;
@@ -305,7 +306,11 @@ body.node-type-webform #block-system-main .node.view-mode-full .field-name-body 
   font-weight: 700;
 }
 body.node-type-webform #block-system-main .node.view-mode-full .webform-client-form {
-  padding: 0 16px 40px;
+  width: 370px;
+  max-width: 100%;
+}
+body.node-type-webform #block-system-main .node.view-mode-full .webform-client-form > div {
+  padding: 40px 16px;
 }
 body.node-type-webform #block-system-main .node.view-mode-full .webform-client-form .webform-component {
   padding-left: 60px;
@@ -318,6 +323,9 @@ body.node-type-webform #block-system-main .node.view-mode-full .webform-client-f
   height: 36px;
   border: 0;
   color: #525252;
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
 }
 body.node-type-webform #block-system-main .node.view-mode-full .webform-client-form .webform-component textarea {
   color: #525252;
@@ -332,15 +340,13 @@ body.node-type-webform #block-system-main .node.view-mode-full .webform-client-f
   font-weight: 400;
   line-height: 120%;
   color: #525252;
+  padding: 10px 0;
 }
 body.node-type-webform #block-system-main .node.view-mode-full .webform-client-form #webform-component-namn {
   background: transparent url(../images/webform_namn.gif) no-repeat left center;
 }
 body.node-type-webform #block-system-main .node.view-mode-full .webform-client-form #webform-component-telefonnummer {
   background: transparent url(../images/webform_telefonnummer.gif) no-repeat left center;
-}
-body.node-type-webform #block-system-main .node.view-mode-full .webform-client-form #webform-component-e-post {
-  background: transparent url(../images/webform_adress.gif) no-repeat left center;
 }
 body.node-type-webform #block-system-main .node.view-mode-full .webform-client-form #webform-component-meddelande {
   background: transparent url(../images/webform_meddelande.gif) no-repeat left top;

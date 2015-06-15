@@ -95,7 +95,12 @@ body.node-type-page #block-system-main .node.view-mode-full > .content > .field-
 body.node-type-page #block-system-main .node.view-mode-full > .content > .field-name-title-field > .field-items {
   padding: 0;
 }
+/* Formulärsidor */
 /* Nyhetsflöde på startsidan */
+body.node-type-webform #zone-content,
+body.node-type-webform #zone-content > .region {
+  width: 100%;
+}
 #zone-postscript,
 #zone-postscript > .region {
   width: 100%;

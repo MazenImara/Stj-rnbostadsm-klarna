@@ -36,28 +36,28 @@ body .container-24 .grid-24 {
   font-size: 27px;
   padding: 0 100px 90px;
 }
-/* Vanliga sidor */
-body.not-front #block-system-main .node.view-mode-full > .content > .field {
+/* Informationssidor */
+body.node-type-page #block-system-main .node.view-mode-full > .content > .field {
   width: 700px;
   margin: auto;
 }
-body.not-front #block-system-main .node.view-mode-full > .content > .field-name-field-sidhuvud {
+body.node-type-page #block-system-main .node.view-mode-full > .content > .field-name-field-sidhuvud {
   width: 100%;
   margin-bottom: -120px;
   text-align: center;
 }
-body.not-front #block-system-main .node.view-mode-full > .content > .field-name-title-field {
+body.node-type-page #block-system-main .node.view-mode-full > .content > .field-name-title-field {
   width: 100%;
 }
-body.not-front #block-system-main .node.view-mode-full .field-name-title-field > .field-items {
+body.node-type-page #block-system-main .node.view-mode-full .field-name-title-field > .field-items {
   width: 700px;
   margin: auto;
 }
-body.not-front #block-system-main .node.view-mode-full .page-title {
+body.node-type-page #block-system-main .node.view-mode-full .page-title {
   font-size: 30px;
   padding-left: 30px;
 }
-body.not-front #block-system-main .node.view-mode-full  > .content > .field-name-body {
+body.node-type-page #block-system-main .node.view-mode-full  > .content > .field-name-body {
   padding-top: 160px;
 }
 /* Paneler */

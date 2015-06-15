@@ -119,24 +119,24 @@ body .container-24 .grid-24 {
 #block-views-bildspel-block .views-slideshow-controls-bottom .views-slideshow-controls-text .views-slideshow-controls-text-next a {
   background-position: right top;
 }
-/* Vanliga sidor */
-body.not-front #block-system-main .node.view-mode-full > .content > .field {
+/* Informationssidor */
+body.node-type-page #block-system-main .node.view-mode-full > .content > .field {
   width: 1046px;
 }
-body.not-front #block-system-main .node.view-mode-full > .content > .field-name-field-sidhuvud {
+body.node-type-page #block-system-main .node.view-mode-full > .content > .field-name-field-sidhuvud {
   margin-bottom: -150px;
 }
-body.not-front #block-system-main .node.view-mode-full > .content > .field-name-title-field {
+body.node-type-page #block-system-main .node.view-mode-full > .content > .field-name-title-field {
   width: 100%;
 }
-body.not-front #block-system-main .node.view-mode-full .field-name-title-field > .field-items {
+body.node-type-page #block-system-main .node.view-mode-full .field-name-title-field > .field-items {
   width: 1046px;
 }
-body.not-front #block-system-main .node.view-mode-full .page-title {
+body.node-type-page #block-system-main .node.view-mode-full .page-title {
   font-size: 48px;
   line-height: 120%;
 }
-body.not-front #block-system-main .node.view-mode-full > .content > .field-name-body {
+body.node-type-page #block-system-main .node.view-mode-full > .content > .field-name-body {
   padding-top: 200px;
 }
 /* Paneler */

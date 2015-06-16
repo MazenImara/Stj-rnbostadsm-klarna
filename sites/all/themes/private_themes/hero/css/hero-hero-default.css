@@ -89,7 +89,7 @@ body.node-type-page #zone-content > .region {
 body.node-type-page #block-system-main .node.view-mode-full > .content > .field {
   padding: 0;
 }
-body.node-type-page #block-system-main .node.view-mode-full > .content > .field-name-title-field {
+body.node-type-page.has-header-image #block-system-main .node.view-mode-full > .content > .field-name-title-field {
   position: absolute;
 }
 body.node-type-page #block-system-main .node.view-mode-full > .content > .field-name-title-field > .field-items {
@@ -139,7 +139,7 @@ body.node-type-webform #zone-content > .region {
 #region-footer-first #block-views-enterprise-blog-block-2 .views-row .views-field-title a {
   margin-left: -46px;
 }
-#region-footer-first #node-subinnehall-231 {
+#region-footer-first #block-nodeblock-231 {
   padding-left: 0;
 }
 #region-footer-first #block-superfish-4 {

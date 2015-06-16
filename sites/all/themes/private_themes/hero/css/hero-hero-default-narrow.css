@@ -43,8 +43,10 @@ body.node-type-page #block-system-main .node.view-mode-full > .content > .field 
 }
 body.node-type-page #block-system-main .node.view-mode-full > .content > .field-name-field-sidhuvud {
   width: 100%;
-  margin-bottom: -120px;
   text-align: center;
+}
+body.node-type-page.has-header-image #block-system-main .node.view-mode-full > .content > .field-name-field-sidhuvud {
+  margin-bottom: -120px;
 }
 body.node-type-page #block-system-main .node.view-mode-full > .content > .field-name-title-field {
   width: 100%;
@@ -57,7 +59,7 @@ body.node-type-page #block-system-main .node.view-mode-full .page-title {
   font-size: 30px;
   padding-left: 30px;
 }
-body.node-type-page #block-system-main .node.view-mode-full  > .content > .field-name-body {
+body.node-type-page.has-header-image #block-system-main .node.view-mode-full  > .content > .field-name-body {
   padding-top: 160px;
 }
 /* Formulärsidor */
@@ -131,7 +133,7 @@ body .container-24 .bottom {
 /* Sidfot */
 #region-footer-first #block-nodeblock-230,
 #region-footer-first #block-views-enterprise-blog-block-2,
-#region-footer-first #node-subinnehall-231 {
+#region-footer-first #block-nodeblock-231 {
   padding-left: 80px;
   padding-right: 30px;
 }

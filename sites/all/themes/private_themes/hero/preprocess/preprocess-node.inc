@@ -40,5 +40,6 @@ function hero_alpha_preprocess_node(&$vars) {
       $vars['classes_array'][] = 'has-header-image';
       $vars['attributes_array']['class'][] = 'has-header-image';
     }
+    unset($vars['content']['links']);
   }
 }

@@ -114,13 +114,16 @@ body.sidtyp-bloggsida  #block-system-main .view-enterprise-blog .views-row .fiel
   padding: 0;
 }
 /* Nyhetssida & Bloggpostsida */
-body.node-type-nyhet  #block-system-main .node.view-mode-full.has-header-image .field-name-field-submitted .author-date {
+body.node-type-nyhet  #block-system-main .node.view-mode-full.has-header-image .field-name-field-submitted .author-date,
+body.node-type-enterprise-blog  #block-system-main .node.view-mode-full.has-header-image .field-name-field-submitted .author-date {
   top: 307px;
 }
-body.node-type-nyhet #region-sidebar-second {
+body.node-type-nyhet #region-sidebar-second,
+body.node-type-enterprise-blog #region-sidebar-second {
   margin: 0 0 0 20px;
 }
-body.node-type-nyhet #region-sidebar-second #block-views-nyheter-block-2 {
+body.node-type-nyhet #region-sidebar-second #block-views-nyheter-block-2,
+body.node-type-enterprise-blog #region-sidebar-second #block-views-nyheter-block-2 {
   padding-top: 20px;
 }
 /* Paneler */

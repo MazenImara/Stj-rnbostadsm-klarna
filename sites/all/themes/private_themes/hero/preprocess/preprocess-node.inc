@@ -34,4 +34,11 @@ function hero_alpha_preprocess_node(&$vars) {
       $vars['attributes_array']['class'][] = 'has-header-image';
     }
   }
+  else if($vars['type'] === 'enterprise_blog') {
+    //Add class if node has header image
+    if(!empty($vars['field_image'])) {
+      $vars['classes_array'][] = 'has-header-image';
+      $vars['attributes_array']['class'][] = 'has-header-image';
+    }
+  }
 }

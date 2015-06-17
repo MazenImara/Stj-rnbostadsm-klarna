@@ -11,6 +11,7 @@ function hero_alpha_preprocess_html(&$vars) {
   if($node) {
     $header_image_fields = array(
       'field_sidhuvud',
+      'field_image',
     );
     $has_header_image = false;
     foreach($header_image_fields as $field_name) {

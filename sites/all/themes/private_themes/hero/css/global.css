@@ -28,6 +28,9 @@ body .container-24 .grid-24 {
 body .container-24 .grid-24 > .region-inner {
   margin: auto;
 }
+#zone-user-wrapper {
+  border-bottom: 1px solid #bcbcbc;
+}
 /* Lila header */
 #zone-user,
 #zone-user > .region {
@@ -242,7 +245,10 @@ body.node-type-page #block-system-main .node.view-mode-full .page-title {
   text-transform: uppercase;
   color: #000;
   line-height: 140%;
-  padding: 10px 0 20px;
+  padding: 40px 0 20px;
+}
+body.node-type-page.has-header-image #block-system-main .node.view-mode-full .page-title {
+  padding-top: 10px;
 }
 body.node-type-page #block-system-main .node.view-mode-full .field-name-body p {
   font-family: 'Lato', sans-serif;
@@ -403,12 +409,12 @@ body.sidtyp-bloggsida  #block-system-main .view-enterprise-blog .views-row .fiel
   padding: 0 6px;
 }
 body.sidtyp-nyhetssida  #block-system-main .view-nyheter .views-row .field-name-field-sidhuvud,
-body.sidtyp-bloggsida  #block-system-main .view-enterprise-blog .views-row .field-name-field-sidhuvud {
+body.sidtyp-bloggsida  #block-system-main .view-enterprise-blog .views-row .field-name-field-image {
   text-align: center;
   padding: 0;
 }
 body.sidtyp-nyhetssida  #block-system-main .view-nyheter .views-row .field-name-field-sidhuvud img,
-body.sidtyp-bloggsida  #block-system-main .view-enterprise-blog .views-row .field-name-field-sidhuvud img {
+body.sidtyp-bloggsida  #block-system-main .view-enterprise-blog .views-row .field-name-field-image img {
   max-width: 100%;
   height: auto;
 }
@@ -529,7 +535,11 @@ body.node-type-nyhet #block-system-main .node.view-mode-full {
   padding-bottom: 40px;
 }
 body.node-type-nyhet #block-system-main .node.view-mode-full .extratitel-wrapper {
+  display: none;
   padding: 20px 17px 30px;
+}
+body.node-type-nyhet #block-system-main .node.view-mode-full.has-header-image .extratitel-wrapper {
+  display: block;
 }
 body.node-type-nyhet #block-system-main .node.view-mode-full .extratitel {
   display: block;
@@ -553,14 +563,13 @@ body.node-type-nyhet #block-system-main .node.view-mode-full .field > .field-ite
   padding: 0 17px;
 }
 body.node-type-nyhet #block-system-main .node.view-mode-full .field-name-field-sidhuvud {
-  padding: 0 0 40px;
   text-align: center;
 }
 body.node-type-nyhet #block-system-main .node.view-mode-full .field-name-field-sidhuvud > .field-items {
   padding: 0;
 }
 body.node-type-nyhet #block-system-main .node.view-mode-full .field-name-title-field {
-
+  padding: 40px 0 0;
 }
 body.node-type-nyhet #block-system-main .node.view-mode-full .page-title {
   font-family: 'Raleway', sans-serif;
@@ -569,11 +578,15 @@ body.node-type-nyhet #block-system-main .node.view-mode-full .page-title {
   line-height: 100%;
   color: #a0a0a0;
   padding: 0 0 10px;
+  text-indent: 60px;
+}
+body.node-type-nyhet #block-system-main .node.view-mode-full.has-header-image .page-title {
+  text-indent: 0;
 }
 body.node-type-nyhet  #block-system-main .node.view-mode-full .field-name-field-submitted .author-date {
   display: block;
   position: absolute;
-  top: 196px;
+  top: 10px;
   left: 8px;
   font-family: 'Raleway', sans-serif;
   font-size: 22px;
@@ -588,6 +601,9 @@ body.node-type-nyhet  #block-system-main .node.view-mode-full .field-name-field-
 -webkit-border-radius: 30px;
 -moz-border-radius: 30px;
 border-radius: 30px;
+}
+body.node-type-nyhet  #block-system-main .node.view-mode-full.has-header-image .field-name-field-submitted .author-date {
+  top: 196px;
 }
 body.node-type-nyhet  #block-system-main .node.view-mode-full .field-name-field-submitted .author-name {
   display: inline-block;
@@ -618,9 +634,12 @@ body.node-type-nyhet #region-sidebar-second #block-views-nyheter-block-2 .view {
   padding: 0 7px;
 }
 body.node-type-nyhet #region-sidebar-second #block-views-nyheter-block-2 .view .views-row .node-title {
+  display: block;
   font-family: 'Lato', sans-serif;
   font-size: 18px;
   font-weight: 400;
+  line-height: 100%;
+  padding: 15px 0;
 }
 body.node-type-nyhet #region-sidebar-second #block-views-nyheter-block-2 .view .views-row .node-title a {
   color: #a0a0a0;

@@ -96,6 +96,13 @@ body.node-type-page #block-system-main .node.view-mode-full > .content > .field-
   padding: 0;
 }
 /* Formulärsidor */
+/* Nyhetslista & blogglista */
+body.sidtyp-nyhetssida  #block-system-main .view-nyheter .col {
+  float: left;
+}
+body.sidtyp-nyhetssida #block-system-main .node.view-mode-full > .content > .field-name-field-view > .field-items {
+  padding: 0;
+}
 /* Nyhetsflöde på startsidan */
 body.node-type-webform #zone-content,
 body.node-type-webform #zone-content > .region {

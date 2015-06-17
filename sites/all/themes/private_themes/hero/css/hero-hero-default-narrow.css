@@ -92,6 +92,18 @@ body.node-type-webform #block-system-main .node.view-mode-full .webform-client-f
 body.node-type-webform #block-system-main .node.view-mode-full .webform-client-form > div {
   padding: 13px 16px 40px;
 }
+/* Nyhetslista & blogglista */
+body.sidtyp-nyhetssida #block-system-main .node.view-mode-full .page-title {
+  padding-left: 10px;
+}
+body.sidtyp-nyhetssida  #block-system-main .view-nyheter {
+  margin: 0 -10px;
+}
+body.sidtyp-nyhetssida  #block-system-main .view-nyheter .col {
+  width: 220px;
+  padding: 0 10px;
+}
+
 /* Paneler */
 body .block .block-inner .node-panel {
   width: 680px;

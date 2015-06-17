@@ -1,7 +1,7 @@
 <?php
 function hero_alpha_preprocess_node(&$vars) {
-  //Supply user picture for news items
   if($vars['type'] === 'nyhet') {
+    //Supply user picture for news items
     if(!empty($vars['uid'])) {
       $account = user_load($vars['uid']);
       $wrapper = entity_metadata_wrapper('user', $account);
@@ -27,6 +27,11 @@ function hero_alpha_preprocess_node(&$vars) {
         );
         $vars['user_picture'] = render($picture);
       }
+    }
+    //Add class if node has header image
+    if(!empty($vars['field_sidhuvud'])) {
+      $vars['classes_array'][] = 'has-header-image';
+      $vars['attributes_array']['class'][] = 'has-header-image';
     }
   }
 }

@@ -375,53 +375,70 @@ body.node-type-webform #block-system-main .node.view-mode-full .webform-client-f
   float: right;
 }
 /* Nyhetslista & blogglista */
-body.sidtyp-nyhetssida #block-system-main .node.view-mode-full > .content > .field-name-field-view > .field-items {
+body.sidtyp-nyhetssida #block-system-main .node.view-mode-full > .content > .field-name-field-view > .field-items,
+body.sidtyp-bloggsida #block-system-main .node.view-mode-full > .content > .field-name-field-view > .field-items {
   padding: 0 10px;
 }
-body.sidtyp-nyhetssida  #block-system-main .node.view-mode-full .page-title {
+body.sidtyp-nyhetssida  #block-system-main .node.view-mode-full .page-title,
+body.sidtyp-bloggsida  #block-system-main .node.view-mode-full .page-title  {
   font-size: 24px;
 }
-body.sidtyp-nyhetssida  #block-system-main .view-nyheter {
+body.sidtyp-nyhetssida  #block-system-main .view-nyheter,
+body.sidtyp-bloggsida  #block-system-main .view-enterprise-blog {
   text-align: center;
 }
-body.sidtyp-nyhetssida  #block-system-main .view-nyheter .col {
+body.sidtyp-nyhetssida  #block-system-main .view-nyheter .col,
+body.sidtyp-bloggsida  #block-system-main .view-enterprise-blog .col {
   display: inline-block;
   max-width: 286px;
   text-align: left;
 }
-body.sidtyp-nyhetssida  #block-system-main .view-nyheter .views-row {
+body.sidtyp-nyhetssida  #block-system-main .view-nyheter .views-row,
+body.sidtyp-bloggsida  #block-system-main .view-enterprise-blog .views-row {
   position: relative;
   margin: 20px 0;
 }
-body.sidtyp-nyhetssida  #block-system-main .view-nyheter .views-row .field {
+body.sidtyp-nyhetssida  #block-system-main .view-nyheter .views-row .field,
+body.sidtyp-bloggsida  #block-system-main .view-enterprise-blog .views-row .field {
   padding: 0 6px;
 }
-body.sidtyp-nyhetssida  #block-system-main .view-nyheter .views-row .field-name-field-sidhuvud {
+body.sidtyp-nyhetssida  #block-system-main .view-nyheter .views-row .field-name-field-sidhuvud,
+body.sidtyp-bloggsida  #block-system-main .view-enterprise-blog .views-row .field-name-field-sidhuvud {
   text-align: center;
   padding: 0;
 }
-body.sidtyp-nyhetssida  #block-system-main .view-nyheter .views-row .field-name-field-sidhuvud img {
+body.sidtyp-nyhetssida  #block-system-main .view-nyheter .views-row .field-name-field-sidhuvud img,
+body.sidtyp-bloggsida  #block-system-main .view-enterprise-blog .views-row .field-name-field-sidhuvud img {
   max-width: 100%;
   height: auto;
 }
-body.sidtyp-nyhetssida  #block-system-main .view-nyheter .views-row .node-title {
+body.sidtyp-nyhetssida  #block-system-main .view-nyheter .views-row .node-title,
+body.sidtyp-bloggsida  #block-system-main .view-enterprise-blog .views-row .node-title {
   font-family: 'Raleway', sans-serif;
   font-size: 28px;
   font-weight: 400;
   line-height: 100%;
-  padding: 16px 0 8px 70px;
+  padding: 16px 0 8px;
+  text-indent: 70px;
 }
-body.sidtyp-nyhetssida  #block-system-main .view-nyheter .views-row .node.has-header-image .node-title {
-  padding-left: 0;
+body.sidtyp-nyhetssida  #block-system-main .view-nyheter .views-row .node.has-header-image .node-title,
+body.sidtyp-bloggsida  #block-system-main .view-enterprise-blog .views-row .node.has-header-image .node-title {
+  text-indent: 0;
 }
-body.sidtyp-nyhetssida  #block-system-main .view-nyheter .views-row .node-title a {
+body.sidtyp-nyhetssida  #block-system-main .view-nyheter .views-row .node-title a,
+body.sidtyp-bloggsida  #block-system-main .view-enterprise-blog .views-row .node-title a {
   color: #a0a0a0;
   text-decoration: none;
 }
-body.sidtyp-nyhetssida  #block-system-main .view-nyheter .views-row .node-title a:hover {
+body.sidtyp-nyhetssida  #block-system-main .view-nyheter .views-row .node-title a:hover,
+body.sidtyp-bloggsida  #block-system-main .view-enterprise-blog .views-row .node-title a:hover {
   text-decoration: underline;
 }
-body.sidtyp-nyhetssida  #block-system-main .view-nyheter .views-row .field-name-field-submitted .author-date {
+body.sidtyp-bloggsida  #block-system-main .view-enterprise-blog .views-row .field-name-field-submitted {
+  float: left;
+}
+body.sidtyp-nyhetssida  #block-system-main .view-nyheter .views-row .field-name-field-submitted .author-date,
+body.sidtyp-bloggsida  #block-system-main .view-enterprise-blog .views-row .field-name-field-submitted .author-date {
   display: block;
   position: absolute;
   top: -13px;
@@ -432,15 +449,16 @@ body.sidtyp-nyhetssida  #block-system-main .view-nyheter .views-row .field-name-
   color: #fff;
   text-align: center;
   line-height: 100%;
-  width: 59px;
-  height: 54px;
-  padding-top: 5px;
+  width: 49px;
+  height: 49px;
+  padding: 5px;
   background: #f0c3fe;
 -webkit-border-radius: 30px;
 -moz-border-radius: 30px;
 border-radius: 30px;
 }
-body.sidtyp-nyhetssida  #block-system-main .view-nyheter .views-row .field-name-field-submitted .author-name {
+body.sidtyp-nyhetssida  #block-system-main .view-nyheter .views-row .field-name-field-submitted .author-name,
+body.sidtyp-bloggsida  #block-system-main .view-enterprise-blog .views-row .field-name-field-submitted .author-name {
   display: inline-block;
   font-family: 'Lato', sans-serif;
   font-size: 14px;
@@ -448,17 +466,46 @@ body.sidtyp-nyhetssida  #block-system-main .view-nyheter .views-row .field-name-
   color: #db6cff;
   padding-bottom: 10px;
 }
-body.sidtyp-nyhetssida  #block-system-main .view-nyheter .views-row .field-name-body p {
+body.sidtyp-bloggsida  #block-system-main .view-enterprise-blog .views-row .field-name-field-tags {
+  display: inline-block;
+  float: left;
+  padding-left: 0;
+  font-family: 'Lato', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #db6cff;
+}
+body.sidtyp-bloggsida  #block-system-main .view-enterprise-blog .views-row .field-name-field-tags:before {
+  content: '|';
+  float: left;
+  padding-right: 5px;
+}
+body.sidtyp-bloggsida  #block-system-main .view-enterprise-blog .views-row .field-name-field-tags .field-label {
+  text-transform: lowercase;
+}
+body.sidtyp-bloggsida  #block-system-main .view-enterprise-blog .views-row .field-name-field-tags .field-item:after {
+  content: ', ';
+}
+body.sidtyp-bloggsida  #block-system-main .view-enterprise-blog .views-row .field-name-field-tags .field-item:last-child:after {
+  content: '';
+}
+body.sidtyp-bloggsida  #block-system-main .view-enterprise-blog .views-row .field-name-body {
+  clear: both;
+}
+body.sidtyp-nyhetssida  #block-system-main .view-nyheter .views-row .field-name-body p,
+body.sidtyp-bloggsida  #block-system-main .view-enterprise-blog .views-row .field-name-body p {
   font-family: 'Lato', sans-serif;
   font-size: 14px;
   font-weight: 400;
   color: #a0a0a0;
 }
-body.sidtyp-nyhetssida  #block-system-main .view-nyheter .feed-icon {
+body.sidtyp-nyhetssida  #block-system-main .view-nyheter .feed-icon,
+body.sidtyp-bloggsida  #block-system-main .view-enterprise-blog .feed-icon {
   clear: both;
   padding: 20px 0;
 }
-body.sidtyp-nyhetssida  #block-system-main .view-nyheter .feed-icon a {
+body.sidtyp-nyhetssida  #block-system-main .view-nyheter .feed-icon a,
+body.sidtyp-bloggsida  #block-system-main .view-enterprise-blog .feed-icon a {
   font-family: 'Lato', sans-serif;
   font-size: 14px;
   font-weight: 400;
@@ -467,8 +514,12 @@ body.sidtyp-nyhetssida  #block-system-main .view-nyheter .feed-icon a {
   float: right;
   padding-right: 15px;
 }
-body.sidtyp-nyhetssida  #block-system-main .view-nyheter .feed-icon a:hover {
+body.sidtyp-nyhetssida  #block-system-main .view-nyheter .feed-icon a:hover,
+body.sidtyp-bloggsida  #block-system-main .view-enterprise-blog .feed-icon a:hover {
   text-decoration: underline;
+}
+body.sidtyp-bloggsida  #block-views-enterprise-blog-tags-block {
+  display: none;
 }
 /* Paneler */
 .panels-ipe-control input[type="submit"] {

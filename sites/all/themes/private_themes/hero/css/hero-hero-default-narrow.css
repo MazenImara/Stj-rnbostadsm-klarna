@@ -93,15 +93,25 @@ body.node-type-webform #block-system-main .node.view-mode-full .webform-client-f
   padding: 13px 16px 40px;
 }
 /* Nyhetslista & blogglista */
-body.sidtyp-nyhetssida #block-system-main .node.view-mode-full .page-title {
+body.sidtyp-nyhetssida #block-system-main .node.view-mode-full .page-title,
+body.sidtyp-bloggsida #block-system-main .node.view-mode-full .page-title {
   padding-left: 10px;
 }
-body.sidtyp-nyhetssida  #block-system-main .view-nyheter {
+body.sidtyp-nyhetssida  #block-system-main .view-nyheter,
+body.sidtyp-bloggsida  #block-system-main .view-enterprise-blog {
   margin: 0 -10px;
 }
-body.sidtyp-nyhetssida  #block-system-main .view-nyheter .col {
+body.sidtyp-nyhetssida  #block-system-main .view-nyheter .col,
+body.sidtyp-bloggsida  #block-system-main .view-enterprise-blog .col {
   width: 220px;
   padding: 0 10px;
+}
+body.sidtyp-bloggsida  #block-system-main .view-enterprise-blog .views-row .field-name-field-tags {
+  padding: 0 5px 5px;
+}
+body.sidtyp-bloggsida  #block-system-main .view-enterprise-blog .views-row .field-name-field-tags:before {
+  content: '';
+  padding: 0;
 }
 
 /* Paneler */

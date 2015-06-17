@@ -521,6 +521,114 @@ body.sidtyp-bloggsida  #block-system-main .view-enterprise-blog .feed-icon a:hov
 body.sidtyp-bloggsida  #block-views-enterprise-blog-tags-block {
   display: none;
 }
+/* Nyhetssida & Bloggpostsida */
+body.node-type-nyhet #region-content {
+  margin: 0;
+}
+body.node-type-nyhet #block-system-main .node.view-mode-full {
+  padding-bottom: 40px;
+}
+body.node-type-nyhet #block-system-main .node.view-mode-full .extratitel-wrapper {
+  padding: 20px 17px 30px;
+}
+body.node-type-nyhet #block-system-main .node.view-mode-full .extratitel {
+  display: block;
+  font-family: 'Raleway', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 100%;
+  color: #a0a0a0;
+  padding: 0 0 10px;
+}
+body.node-type-nyhet #block-system-main .node.view-mode-full .extratitel-wrapper .delimiter {
+  display: block;
+  width: 30px;
+  height: 3px;
+  background: #b0b0b0;
+}
+body.node-type-nyhet #block-system-main .node.view-mode-full .group-1 {
+  position: relative;
+}
+body.node-type-nyhet #block-system-main .node.view-mode-full .field > .field-items {
+  padding: 0 17px;
+}
+body.node-type-nyhet #block-system-main .node.view-mode-full .field-name-field-sidhuvud {
+  padding: 0 0 40px;
+  text-align: center;
+}
+body.node-type-nyhet #block-system-main .node.view-mode-full .field-name-field-sidhuvud > .field-items {
+  padding: 0;
+}
+body.node-type-nyhet #block-system-main .node.view-mode-full .field-name-title-field {
+
+}
+body.node-type-nyhet #block-system-main .node.view-mode-full .page-title {
+  font-family: 'Raleway', sans-serif;
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 100%;
+  color: #a0a0a0;
+  padding: 0 0 10px;
+}
+body.node-type-nyhet  #block-system-main .node.view-mode-full .field-name-field-submitted .author-date {
+  display: block;
+  position: absolute;
+  top: 196px;
+  left: 8px;
+  font-family: 'Raleway', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+  line-height: 100%;
+  width: 49px;
+  height: 49px;
+  padding: 5px;
+  background: #f0c3fe;
+-webkit-border-radius: 30px;
+-moz-border-radius: 30px;
+border-radius: 30px;
+}
+body.node-type-nyhet  #block-system-main .node.view-mode-full .field-name-field-submitted .author-name {
+  display: inline-block;
+  font-family: 'Lato', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #db6cff;
+  padding-bottom: 30px;
+}
+body.node-type-nyhet #block-system-main .node.view-mode-full .field-name-body p {
+  font-family: 'Lato', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #a0a0a0;
+  padding-bottom: 20px;
+  line-height: 150%;
+}
+body.node-type-nyhet #region-sidebar-second #block-views-nyheter-block-2 .block-title {
+  background: #f0c3fe;
+  font-family: 'Raleway', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 100%;
+  padding: 10px;
+  color: #fff;
+}
+body.node-type-nyhet #region-sidebar-second #block-views-nyheter-block-2 .view {
+  padding: 0 7px;
+}
+body.node-type-nyhet #region-sidebar-second #block-views-nyheter-block-2 .view .views-row .node-title {
+  font-family: 'Lato', sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+}
+body.node-type-nyhet #region-sidebar-second #block-views-nyheter-block-2 .view .views-row .node-title a {
+  color: #a0a0a0;
+  text-decoration: none;
+}
+body.node-type-nyhet #region-sidebar-second #block-views-nyheter-block-2 .view .views-row .node-title a:hover {
+  text-decoration: underline;
+}
 /* Paneler */
 .panels-ipe-control input[type="submit"] {
   text-shadow: none;

@@ -3,6 +3,13 @@
     <?php if(!empty($user_picture)): ?>
       <?php print $user_picture; ?>
     <?php endif; ?>
+  <?php elseif($trimmed_view_mode === 'full'): ?>
+    <?php if(!empty($title)): ?>
+      <div class="extratitel-wrapper">
+        <span class="extratitel"><?php print $title; ?></span>
+        <span class="delimiter"></span>
+      </div>
+    <?php endif; ?>
   <?php endif; ?>
   <?php print render($title_prefix); ?>
   <?php print render($title_suffix); ?>

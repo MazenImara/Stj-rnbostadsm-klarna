@@ -754,7 +754,10 @@ body.node-type-enterprise-blog #region-sidebar-second #block-views-enterprise-bl
   padding: 0 0 20px;
 }
 .comment .submitted,
-.comment .permalink {
+.comment .permalink,
+.comment .username,
+.comment-form .username,
+.comment-form .filter-help a {
   font-size: 12px;
   color: #a0a0a0;
 }
@@ -896,6 +899,38 @@ body #comments .comment .links {
 }
 .page-comment-reply .comment-form .form-actions {
   padding-bottom: 40px;
+}
+/* Bildgalleri */
+body.sidtyp-galleri #block-system-main .node.view-mode-full .page-title {
+  font-size: 24px;
+}
+body.sidtyp-galleri #block-system-main .node.view-mode-full > .content > .field-name-field-view > .field-items {
+  padding: 0;
+}
+body.sidtyp-galleri #block-system-main .view-bildgalleri .views-row {
+  width: 338px;
+  max-width: 100%;
+  padding: 0 0 40px;
+  margin: auto;
+}
+body.sidtyp-galleri #block-system-main .view-bildgalleri .views-row .field-name-field-bild img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: auto;
+}
+body.sidtyp-galleri #block-system-main .view-bildgalleri .views-row .field-name-field-bild  .caption {
+  display: inline-block;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  color: #a0a0a0;
+  line-height: 100%;
+  padding: 15px;
+}
+#sb-caption {
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
 }
 /* Paneler */
 .panels-ipe-control input[type="submit"] {

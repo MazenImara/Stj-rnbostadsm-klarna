@@ -109,6 +109,19 @@ body.sidtyp-bloggsida #block-system-main .node.view-mode-full > .content > .fiel
 body.node-type-page #block-system-main .node.view-mode-full .view .field-name-title-field > .field-items {
   width: 100%;
 }
+/* Bildgalleri */
+body.sidtyp-galleri #block-system-main .view-bildgalleri {
+  padding-top: 20px;
+  margin: 0 -8px;
+}
+body.sidtyp-galleri #block-system-main .view-bildgalleri .views-row {
+  float: left;
+  padding: 0 8px 20px;
+  height: 293px;
+}
+body.sidtyp-galleri #block-system-main .view-bildgalleri .views-row .field-name-field-bild .caption {
+  padding: 15px 15px 0;
+}
 /* Nyhetsflöde på startsidan */
 body.node-type-webform #zone-content,
 body.node-type-webform #zone-content > .region {

@@ -279,6 +279,10 @@ body.node-type-enterprise-blog #region-sidebar-second #block-views-enterprise-bl
 .comment-form .tips li {
   font-size: 12px;
 }
+/* Bildgalleri */
+body.sidtyp-galleri #block-system-main .node.view-mode-full .page-title {
+  font-size: 30px;
+}
 /* Paneler */
 body .block .block-inner .node-panel {
   width: 1046px;

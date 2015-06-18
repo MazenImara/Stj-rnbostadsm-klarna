@@ -126,6 +126,10 @@ body.node-type-nyhet #region-sidebar-second #block-views-nyheter-block-2,
 body.node-type-enterprise-blog #region-sidebar-second #block-views-enterprise-blog-block {
   padding-top: 20px;
 }
+/* Bildgalleri */
+body.sidtyp-galleri #block-system-main .node.view-mode-full .page-title {
+  padding-left: 0;
+}
 /* Paneler */
 body .block .block-inner .node-panel {
   width: 680px;

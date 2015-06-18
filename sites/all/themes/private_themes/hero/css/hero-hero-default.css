@@ -111,7 +111,6 @@ body.node-type-page #block-system-main .node.view-mode-full .view .field-name-ti
 }
 /* Bildgalleri */
 body.sidtyp-galleri #block-system-main .view-bildgalleri {
-  padding-top: 20px;
   margin: 0 -8px;
 }
 body.sidtyp-galleri #block-system-main .view-bildgalleri .views-row {

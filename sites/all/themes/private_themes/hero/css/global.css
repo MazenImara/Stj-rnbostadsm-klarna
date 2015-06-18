@@ -903,6 +903,8 @@ body #comments .comment .links {
 /* Bildgalleri */
 body.sidtyp-galleri #block-system-main .node.view-mode-full .page-title {
   font-size: 24px;
+  padding-top: 30px;
+  padding-bottom: 30px;
 }
 body.sidtyp-galleri #block-system-main .node.view-mode-full > .content > .field-name-field-view > .field-items {
   padding: 0;
@@ -931,6 +933,12 @@ body.sidtyp-galleri #block-system-main .view-bildgalleri .views-row .field-name-
 #sb-caption {
   font-family: 'Lato', sans-serif;
   font-weight: 400;
+}
+/* Personalgalleri */
+body.sidtyp-personalsida #block-system-main .node.view-mode-full .page-title {
+  font-size: 24px;
+  padding-top: 30px;
+  padding-bottom: 30px;
 }
 /* Paneler */
 .panels-ipe-control input[type="submit"] {

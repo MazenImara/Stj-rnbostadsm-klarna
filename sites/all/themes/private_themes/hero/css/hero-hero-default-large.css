@@ -243,7 +243,7 @@ body.node-type-enterprise-blog #region-sidebar-second {
   margin-left: 26px;
 }
 body.node-type-nyhet #region-sidebar-second #block-views-nyheter-block-2 .block-title,
-body.node-type-enterprise-blog #region-sidebar-second #block-views-nyheter-block-2 .block-title {
+body.node-type-enterprise-blog #region-sidebar-second #block-views-enterprise-blog-block .block-title {
   color: #a0a0a0;
   background: transparent;
   font-weight: 400;
@@ -251,8 +251,33 @@ body.node-type-enterprise-blog #region-sidebar-second #block-views-nyheter-block
   padding-right: 0;
 }
 body.node-type-nyhet #region-sidebar-second #block-views-nyheter-block-2 .view .views-row .node-title,
-body.node-type-enterprise-blog #region-sidebar-second #block-views-nyheter-block-2 .view .views-row .node-title {
+body.node-type-enterprise-blog #region-sidebar-second #block-views-enterprise-blog-block .view .views-row .views-field-title {
   font-size: 14px;
+}
+/* Kommentarer */
+#comments .comment {
+  max-width: 350px;
+}
+.comment .permalink {
+  font-size: 16px;
+}
+.comment .submitted {
+  font-size: 14px;
+}
+.comment .comment-content p {
+  font-size: 14px;
+}
+#comments .add-comment > .title {
+  padding: 40px 60px 0;
+}
+.comment-form {
+  padding: 20px 60px 40px;
+}
+.comment-form .form-text, .comment-form textarea {
+  font-size: 14px;
+}
+.comment-form .tips li {
+  font-size: 12px;
 }
 /* Paneler */
 body .block .block-inner .node-panel {

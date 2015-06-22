@@ -121,6 +121,10 @@ body.sidtyp-galleri #block-system-main .view-bildgalleri .views-row {
 body.sidtyp-galleri #block-system-main .view-bildgalleri .views-row .field-name-field-bild .caption {
   padding: 15px 15px 0;
 }
+/* Personalgalleri */
+body.sidtyp-personalsida #block-system-main .view-personal {
+  text-align: left;
+}
 /* Nyhetsflöde på startsidan */
 body.node-type-webform #zone-content,
 body.node-type-webform #zone-content > .region {

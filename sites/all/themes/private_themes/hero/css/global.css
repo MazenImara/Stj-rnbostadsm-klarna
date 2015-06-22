@@ -940,7 +940,59 @@ body.sidtyp-personalsida #block-system-main .node.view-mode-full .page-title {
   padding-top: 30px;
   padding-bottom: 30px;
 }
-/* Paneler */
+body.sidtyp-personalsida #block-system-main .view-personal {
+  text-align: center;
+}
+body.sidtyp-personalsida #block-system-main .view-personal .personalomrade {
+  clear: both;
+}
+body.sidtyp-personalsida #block-system-main .view-personal .personalomrade > h2 {
+  font-size: 18px;
+  padding-bottom: 20px;
+  padding-right: 20px;
+}
+body.sidtyp-personalsida #block-system-main .view-personal .views-row {
+  display: inline-block;
+  width: 214px;
+  padding: 0 20px 60px 0;
+}
+body.sidtyp-personalsida #block-system-main .view-personal .views-row .field-name-field-bild {
+  padding: 0 0 20px;
+}
+body.sidtyp-personalsida #block-system-main .view-personal .views-row .field-name-field-bild img {
+  width: 212px;
+  border: 1px solid #b9b9b9;
+}
+body.sidtyp-personalsida #block-system-main .view-personal .views-row  .node-title {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 140%;
+  text-transform: uppercase;
+  text-align: center;
+}
+body.sidtyp-personalsida #block-system-main .view-personal .views-row  .field-name-field-befattning .field-item {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 140%;
+  text-transform: uppercase;
+  text-align: center;
+}
+body.sidtyp-personalsida #block-system-main .view-personal .views-row  .field-name-field-telefonnummer .field-item {
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 140%;
+  text-align: center;
+}
+body.sidtyp-personalsida #block-system-main .view-personal .views-row  .field-name-field-e-post .field-item {
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 140%;
+  text-align: center;
+}
 .panels-ipe-control input[type="submit"] {
   text-shadow: none;
   float: none;
@@ -1069,7 +1121,7 @@ body .panel-pane .field-name-field-sidhuvud img {
 .region-postscript-first-inner #block-views-nyheter-block-3 .views_slideshow_slide .node .field-name-body p {
   font-family: 'Raleway', sans-serif;
   font-size: 14px;
-  font-weight: 400;
+  font-weight: 500;
   color: #fff;
   line-height: 130%;
 }
@@ -1132,7 +1184,7 @@ border-radius: 5px;
 #region-footer-first .node-subinnehall .node-title {
   font-family: 'Raleway', sans-serif;
   font-size: 18px;
-  font-weight: 400;
+  font-weight: 500;
   color: #fff;
   text-transform: uppercase;
   line-height: 100%;
@@ -1141,7 +1193,7 @@ border-radius: 5px;
 #region-footer-first .node-subinnehall .field-name-body p {
   font-family: 'Raleway', sans-serif;
   font-size: 14px;
-  font-weight: 400;
+  font-weight: 500;
   color: #fff;
   line-height: 130%;
 }
@@ -1152,7 +1204,7 @@ border-radius: 5px;
 #region-footer-first #block-views-enterprise-blog-block-2 .block-title {
   font-family: 'Raleway', sans-serif;
   font-size: 18px;
-  font-weight: 400;
+  font-weight: 500;
   color: #fff;
   text-transform: uppercase;
   line-height: 100%;
@@ -1164,7 +1216,7 @@ border-radius: 5px;
 #region-footer-first #block-views-enterprise-blog-block-2  .views-row .views-field-title a {
   font-family: 'Raleway', sans-serif;
   font-size: 14px;
-  font-weight: 400;
+  font-weight: 500;
   color: #fff;
   line-height: 130%;
   padding-left: 46px;
@@ -1191,7 +1243,7 @@ border-radius: 5px;
 #region-footer-first #block-nodeblock-231 .field-name-field-extra-textfalt p {
   font-family: 'Raleway', sans-serif;
   font-size: 14px;
-  font-weight: 400;
+  font-weight: 500;
   color: #fff;
   line-height: 130%;
 }
@@ -1262,7 +1314,7 @@ border-radius: 5px;
   padding-left: 7px;
   font-family: 'Raleway', sans-serif;
   font-size: 14px;
-  font-weight: 400;
+  font-weight: 500;
   color: #fff;
   line-height: 130%;
 }

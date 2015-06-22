@@ -130,6 +130,13 @@ body.node-type-enterprise-blog #region-sidebar-second #block-views-enterprise-bl
 body.sidtyp-galleri #block-system-main .node.view-mode-full .page-title {
   padding-left: 0;
 }
+/* Personalgalleri */
+body.sidtyp-personalsida #block-system-main .node.view-mode-full .page-title {
+  padding-left: 10px;
+}
+body.sidtyp-personalsida #block-system-main .node.view-mode-full > .content > .field > .field-items {
+  padding: 0 10px;
+}
 /* Paneler */
 body .block .block-inner .node-panel {
   width: 680px;

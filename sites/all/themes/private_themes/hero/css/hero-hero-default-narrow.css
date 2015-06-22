@@ -137,6 +137,9 @@ body.sidtyp-personalsida #block-system-main .node.view-mode-full .page-title {
 body.sidtyp-personalsida #block-system-main .node.view-mode-full > .content > .field > .field-items {
   padding: 0 10px;
 }
+body.sidtyp-personalsida #block-system-main .node.view-mode-full > .content > .field-name-field-view > .field-items {
+  padding: 0;
+}
 /* Paneler */
 body .block .block-inner .node-panel {
   width: 680px;

@@ -949,12 +949,17 @@ body.sidtyp-personalsida #block-system-main .view-personal .personalomrade {
 body.sidtyp-personalsida #block-system-main .view-personal .personalomrade > h2 {
   font-size: 18px;
   padding-bottom: 20px;
-  padding-right: 20px;
+  padding-right: 19px;
+}
+body.sidtyp-personalsida #block-system-main .view-personal .personalomrade:after {
+  content: '';
+  display: block;
+  clear: both;
 }
 body.sidtyp-personalsida #block-system-main .view-personal .views-row {
   display: inline-block;
   width: 214px;
-  padding: 0 20px 60px 0;
+  padding: 0 19px 60px 0;
 }
 body.sidtyp-personalsida #block-system-main .view-personal .views-row .field-name-field-bild {
   padding: 0 0 20px;

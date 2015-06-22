@@ -287,6 +287,9 @@ body.sidtyp-galleri #block-system-main .node.view-mode-full .page-title {
 body.sidtyp-personalsida #block-system-main .node.view-mode-full .page-title {
   font-size: 30px;
 }
+body.sidtyp-personalsida #block-system-main .view-personal .views-row {
+  padding-right: 47px;
+}
 /* Paneler */
 body .block .block-inner .node-panel {
   width: 1046px;

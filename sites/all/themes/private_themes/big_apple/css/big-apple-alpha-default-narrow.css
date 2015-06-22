@@ -101,6 +101,11 @@ body .container-24 .panel-panel.grid-8.top-right {
 body .container-24 .panel-panel.grid-16 {
   width: 341px;
 }
+body .panel-panel.middle-left,
+body .panel-panel.middle-right {
+  height: 420px;
+  overflow: hidden;
+}
 body .container-24 .panel-panel.grid-8.middle-right {
   width: 161px;
 }

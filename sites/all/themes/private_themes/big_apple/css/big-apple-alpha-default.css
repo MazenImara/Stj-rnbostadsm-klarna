@@ -102,6 +102,7 @@ body .container-24 .panel-panel.middle-left {
 }
 body .container-24 .panel-panel.middle-right {
   border-top: 1px solid #d3d3d3;
+  border-right: 1px solid #d3d3d3;
 }
 body .container-24 .panel-panel.top .more-link,
 body .container-24 .panel-panel.middle-right .more-link {

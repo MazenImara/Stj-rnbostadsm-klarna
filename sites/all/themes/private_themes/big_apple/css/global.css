@@ -56,6 +56,9 @@ a:hover {
 iframe {
   max-width: 100%;
 }
+img {
+  max-width: 100%;
+}
 .node .field-name-body img,
 .node .field-name-field-extra-textfalt img {
 	max-width: 100%;
@@ -332,12 +335,14 @@ body .container-24 .grid-18 {
   padding-left: 5px;
 }
 /*----------Vanlig sida----------*/
-.node-page.view-mode-full > .header,
 .node-page.view-mode-full > .content {
   padding: 0 40px;
 }
-.node-page.view-mode-full > .header {
-	padding-top: 41px;
+.node-page.view-mode-full > .content > .field-name-field-sidhuvud {
+  margin: 0 -40px;
+}
+.node-page.view-mode-full > .content > .field-name-title-field {
+  padding-top: 41px;
 }
 /*----------Bildspel------------*/
 #block-nodeblock-213 {
@@ -454,12 +459,18 @@ body.responsive-layout-mobile.node-type-webform #zone-content {
 	border-bottom: 0;
 }
 .node-type-webform .node-webform.view-mode-full {
-	padding: 10px 10px 0;
+	padding: 0 40px;
+}
+.node-type-webform .node-webform.view-mode-full > .content > .field-name-title-field {
+  padding-top: 41px;
 }
 body.node-type-webform .node-webform.view-mode-full .webform-client-form {
-  margin: 0 -10px;
+  margin: 0 -40px;
   padding: 30px 30px 0;
   background: none repeat scroll 0 0 #222222;
+}
+body.node-type-webform .node-webform.view-mode-full .webform-client-form .webform-component h2 {
+  color: #0E66A0;
 }
 body.node-type-webform .node-webform.view-mode-full .webform-client-form input[type="text"],
 body.node-type-webform .node-webform.view-mode-full .webform-client-form input[type="password"],

@@ -120,7 +120,7 @@ body .container-24 .panel-panel.grid-6 .field-name-body {
 }
 /*-------------Vanlig sida------------*/
 .node-page.view-mode-full {
-  border-right: 1px solid #d3d3d3;;
+  border-right: 1px solid #d3d3d3;
 }
 .node-page.view-mode-full > .content p {
   text-align: justify;
@@ -132,6 +132,16 @@ body.sidtyp-galleri .node-page.view-mode-full .view-bildgalleri .views-row {
 /*----------------Nyheter---------------*/
 body.sidtyp-nyhetssida .node-page.view-mode-full .view-nyheter .feed-icon {
   float: right;
+}
+.node-nyhet.view-mode-full {
+  border-right: 1px solid #d3d3d3;
+}
+/*----------------Blogg---------------*/
+body.sidtyp-bloggsida .node-page.view-mode-full .view-enterprise-blog .feed-icon {
+  float: right;
+}
+.node-enterprise-blog.view-mode-full {
+  border-right: 1px solid #d3d3d3;
 }
 /*-------------Kontaktsida-------------*/
 body.node-type-webform .node-webform.view-mode-full {

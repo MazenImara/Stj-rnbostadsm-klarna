@@ -108,3 +108,7 @@ body.node-type-webform .node-webform.view-mode-full .webform-client-form #edit-a
 body.sidtyp-nyhetssida .node-page.view-mode-full .view-nyheter .views-row {
   padding: 39px 0 10px;
 }
+/*------------Blogg-------------*/
+body.sidtyp-bloggsida .node-page.view-mode-full .view-enterprise-blog .views-row {
+  padding: 39px 0 10px;
+}

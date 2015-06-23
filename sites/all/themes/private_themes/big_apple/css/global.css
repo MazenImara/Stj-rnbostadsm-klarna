@@ -83,9 +83,7 @@ img {
 		background: #0E66A0 -o-linear-gradient(top, rgba(255,255,255,.2) 0%,rgba(0,0,0,.2) 100%); /* Opera11.10+ */
 		background: #0E66A0 -ms-linear-gradient(top, rgba(255,255,255,.2) 0%,rgba(0,0,0,.2) 100%); /* IE10+ */
 		background: #0E66A0 linear-gradient(top, rgba(255,255,255,.2) 0%,rgba(0,0,0,.2) 100%); /* W3C */
-	  border: 1px solid #aaa;
-	  border-top: 1px solid #ccc;
-	  border-left: 1px solid #ccc;
+	  border: 0;
 	  -moz-border-radius: 3px;
 	  -webkit-border-radius: 3px;
 	  border-radius: 3px;
@@ -100,7 +98,9 @@ img {
 	  padding: 7px 9px;
 	  font-family: 'Open Sans', sans-serif;
 	  float:right;
-	  margin-right:25px;}
+	  margin-right:25px;
+    text-shadow: none;
+}
 
 .webform-client-form .button:hover,
 .webform-client-form button:hover,
@@ -115,9 +115,7 @@ img {
 		background: #0E66A0 -o-linear-gradient(top, rgba(255,255,255,.3) 0%,rgba(0,0,0,.3) 100%); /* Opera11.10+ */
 		background: #0E66A0 -ms-linear-gradient(top, rgba(255,255,255,.3) 0%,rgba(0,0,0,.3) 100%); /* IE10+ */
 		background: #0E66A0 linear-gradient(top, rgba(255,255,255,.3) 0%,rgba(0,0,0,.3) 100%); /* W3C */
-	  border: 1px solid #888;
-	  border-top: 1px solid #aaa;
-	  border-left: 1px solid #aaa; }
+}
 
 .webform-client-form .button:active,
 .webform-client-form button:active,
@@ -493,11 +491,10 @@ body.responsive-layout-mobile input[type="button"] {
 	margin-right: 0;
 }
 /*-------------Bildgalleri----------------*/
-body.sidtyp-galleri .node-page.view-mode-full > .header,
 body.sidtyp-galleri .node-page.view-mode-full > .content {
   padding: 0;
 }
-body.sidtyp-galleri .node-page.view-mode-full > .header {
+body.sidtyp-galleri .node-page.view-mode-full > .content > .field-name-title-field {
   padding: 10px 10px 20px;
 }
 body.sidtyp-galleri .node-page.view-mode-full .view-bildgalleri {
@@ -514,6 +511,7 @@ body.sidtyp-galleri .node-page.view-mode-full .view-bildgalleri .views-row {
 }
 body.sidtyp-galleri .node-page.view-mode-full .view-bildgalleri .views-row-last {
   border-right: 1px dotted #d3d3d3;
+  margin-right: -1px;
 }
 body.sidtyp-galleri .node-page.view-mode-full .view-bildgalleri .views-row .gallery-bildtext {
   text-align: center;
@@ -590,17 +588,83 @@ body.sidtyp-nyhetssida .node-page.view-mode-full .view-nyheter div.feed-icon {
   padding: 20px 0;
 }
 .node-nyhet.view-mode-full {
-  border-right: 1px solid #d3d3d3;
+
 }
-.node-nyhet.view-mode-full > .header,
 .node-nyhet.view-mode-full > .content {
   padding: 0 40px;
 }
-.node-nyhet.view-mode-full > .header {
+.node-nyhet.view-mode-full > .content > .field-name-title-field {
   padding-top: 41px;
 }
 .node-nyhet.view-mode-full > .content p {
   text-align: justify;
+}
+/* Blogglista */
+.view-enterprise-blog.view-display-id-page {
+  padding: 0 40px;
+}
+body.sidtyp-bloggsida .node-page.view-mode-full .view-enterprise-blog .views-row,
+.view-enterprise-blog.view-display-id-page .views-row {
+  padding: 39px 0 10px;
+}
+body.responsive-layout-mobile.sidtyp-bloggsida .node-page.view-mode-full .view-enterprise-blog .views-row .field-name-field-sidhuvud,
+.view-enterprise-blog.view-display-id-page .views-row .field-name-field-sidhuvud {
+	padding-bottom: 20px;
+}
+body.responsive-layout-mobile.sidtyp-bloggsida .node-page.view-mode-full .view-enterprise-blog .views-row .field-name-field-sidhuvud img,
+.view-enterprise-blog.view-display-id-page .views-row .field-name-field-sidhuvud img {
+	width: 100%;
+	height: auto;
+}
+body.sidtyp-bloggsida .node-page.view-mode-full .view-enterprise-blog .views-row .field-name-body,
+.view-enterprise-blog.view-display-id-page .views-row .field-name-body {
+  padding-top: 20px;
+  padding-bottom: 20px;
+/*  border-bottom: 1px dotted #BCE4FF; */
+}
+body.sidtyp-bloggsida .node-page.view-mode-full .view-enterprise-blog .views-row .field-name-body .smart-trim,
+.view-enterprise-blog.view-display-id-page .views-row .field-name-body .smart-trim {
+  text-align: justify;
+}
+body.sidtyp-bloggsida .node-page.view-mode-full .view-enterprise-blog .views-row .field-name-field-submitted,
+.view-enterprise-blog.view-display-id-page .views-row .field-name-field-submitted {
+  padding: 30px 0;
+  border-bottom: 1px dotted #BCE4FF;
+}
+body.sidtyp-bloggsida .node-page.view-mode-full .view-enterprise-blog .views-row .field-name-field-submitted .field-item,
+.view-enterprise-blog.view-display-id-page .views-row .field-name-field-submitted {
+  color: #0E66A0;
+  font-family: 'Open Sans',sans-serif;
+  font-size: 11px;
+  font-style: italic;
+  font-weight: 300;
+  text-align: left;
+}
+body.sidtyp-bloggsida .node-page.view-mode-full .view-enterprise-blog div.feed-icon,
+.view-enterprise-blog.view-display-id-page div.feed-icon {
+  padding: 20px 0;
+}
+#block-views-enterprise-blog-tags-block {
+  padding: 10px;
+}
+/* Bloggpost */
+.node-enterprise-blog.view-mode-full {
+
+}
+.node-enterprise-blog.view-mode-full > .content {
+  padding: 0 40px;
+}
+.node-enterprise-blog.view-mode-full > .content > .field-name-title-field {
+  padding-top: 41px;
+}
+.node-enterprise-blog.view-mode-full > .content p {
+  text-align: justify;
+}
+body.node-type-enterprise-blog  #block-system-main .node.view-mode-full .field-name-field-tags .field-item:after {
+  content: ', ';
+}
+body.node-type-enterprise-blog  #block-system-main .node.view-mode-full .field-name-field-tags .field-item:last-child:after {
+  content: '';
 }
 /*------------------SIDFOT-------------------*/
 #block-block-1 {

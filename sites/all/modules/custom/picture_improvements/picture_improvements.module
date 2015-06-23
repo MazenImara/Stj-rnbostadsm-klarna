@@ -45,30 +45,8 @@ function theme_picture_improvements_formatter($variables) {
 	if(!variable_get('general_responsive', 0)) {
 		return theme('image_formatter', $variables);
 	}
-  if (!isset($variables['breakpoints']) || empty($variables['breakpoints'])) {
-    return theme('image_formatter', $variables);
-  }
-
-  $item = $variables['item'];
-
-  if (isset($item['title']) && drupal_strlen($item['title']) == 0) {
-    $item['title'] = '';
-  }
-
-  $item['style_name'] = $variables['image_style'];
-  $item['breakpoints'] = $variables['breakpoints'];
-
-  if (!isset($item['path']) && isset($variables['uri'])) {
-    $item['path'] = $variables['uri'];
-  }
-  $output = theme('picture', $item);
-  if (isset($variables['path']['path'])) {
-    $path = $variables['path']['path'];
-    $options = isset($variables['path']['options']) ? $variables['path']['options'] : array();
-    $options['html'] = TRUE;
-    $output = l($output, $path, $options);
-  }
-  return $output;
+  
+  return theme_picture_formatter($variables);
 }
 //Implements hook_form_FORMID_alter()
 function picture_improvements_form_picture_admin_breakpoints_alter(&$form, $form_state) {

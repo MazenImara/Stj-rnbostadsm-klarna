@@ -1,5 +1,5 @@
 (function($) {
-	Drupal.behaviors.hero_webform = {
+	Drupal.behaviors.kopernikus_webform = {
     attach: function (context, settings) {
       var $webform = $('.webform-client-form');
       if($webform.length > 0) {

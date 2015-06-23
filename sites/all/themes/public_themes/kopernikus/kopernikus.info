@@ -38,6 +38,7 @@ css[global.css][description] = 'This file holds all the globally active custom C
 css[global.css][options][weight] = '10'
 version = '1.x'
 scripts[0] = 'js/browser_classes.js'
+scripts[1] = 'js/webform.js'
 settings[toggle_logo] = '0'
 settings[toggle_name] = '0'
 settings[toggle_slogan] = '0'

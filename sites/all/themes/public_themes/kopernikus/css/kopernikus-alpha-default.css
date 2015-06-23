@@ -100,11 +100,11 @@ img.right {
 
 /*-----------------------------------------*/
 /*-----------Nyheter------------*/
-.view-nyheter .field-name-field-sidhuvud {
+.view-nyheter.view-display-id-block_1 .field-name-field-sidhuvud {
   float: left;
   padding-right: 20px;
 }
-.view-nyheter .field-name-field-sidhuvud img {
+.view-nyheter.view-display-id-block_1 .field-name-field-sidhuvud img {
 	width: 180px;
 	height: auto;	
 }

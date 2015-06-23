@@ -322,6 +322,13 @@ div.node-webform-done p {
   font-weight: bold;
   padding-top: 5px;
 }
+/*------------Personalgalleri--------------*/
+.view-personal.view-display-id-block .personalomrade {
+  clear: both;
+}
+.view-personal.view-display-id-block .views-row {
+  float: left;
+}
 
 /*--------------Paneler------------------*/
 .panel-display {

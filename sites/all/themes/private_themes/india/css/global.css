@@ -250,10 +250,13 @@ body.html form #edit-actions {
 }
 /*-----------Personal-------------*/
 .view-id-personal.view-display-id-block{ line-height:170%;margin: 0 auto;}
-.view-id-personal.view-display-id-block .views-field-title{font-weight:bold;font-family: 'Milonga', cursive;}
-.view-id-personal.view-display-id-block .views-field-field-befattning{font-size:12px;}
+.view-id-personal.view-display-id-block .personalomrade {
+  clear: both;
+}
+.view-id-personal.view-display-id-block .views-row .field-name-title-field .node-title {font-weight:bold;font-family: 'Milonga', cursive;}
+.view-id-personal.view-display-id-block .views-row .field-name-field-befattning{font-size:12px;}
 .view-id-personal.view-display-id-block .views-row{float:left; padding:0 10px 10px 0;}
-.view-id-personal.view-display-id-block .views-field-field-bild{padding-bottom:6px;} 
+.view-id-personal.view-display-id-block .views-row .field-name-field-bild{padding-bottom:6px;} 
 /*------------------------------*/
 /*-----------Sidfot-------------*/
 #section-footer {

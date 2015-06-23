@@ -69,6 +69,10 @@ body .container-24 .block .omega-grid {
 .feed-icon {
   padding: 10px 0;
 }
+.node.view-mode-full .field-name-field-sidhuvud img {
+  max-width: 100%;
+  height: auto;
+}
 .node .field-name-body img,
 .node .field-name-field-extra-textfalt img {
 	max-width: 100%;
@@ -266,10 +270,13 @@ margin: 25px 0 15px -10px;
 	height: auto; margin: 0 0 30px 0px;}
   /*-----------Personal-------------*/
 .view-id-personal.view-display-id-block{ line-height:170%; margin-top: 10px;}
-.view-id-personal.view-display-id-block .views-field-title{font-weight:bold; font-family: 'Oswald',sans-serif; font-size:16px;}
-.view-id-personal.view-display-id-block .views-field-field-befattning{font-size:12px;}
+.view-id-personal.view-display-id-block .personalomrade {
+  clear: both;
+}
+.view-id-personal.view-display-id-block .views-row .field-name-title-field .node-title {font-weight:bold; font-family: 'Oswald',sans-serif; font-size:16px;}
+.view-id-personal.view-display-id-block .views-row .field-name-field-befattning{font-size:12px;}
 .view-id-personal.view-display-id-block .views-row{float:none; padding:0 20px 10px 0px;text-align:center;}
-.view-id-personal.view-display-id-block .views-field-field-bild{padding-bottom:6px;} 
+.view-id-personal.view-display-id-block .views-row .field-name-field-bild{padding-bottom:6px;} 
 /*-------------------Galleri----------------------*/
 .view-bildgalleri {
   clear: both;

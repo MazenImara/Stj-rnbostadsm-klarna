@@ -204,8 +204,11 @@ body .container-24 .grid-6 {
  
 }
 
-.node.view-mode-full > .field-name-field-sidhuvud {
-  margin: -30px 0 30px -30px;
+.node.view-mode-full > .content > .field-name-field-sidhuvud {
+  margin: -30px -34px 30px -30px;
+}
+.node.view-mode-full > .content > .field-name-field-sidhuvud img {
+  width: 300px;
 }
 #block-system-main .node .field-name-body,
 #block-system-main .node .field-name-field-extra-textfalt .field-item {
@@ -229,7 +232,6 @@ body.node-type-panel #block-system-main {
 }
 .node-panel .panel-display {
   margin: 0 !important;
-  background: none repeat scroll 0 0 #EFEFEC;
   min-height: 340px;
 }
 .node-panel .grid-24:first-child {
@@ -314,12 +316,13 @@ body.sidtyp-nyhetssida .view-nyheter .field-name-field-submitted .field-item {
 }
 
 /*-------------------Blog----------------------*/
-
-
-#region-sidebar-second{padding-left:30px;}
-#region-sidebar-second h2.block-title{padding-top:20px;}
-#region-sidebar-second .item-list li {list-style-type: circle;}
-
+body.sidtyp-bloggsida #block-system-main .node .field-name-body {
+  padding: 10px 0;
+}
+body.sidtyp-bloggsida #block-system-main .view-enterprise-blog .views-row,
+.view-enterprise-blog.view-display-id-page .views-row {
+  padding-bottom: 40px;
+}
 .view-enterprise-blog.view-display-id-block_1 .field-name-field-tags .field-item {
 	float:left; 
 padding: 0 5px 0 0; 
@@ -340,14 +343,28 @@ font-family: Arial,Helvetica,sans-serif;
 #region-sidebar-second .item-list ul{margin:0; padding-bottom:5px;}
  #region-sidebar-second .item-list ul li{margin: 0 0 0 1.5em;
     padding: 0 0 3px 0;}
+    
+#region-sidebar-second{padding-left:30px;}
+#region-sidebar-second h2.block-title{padding-top:20px;}
+#region-sidebar-second .item-list li {list-style-type: circle;}
+
+body.node-type-enterprise-blog  #block-system-main .node.view-mode-full .field-name-field-tags .field-item:after {
+  content: ', ';
+}
+body.node-type-enterprise-blog  #block-system-main .node.view-mode-full .field-name-field-tags .field-item:last-child:after {
+  content: '';
+}
 
 /*-----------Personal-------------*/
 
 .view-id-personal.view-display-id-block{ line-height:170%;}
-.view-id-personal.view-display-id-block .views-field-title{font-weight:bold; font-family:'PT Sans Narrow',sans-serif;font-size:16px;}
-.view-id-personal.view-display-id-block .views-field-field-befattning{font-size:12px;}
+.view-id-personal.view-display-id-block  .personalomrade > h2 {
+  clear: both;
+}
 .view-id-personal.view-display-id-block .views-row{float:left; padding:0 10px 10px 30px;}
-.view-id-personal.view-display-id-block .views-field-field-bild{padding-bottom:6px;} 
+.view-id-personal.view-display-id-block .views-row .node-title {font-weight:bold; font-family:'PT Sans Narrow',sans-serif;font-size:16px;}
+.view-id-personal.view-display-id-block .views-row  .field-name-field-befattning{font-size:12px;}
+.view-id-personal.view-display-id-block .views-row  .field-name-field-bild{padding-bottom:6px;} 
 /*------------------------------*/
 /*-------------------Galleri----------------------*/
 .view-bildgalleri {
@@ -482,7 +499,7 @@ select {
 	-webkit-border-radius: 2px;
 	border-radius: 2px;
 	font: 13px "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
-	color: #777;
+	color: #fff;
 	margin: 4px 0 20px;
 	max-width: 100%;
 	display: block;
@@ -500,7 +517,6 @@ input[type="password"]:focus,
 input[type="email"]:focus,
 textarea:focus {
 	border: 1px solid #aaa;
- 		color: #444;
  		-moz-box-shadow: 0 0 3px rgba(0,0,0,.7);
 	-webkit-box-shadow: 0 0 3px rgba(0,0,0,.7);
 	box-shadow:  0 0 3px rgba(0,0,0,.7); }

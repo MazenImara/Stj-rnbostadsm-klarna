@@ -166,8 +166,8 @@ border: 1px solid #555;
 #block-system-main {
   padding: 30px 44px 10px 40px;
 }
-.node.view-mode-full > .field-name-field-sidhuvud {
-  margin: -30px 0 30px -40px;
+.node.view-mode-full > .content > .field-name-field-sidhuvud {
+  margin: -32px -44px 30px -40px;
 }
 #block-system-main .node .field-name-body,
 #block-system-main .node .field-name-field-extra-textfalt .field-item {

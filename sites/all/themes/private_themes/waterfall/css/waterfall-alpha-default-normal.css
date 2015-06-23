@@ -14,3 +14,7 @@
 	display: table-cell;
   vertical-align: bottom;
 }
+/* Undersidor */
+.node.view-mode-full > .content > .field-name-field-sidhuvud img {
+  width: 980px;
+}

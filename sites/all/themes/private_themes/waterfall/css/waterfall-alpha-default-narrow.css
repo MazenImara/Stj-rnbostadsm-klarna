@@ -84,6 +84,10 @@ body .container-24 .grid-18 {
 .node-bildspel .field-name-field-linkimages img {
 	height: 326px !important;
 }
+/* Undersidor */
+.node.view-mode-full > .content > .field-name-field-sidhuvud img {
+  width: 720px;
+}
 /*--------Panel------*/
 .node-panel .panel-display {
   min-height: 350px;

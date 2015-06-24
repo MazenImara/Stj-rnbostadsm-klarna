@@ -12,6 +12,9 @@ body .container-24 .grid-24 {
   width: 700px;
 }
 /* Lila header */
+#zone-user {
+  height: 150px; /* Solves issue with height calculation in hero.js */
+}
 #zone-user > .region > .region-inner {
   width: 700px;
 }

@@ -1061,6 +1061,7 @@ body .panel-pane .field-name-field-sidhuvud img {
   line-height: 100%;
   color: #fff;
   word-break: break-all;
+  padding: 0 7px;
 }
 .panel-panel .node-page {
   padding: 0 0 30px;

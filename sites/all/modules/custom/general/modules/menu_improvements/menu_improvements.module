@@ -109,7 +109,7 @@ function menu_improvements_node_prepare($node) {
     $node->menu_improvements_links_deleted = array();
   }
 }
-//Gömmer "Add link" på menu forms om man inte har behörigheten
+//GÃ¶mmer "Add link" pÃ¥ menu forms om man inte har behÃ¶righeten
 //Implements hook_menu_local_tasks_alter()
 function menu_improvements_menu_local_tasks_alter(&$data, $router_item, $root_path) {
   if($root_path==='admin/structure/menu/manage/%') {
@@ -123,7 +123,7 @@ function menu_improvements_menu_local_tasks_alter(&$data, $router_item, $root_pa
     }
   }
 }
-/*----------Ändrar ordningen för hooks--------*/
+/*----------Ã„ndrar ordningen fÃ¶r hooks--------*/
 /**
  * Implements hook_module_implements_alter().
  */
@@ -227,13 +227,13 @@ function menu_improvements_form_menu_edit_item_alter(&$form, $form_state) {
     }
   }
 
-  //Inaktivera parentalternativ om det är en översättning som håller på att skapas
+  //Inaktivera parentalternativ om det Ã¤r en Ã¶versÃ¤ttning som hÃ¥ller pÃ¥ att skapas
   if(isset($_GET['translation'])) {
     if(isset($form['parent'])) {
       $form['parent']['#disabled'] = true;
     }
   }
-  //Fix för bristfällig filtrering av parents
+  //Fix fÃ¶r bristfÃ¤llig filtrering av parents
   if(isset($form['parent'])) {
     $link = $form['original_item']['#'.$form['original_item']['#type']];
     $returned_values = menu_improvements_menu_parent_options(menu_get_menus(), $link, '', $link_language);
@@ -241,7 +241,7 @@ function menu_improvements_form_menu_edit_item_alter(&$form, $form_state) {
     $sorted_tree = $returned_values['sorted_tree'];
     $form['parent']['#options'] = $options;
 
-    //Uppdatera automatiskt möjliga parentalternativ beroende på vilket språk man väljer
+    //Uppdatera automatiskt mÃ¶jliga parentalternativ beroende pÃ¥ vilket sprÃ¥k man vÃ¤ljer
     $form['#attached']['js'][] = drupal_get_path('module', 'menu_improvements').'/js/menu_improvements_menu_link_form.js';
     $mlids = array();
     $translations = array('tsid' => array(), 'tnid' => array());
@@ -288,7 +288,7 @@ function menu_improvements_form_menu_edit_item_alter(&$form, $form_state) {
       'type' => 'setting',
     );
   }
-  //Sätt parentalternativ om det är tillhandahållet och finns i listan
+  //SÃ¤tt parentalternativ om det Ã¤r tillhandahÃ¥llet och finns i listan
   if(isset($_GET['plid'])) {
     if(isset($form['parent'])) {
       $plid = check_plain($_GET['plid']);
@@ -304,7 +304,7 @@ function menu_improvements_form_menu_edit_item_alter(&$form, $form_state) {
       }
     }
   }
-  //Sätt vikten om det är tillhandahållet
+  //SÃ¤tt vikten om det Ã¤r tillhandahÃ¥llet
   if(isset($_GET['weight'])) {
     if(isset($form['weight'])) {
       $form['weight']['#default_value'] = check_plain($_GET['weight']);
@@ -326,7 +326,7 @@ function menu_improvements_form_menu_edit_item_delete_submit($form, &$form_state
   $form_state['redirect'] = array('admin/structure/menu/item/' . $form_state['values']['mlid'] . '/delete', array('query' => $destination));
 }
 function menu_improvements_menu_edit_item_submit($form, &$form_state) {
-  //Jag lämnar kvar den här funktionen ifall jag skulle behöva den i framtiden
+  //Jag lÃ¤mnar kvar den hÃ¤r funktionen ifall jag skulle behÃ¶va den i framtiden
 }
 //Implements hook_form_FORMID_alter().
 function menu_improvements_form_general_admin_finetune_form_alter(&$form, $form_state) {
@@ -341,7 +341,7 @@ function menu_improvements_form_general_admin_finetune_form_alter(&$form, $form_
     '#default_value' => variable_get('menu_improvements_sync_status', false),
   );
 }
-/*----------Fix för bristfällig filtrering av menylänkar i node form http://drupal.org/node/1850766-------------*/
+/*----------Fix fÃ¶r bristfÃ¤llig filtrering av menylÃ¤nkar i node form http://drupal.org/node/1850766-------------*/
 /**
  * Implements hook_form_BASE_FORM_ID_alter().
  */
@@ -544,7 +544,7 @@ function menu_improvements_sort_out_links_recursive($parent_level) {
       if(!isset($translations['tnid'][$tnid])) $translations['tnid'][$tnid] = array();
       $translations['tnid'][$tnid][$lang] = $mlid;
     }
-    else { //Menylänk
+    else { //MenylÃ¤nk
     */
       $tsid = $link['i18n_tsid'];
       if($tsid > 0) {
@@ -595,7 +595,7 @@ function menu_improvements_sort_out_links_recursive($parent_level) {
  * Implements hook_menu_link_alter().
  */
 function menu_improvements_menu_link_alter(&$item) {
-  //Ändra språkneutral länk till det nuvarande språket
+  //Ã„ndra sprÃ¥kneutral lÃ¤nk till det nuvarande sprÃ¥ket
   if(isset($item['language'])) {
     if($item['language'] == LANGUAGE_NONE) {
       global $language;
@@ -605,7 +605,7 @@ function menu_improvements_menu_link_alter(&$item) {
 }
 /**
  * Implements hook_url_outbound_alter().
- * Ändrar alla adresser som hämtas via url() så att de som pekar på startsidan inte har med något alias eller liknande.
+ * Ã„ndrar alla adresser som hÃ¤mtas via url() sÃ¥ att de som pekar pÃ¥ startsidan inte har med nÃ¥got alias eller liknande.
  */
 function menu_improvements_url_outbound_alter(&$path, &$options, $original_path) {
 	$frontpage = variable_get('site_frontpage', '');
@@ -622,9 +622,9 @@ function menu_improvements_menu_link_update($item) {
   if($node_source) {
     pathauto_improvements_update_url_aliases_for_nodes(array($node_source->nid));
   }
-  //Synka länken mot översättningar
+  //Synka lÃ¤nken mot Ã¶versÃ¤ttningar
   if(variable_get('menu_improvements_sync_order', false)) {
-    if(variable_get('general_language_settings', 'single')==='multi') { //Siten är flerspråkig
+    if(variable_get('general_language_settings', 'single')==='multi') { //Siten Ã¤r flersprÃ¥kig
       menu_improvements_sync_translations_order($item['menu_name'], $item['mlid'], $item['plid'], $item['weight'], $node_source);
     }
   }
@@ -632,25 +632,25 @@ function menu_improvements_menu_link_update($item) {
 function menu_improvements_sync_translations_order($menu_name, $mlid, $plid, $weight, $node_source = null) {
   if(variable_get('menu_improvements_sync_order', false)) {
     $translation_links = array();
-    //kolla om det finns översättningar för menylänken
+    //kolla om det finns Ã¶versÃ¤ttningar fÃ¶r menylÃ¤nken
     $result = menu_improvements_get_link_translations($mlid);
     foreach($result as $link) {
       $translation_links[] = $link['mlid'];
     }
 
-    //---------Hämta översättningar till parentlänkar
+    //---------HÃ¤mta Ã¶versÃ¤ttningar till parentlÃ¤nkar
     $parent_links = array();
-    if($plid==0) { //Toppnivå
+    if($plid==0) { //ToppnivÃ¥
       $language_list = language_list();
       foreach($language_list as $key => $lang) {
         $parent_links[$key] = 0;
       }
     }
-    else { //Inte toppnivå = har parent
-      //Hämta översatta länkar till parentlänken
+    else { //Inte toppnivÃ¥ = har parent
+      //HÃ¤mta Ã¶versatta lÃ¤nkar till parentlÃ¤nken
       $links = menu_improvements_get_link_translations($plid);
       if($links) {
-        //Det finns översättningar till länken
+        //Det finns Ã¶versÃ¤ttningar till lÃ¤nken
         foreach($links as $link) {
           $parent_links[$link['language']] = $link['mlid'];
         }
@@ -659,19 +659,25 @@ function menu_improvements_sync_translations_order($menu_name, $mlid, $plid, $we
     //------------------------//
     if($translation_links) {
       foreach($translation_links as $mlid) {
+        //Vi mÃ¥ste spara menylÃ¤nkens nya attribut direkt till databasen fÃ¶r att undvika problem med att Ã¶versatta lÃ¤nkar blir inaktiverade pÃ¥ grund av _menu_link_translate() i menu_link_load().
         $link = menu_link_load($mlid);
-        $link['menu_name'] = $menu_name;
-        $link['weight'] = $weight;
-        if($parent_links && isset($parent_links[$link['language']])) {
-          $link['plid'] = $parent_links[$link['language']];
+        $update_fields = array(
+          'menu_name' => $menu_name,
+          'weight' => $weight,
+        );
+        if(!empty($parent_links[$link['language']])) {
+          $update_fields['plid'] = $parent_links[$link['language']];
         }
-        menu_link_save($link);
+        db_update('menu_links')
+          ->condition('mlid', $mlid)
+          ->fields($update_fields)
+          ->execute();
       }
     }
   }
 }
 /*
-* Hämtar översättningar för en menylänk som inte hör till en nod. Returnerar en array med länkar som är arrays med nycklarna 'mlid' och 'language'.
+* HÃ¤mtar Ã¶versÃ¤ttningar fÃ¶r en menylÃ¤nk som inte hÃ¶r till en nod. Returnerar en array med lÃ¤nkar som Ã¤r arrays med nycklarna 'mlid' och 'language'.
 */
 function menu_improvements_get_link_translations($mlid, $menu_name = '') {
   $translations = array();
@@ -681,8 +687,8 @@ function menu_improvements_get_link_translations($mlid, $menu_name = '') {
     ->range(0, 1)
     ->execute()
     ->fetchField();
-  if($source_tsid) { //Menylänken är översatt
-    //Hämta översättningar
+  if($source_tsid) { //MenylÃ¤nken Ã¤r Ã¶versatt
+    //HÃ¤mta Ã¶versÃ¤ttningar
     $result = db_select('menu_links', 'ml')
       ->fields('ml', array('mlid', 'language'))
       ->condition('i18n_tsid', $source_tsid)

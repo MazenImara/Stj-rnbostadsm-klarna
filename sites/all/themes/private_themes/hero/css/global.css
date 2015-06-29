@@ -206,9 +206,9 @@ border-radius: 3px;
 }
 #views_slideshow_cycle_teaser_section_bildspel-block .field-name-body a.black-ring {
   border: 2px solid #000;
--webkit-border-radius: 20px;
--moz-border-radius: 20px;
-border-radius: 20px;
+-webkit-border-radius: 3px;
+-moz-border-radius: 3px;
+border-radius: 3px;
 }
 #block-views-bildspel-block .views-slideshow-controls-bottom {
   display: none;
@@ -1276,6 +1276,7 @@ border-radius: 5px;
   float: none;
   display: inline-block;
   padding: 4px 0 4px 7px;
+  text-align: left;
 }
 #region-user-first #block-superfish-3 ul.menu li.first,
 #region-footer-first #block-superfish-4 ul.menu li.first {
@@ -1299,33 +1300,78 @@ border-radius: 5px;
 #region-footer-first #block-superfish-4 ul.menu li a:hover {
   text-decoration: underline;
 }
-#region-user-first #block-superfish-3 ul.menu li .language-switcher-select,
-#region-footer-first #block-superfish-4 ul.menu li .language-switcher-select {
+
+#region-user-first #block-superfish-3 ul.menu li .language-switcher-select.chosen-container,
+#region-footer-first #block-superfish-4 ul.menu li .language-switcher-select.chosen-container {
+  width: auto !important;
+  margin-top: -4px;
+}
+
+#region-user-first #block-superfish-3 ul.menu li .language-switcher-select .chosen-single,
+#region-footer-first #block-superfish-4 ul.menu li .language-switcher-select .chosen-single {
   border: 0;
-  background: transparent url(../images/white_arrow_down.png) no-repeat right center;
+  background: transparent;
   box-shadow: none;
   padding: 0 8px 0 0;
   height: auto;
-  line-height: 100%;
+  line-height: 120%;
   font-family: 'Lato', sans-serif;
   font-weight: 400;
   font-size: 14px;
   color: #fff;
   vertical-align: top;
+  text-decoration: none;
   -webkit-appearance: none;
   -moz-appearance: none;
 }
-#region-user-first #block-superfish-3 ul.menu li .language-switcher-select {
+#region-user-first #block-superfish-3 ul.menu li .language-switcher-select .chosen-single span,
+#region-footer-first #block-superfish-4 ul.menu li .language-switcher-select .chosen-single span {
+  margin-right: 5px;
+}
+#region-user-first #block-superfish-3 ul.menu li .language-switcher-select .chosen-single div b,
+#region-footer-first #block-superfish-4 ul.menu li .language-switcher-select .chosen-single div b {
+  background: transparent url(../images/white_arrow_down.png) no-repeat right center;
+}
+#region-user-first #block-superfish-3 ul.menu li .language-switcher-select .chosen-drop,
+#region-footer-first #block-superfish-4 ul.menu li .language-switcher-select .chosen-drop {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  margin-top: 2px;
+}
+#region-user-first #block-superfish-3 ul.menu li .language-switcher-select .chosen-drop {
   background-color: #db6cff;
 }
-#region-user-first #block-superfish-3 ul.menu li .language-switcher-select option {
-  background-color: #555;
-}
-#region-footer-first #block-superfish-4 ul.menu li .language-switcher-select {
+#region-footer-first #block-superfish-4 ul.menu li .language-switcher-select .chosen-drop {
   background-color: #202936;
 }
-#region-user-first #block-superfish-3 ul.menu li:after,
-#region-footer-first #block-superfish-4 ul.menu li:after {
+#region-user-first #block-superfish-3 ul.menu li .language-switcher-select .chosen-results,
+#region-footer-first #block-superfish-4 ul.menu li .language-switcher-select .chosen-results {
+  top: auto;
+  left: auto;
+  width: auto !important;
+  color: #fff;
+  padding: 0;
+  overflow: visible;
+}
+#region-user-first #block-superfish-3 ul.menu li .language-switcher-select .chosen-results li,
+#region-footer-first #block-superfish-4 ul.menu li .language-switcher-select .chosen-results li {
+  padding: 2px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 100%;
+}
+#region-user-first #block-superfish-3 ul.menu li .language-switcher-select .chosen-results li.highlighted,
+#region-footer-first #block-superfish-4 ul.menu li .language-switcher-select .chosen-results li.highlighted {
+  background: #555;
+}
+#region-user-first #block-superfish-3 ul.menu li .language-switcher-select .chosen-results li.result-selected,
+#region-footer-first #block-superfish-4 ul.menu li .language-switcher-select .chosen-results li.result-selected {
+  display: none;
+}
+#region-user-first #block-superfish-3 ul.menu > li:after,
+#region-footer-first #block-superfish-4 ul.menu > li:after {
   display: inline-block;
   content: "|";
   padding-left: 7px;

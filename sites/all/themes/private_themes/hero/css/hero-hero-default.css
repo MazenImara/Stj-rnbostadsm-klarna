@@ -182,13 +182,17 @@ body.node-type-webform #zone-content > .region {
   display: inline-block;
   border-bottom: 1px solid #cccccc;
 }
-#region-footer-first #block-superfish-4 ul.menu li .language-switcher-select {
-  margin-top: -1px;
+#region-user-first #block-superfish-3 ul.menu li .language-switcher-select.chosen-container,
+#region-footer-first #block-superfish-4 ul.menu li .language-switcher-select.chosen-container {
+  margin-top: -6px;
+}
+#region-user-first #block-superfish-3 ul.menu li .language-switcher-select .chosen-single,
+#region-footer-first #block-superfish-4 ul.menu li .language-switcher-select .chosen-single {
   font-size: 16px;
 }
-.browser-firefox #region-footer-first #block-superfish-4 ul.menu li .language-switcher-select {
-  margin-top: -3px;
-  padding-right: 13px;
+#region-user-first #block-superfish-3 ul.menu li .language-switcher-select .chosen-results li,
+#region-footer-first #block-superfish-4 ul.menu li .language-switcher-select .chosen-results li {
+  font-size: 16px;
 }
 #region-footer-first #block-superfish-4 ul.menu li .language-switcher-select::-ms-expand {
   display: none;

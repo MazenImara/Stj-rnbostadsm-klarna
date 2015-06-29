@@ -129,6 +129,7 @@
       $(window).resize(function() {
         self.init();
       });
+      console.log('chosen', settings.chosen);
 		}
 	}
 })(jQuery);

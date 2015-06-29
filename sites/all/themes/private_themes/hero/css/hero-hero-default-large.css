@@ -250,9 +250,9 @@ body.node-type-enterprise-blog #region-sidebar-second #block-views-enterprise-bl
   padding-left: 0;
   padding-right: 0;
 }
-body.node-type-nyhet #region-sidebar-second #block-views-nyheter-block-2 .view .views-row .node-title,
-body.node-type-enterprise-blog #region-sidebar-second #block-views-enterprise-blog-block .view .views-row .views-field-title {
-  font-size: 14px;
+body.node-type-nyhet #region-sidebar-second #block-views-nyheter-block-2 .block-title, 
+body.node-type-enterprise-blog #region-sidebar-second #block-views-enterprise-blog-block .block-title {
+  font-size: 18px;
 }
 /* Kommentarer */
 #comments .comment {

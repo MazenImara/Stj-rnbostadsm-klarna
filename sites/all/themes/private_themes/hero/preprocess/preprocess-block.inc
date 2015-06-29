@@ -19,6 +19,8 @@ function hero_alpha_preprocess_block(&$vars) {
         $vars['content'] = $html->save();
         $html->clear();
         unset($html);
+        //Se till att chosen laddas
+        drupal_add_library('chosen', 'drupal.chosen');
       }
     }
     else if($vars['block']->delta == 4) {

@@ -133,6 +133,10 @@ body.node-type-nyhet #region-sidebar-second #block-views-nyheter-block-2 .block-
 body.node-type-enterprise-blog #region-sidebar-second #block-views-enterprise-blog-block .block-title {
   font-size: 16px;
 }
+body.node-type-nyhet #region-sidebar-second #block-views-nyheter-block-2 .view .views-row .node-title a, 
+body.node-type-enterprise-blog #region-sidebar-second #block-views-enterprise-blog-block .view .views-row .views-field-title a {
+  font-size: 14px;
+}
 /* Bildgalleri */
 body.sidtyp-galleri #block-system-main .node.view-mode-full .page-title {
   padding-left: 0;

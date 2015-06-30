@@ -73,11 +73,13 @@ function submittedfield_field_presave($entity_type, $entity, $field, $instance, 
     $account = user_load($entity->uid);
     $wrapper = entity_metadata_wrapper('user', $account);
     $name = '';
-    if(!empty($wrapper->field_enterprise_blog_firstname->value())) {
-      $name .= $wrapper->field_enterprise_blog_firstname->value();
+    $first_name_value = $wrapper->field_enterprise_blog_firstname->value();
+    if(!empty($first_name_value)) {
+      $name .= $first_name_value;
     }
-    if(!empty($wrapper->field_enterprise_blog_lastname->value())) {
-      $name .= ' ' . $wrapper->field_enterprise_blog_lastname->value();
+    $last_name_value = $wrapper->field_enterprise_blog_lastname->value();
+    if(!empty($last_name_value)) {
+      $name .= ' ' . $last_name_value;
     }
     $name = trim($name);
     if(!$name) {

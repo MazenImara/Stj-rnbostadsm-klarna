@@ -5,8 +5,9 @@ function hero_alpha_preprocess_node(&$vars) {
     if(!empty($vars['uid'])) {
       $account = user_load($vars['uid']);
       $wrapper = entity_metadata_wrapper('user', $account);
-      if(!empty($wrapper->field_enterprise_blog_picture->value())) {
-        $picture_data = $wrapper->field_enterprise_blog_picture->value();
+      $picture_value = $wrapper->field_enterprise_blog_picture->value();
+      if(!empty($picture_value)) {
+        $picture_data = $picture_value;
         $picture = array(
           '#type' => 'container',
           '#attributes' => array(

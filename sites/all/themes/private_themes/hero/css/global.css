@@ -25,6 +25,12 @@ body .container-24 .grid-24 {
 .container-24 .grid-24 {  
   /* background-color: #f7f7f7; */
 }
+img.left {
+  float: left;
+}
+img.right {
+  float: right;
+}
 body .container-24 .grid-24 > .region-inner {
   margin: auto;
 }

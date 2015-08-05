@@ -152,7 +152,7 @@ var menu_improvements_menu_options = {};
 		        });
 		      });
 		      /*--------Om nodtiteln och menylänken är lika vid sidladdning och man ändrar nodtiteln, ska menylänken också ändras automatiskt. Om man däremot skriver i menylänken ska automatisk uppdatering avbrytas direkt. */
-			    var node_title_input = $('.form-item-title #edit-title');
+			    var node_title_input = $('.form-item-title input');
 
 			    if(this_type === 'add_link') {
 						var menu_title_input = $(this).prevAll('.form-item-menu-improvements-add-link-link-title').find('#edit-menu-improvements-add-link-link-title');

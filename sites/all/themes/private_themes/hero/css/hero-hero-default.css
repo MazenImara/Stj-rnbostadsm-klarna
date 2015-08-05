@@ -1,5 +1,26 @@
 /* This file will hold styles for all layouts using the alpha grid (i.e. not the mobile layout). */
 
+iimg.left {
+  float: left;
+  clear: left;
+  padding: 1.67em 1.67em 1.67em 0.83em;
+}
+img.right {
+  float: right;
+  clear: right;
+  padding: 1.67em 0.83em 1.67em 1.67em;
+}
+.video-left {
+  float: left;
+  clear: left;
+  padding: 1.67em 1.67em 1.67em 0.83em;
+}
+.video-right {
+  float: right;
+  clear: right;
+  padding: 1.67em 0.83em 1.67em 1.67em;
+}
+
 /* Lila header */
 #region-user-first #block-superfish-3 {
   display: block;

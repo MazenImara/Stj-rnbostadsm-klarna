@@ -169,12 +169,6 @@ dd {
 	height: auto;
 }
 
-img.left {
-  float: left;
-}
-img.right {
-  float: right;
-}
 /*--------------Allmänt---------------*/
 .field-name-body img,
 .field-type-image img {

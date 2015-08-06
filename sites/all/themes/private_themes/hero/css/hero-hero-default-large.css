@@ -398,5 +398,6 @@ body .container-24 .bottom {
   padding: 0 100px 0 30px;
 }
 #region-footer-first #block-superfish-4 {
-  padding-top: 40px;
+  display: inline-block;
+  width: 100%;
 }

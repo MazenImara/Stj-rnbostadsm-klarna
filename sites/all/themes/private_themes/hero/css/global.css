@@ -1010,6 +1010,9 @@ body.sidtyp-personalsida #block-system-main .view-personal .views-row  .field-na
   text-shadow: none;
   float: none;
 }
+div.panels-ipe-placeholder h3 {
+  width: 110px;
+}
 body .block .block-inner .panel-display {
   margin: 0;
   padding-top: 23px;

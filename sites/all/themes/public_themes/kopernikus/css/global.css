@@ -353,6 +353,9 @@ div.node-webform-done p {
   text-shadow: none;
   float: none;
 }
+div.panels-ipe-placeholder h3 {
+  width: 110px;
+}
 /*--------------Kontaktformulär---------------*/
 .webform-component {
 	margin-bottom: 20px;

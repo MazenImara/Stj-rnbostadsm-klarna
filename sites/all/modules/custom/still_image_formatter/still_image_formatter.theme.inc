@@ -148,7 +148,7 @@ function theme_still_image_formatter_fixed_height_image($variables) {
       $image_size = getimagesize($image_path);
       $image_data = array('width' => $image_size[0], 'height' => $image_size[1]);
       $image_url = file_create_url($image_path); 
-      $image_url = preg_replace('#' . $base_url . '#', '', $image_url);
+      //$image_url = preg_replace('#' . $base_url . '#', '', $image_url); //Commented out to support sites in subdirectories
       if($layout === 'all') {
         $layout_conditions = array('');
       }

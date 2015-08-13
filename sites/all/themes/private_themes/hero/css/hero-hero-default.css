@@ -1,6 +1,6 @@
 /* This file will hold styles for all layouts using the alpha grid (i.e. not the mobile layout). */
 
-iimg.left {
+img.left {
   float: left;
   clear: left;
   padding: 1.67em 1.67em 1.67em 0.83em;

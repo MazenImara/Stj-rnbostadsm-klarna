@@ -125,6 +125,7 @@ body.node-type-page #block-system-main .node.view-mode-full > .content > .field 
 }
 body.node-type-page.has-header-image #block-system-main .node.view-mode-full > .content > .field-name-field-sidhuvud {
   margin-bottom: -150px;
+  width: 2000px;
 }
 body.node-type-page #block-system-main .node.view-mode-full > .content > .field-name-title-field {
   width: 100%;

@@ -99,6 +99,11 @@ body .container-24 .grid-24 > .region-inner {
   max-width: 120px;
   max-height: 23px;
 }
+.pager li.pager-first a, .pager li.pager-previous a, .pager li.pager-next a, .pager li.pager-last a {
+  width: auto;
+  text-align: center;
+  padding: 4px 8px 4px 8px;
+}
 /* ------- Sociala länkar ------ */
 #block-block-3 {
   float: right;

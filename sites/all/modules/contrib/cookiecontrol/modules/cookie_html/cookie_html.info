@@ -8,9 +8,9 @@ core = "7.x"
 project = "cookiecontrol"
 
 
-; Information added by drupal.org packaging script on 2013-09-30
-version = "7.x-1.6+0-dev"
+; Information added by drupal.org packaging script on 2013-02-25
+version = "7.x-1.6"
 core = "7.x"
 project = "cookiecontrol"
-datestamp = "1380567592"
+datestamp = "1361776247"
 

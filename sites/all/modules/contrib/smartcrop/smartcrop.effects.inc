@@ -1,4 +1,5 @@
 <?php
+// $Id: smartcrop.effects.inc,v 1.1.2.3 2010/09/16 17:33:16 grendzy Exp $
 
 /**
  * @file

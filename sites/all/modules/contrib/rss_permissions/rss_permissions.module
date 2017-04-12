@@ -6,7 +6,7 @@
 function rss_permissions_help($path, $arg) {
   switch ($path) {
     case 'admin/help#rss_permissions':
-      return '<p>' . t('RSS permissions module adds role-based permissions to various RSS feeds on a Drupal site. Go to <a href="@rss_permissions">rss_permissions module</a> section of the Permissions page to set permissions for various feeds per role.', array('@rss_permissions' => url('admin/user/permissions', array('fragment' => 'module-rss_permissions')))) . '</p>'
+      return '<p>' . t('RSS permissions module adds role-based permissions to various RSS feeds on a Drupal site. Go to <a href="@rss_permissions">rss_permissions module</a> section of the Permissions page to set permissions for various feeds per role.', array('@rss_permissions' => url('admin/people/permissions', array('fragment' => 'module-rss_permissions')))) . '</p>'
           . '<p>' . t('You can manage permissions for main site RSS feed, aggregator RSS feeds (if Aggregator module is enabled), main blog RSS feed and user blog RSS feeds (if Blog module is enabled), and taxonomy RSS feeds (if Taxonomy module is enabled).') . '</p>';
       break;
   }
@@ -57,8 +57,8 @@ function rss_permissions_menu_alter(&$items) {
 
   // Check permissions for taxonomy RSS feed.
   if (module_exists('taxonomy')) {
-    $items['taxonomy/term/%/feed/']['access callback'] = 'rss_permissions_menu_access';
-    $items['taxonomy/term/%/feed']['access arguments'] = array('taxonomy');
+    $items['taxonomy/term/%taxonomy_term/feed']['access callback'] = 'rss_permissions_menu_access';
+    $items['taxonomy/term/%taxonomy_term/feed']['access arguments'] = array('taxonomy');
   }
 
   // Check permissions for blog RSS feeds.
@@ -118,15 +118,8 @@ function rss_permissions_menu_access($module) {
       break;
 
     // Taxonomy RSS feeds.
-    // Taxonomy module uses the same menu callback both for page and feed.
-    // Make sure we are on the feed page before overriding the access callback.
     case 'taxonomy':
-      if (func_num_args() >= 2 && func_get_arg(1) == 'feed') {
-        return user_access('access content') && user_access('access taxonomy RSS feeds');
-      }
-      else {
-        return user_access('access content');
-      }
+      return user_access('access content') && user_access('access taxonomy RSS feeds');
       break;
 
     // Individual user blog RSS feeds.

@@ -1,4 +1,5 @@
 <?php
+// $Id: image.gd.inc,v 1.1.2.4 2010/12/07 19:35:18 grendzy Exp $
 
 /**
  * @file

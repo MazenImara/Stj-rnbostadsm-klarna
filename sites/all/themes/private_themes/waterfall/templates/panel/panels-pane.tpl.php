@@ -33,24 +33,26 @@
     <?php endif; ?>
   <?php else: ?>
     <?php if(module_exists('html_parser')): ?>
-      <?php
-        $html = str_get_html($content);
-        $temp = $html->find('div[class=contextual-links-wrapper]', 0);
-        if($temp) {
-          $cl = $temp->outertext;
-          $temp->outertext = '';
-          print $cl;
-        }
-        $temp = $html->find('div[class=field-name-field-sidhuvud]', 0);
-        if($temp) {
-          $sh = $temp->outertext;
-          $temp->outertext = '';
-          print $sh;
-        }
-        $content = $html->save();
-        $html->clear();
-        unset($html);
-      ?>
+      <?php $html = str_get_html($content); ?>
+        <?php if(!empty($html)): ?>
+          <?php 
+            $temp = $html->find('div[class=contextual-links-wrapper]', 0);
+            if($temp) {
+              $cl = $temp->outertext;
+              $temp->outertext = '';
+              print $cl;
+            }
+            $temp = $html->find('div[class=field-name-field-sidhuvud]', 0);
+            if($temp) {
+              $sh = $temp->outertext;
+              $temp->outertext = '';
+              print $sh;
+            }
+            $content = $html->save();
+            $html->clear();
+            unset($html);
+          ?>
+        <?php endif; ?>
     <?php endif; ?>
   <?php endif; ?>
   <?php print render($title_prefix); ?>

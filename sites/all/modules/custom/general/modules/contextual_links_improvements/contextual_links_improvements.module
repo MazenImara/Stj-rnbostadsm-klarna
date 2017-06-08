@@ -173,10 +173,14 @@ function contextual_links_improvements_preprocess_views_view_fields(&$vars) {
 //Implements hook_panels_pane_content_alter().
 function contextual_links_improvements_panels_pane_content_alter($content, $pane, $args, $contexts) {
   if(isset($content->type) && $content->type === 'entity_field') {
-    $node = $content->content['#object'];
-    $content->content['#contextual_links'] = array(
-      'node' => array('node', array($node->nid)),
-    );
+    if(!empty($content->content['#object'])) {
+      $node = $content->content['#object'];
+    }
+    if(!empty($node)) {
+      $content->content['#contextual_links'] = array(
+        'node' => array('node', array($node->nid)),
+      );
+    }
   }
 }
 //Implements hook_block_view_MODULE_DELTA_alter()
